@@ -37,7 +37,7 @@ public class EasyAI {
                 {1, -1, 0, 0}, // vector for moving vertically (row vector)
                 {0, 0, 1, -1} // vector for moving horizontally column vector)
         };
-        
+
         // set values for countHit
         countHit = new int[6];
     }
@@ -92,11 +92,11 @@ public class EasyAI {
      * @return
      */
     private HitOrMiss hitOrMiss(Coordinate coordinate) {
-        if (board[coordinate.x][coordinate.y] == 0) {
+        if (board[coordinate.getX()][coordinate.getY()] == 0) {
             // If no ship is hit, inform that nothing is hit
             return new HitOrMiss(false, -1, -1);
         }
-        int currentID = board[coordinate.x][coordinate.y];
+        int currentID = board[coordinate.getX()][coordinate.getY()];
         countHit[currentID]++;
         return new HitOrMiss(true, currentID, countHit[currentID]);
     }
