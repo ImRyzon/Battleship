@@ -98,6 +98,7 @@ public class EasyAI {
         }
         int currentID = board[coordinate.getX()][coordinate.getY()];
         countHit[currentID]++;
+        board[coordinate.getX()][coordinate.getY()] = 0;
         return new HitOrMiss(true, currentID, countHit[currentID]);
     }
 
