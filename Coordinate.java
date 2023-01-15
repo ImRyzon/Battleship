@@ -5,8 +5,8 @@
 
 public class Coordinate {
 
-    private int rowNum; // variable that is associated with the  (1, 2, ..., 10)
-    private int colNum; // variable that is associated with the column number (1, 2, ..., 10)
+    public int x; // variable that is associated with the row number (1, 2, ..., 10)
+    public int y; // variable that is associated with the column number (1, 2, ..., 10)
 
     /**
      * This constructor method will instantiate a new instance of the Coordinate class.
@@ -15,7 +15,7 @@ public class Coordinate {
      * @param colNum
      */
     public Coordinate(int rowNum, int colNum) {
-        this.rowNum = rowNum;
-        this.colNum = colNum;
+        this.x = rowNum;
+        this.y = colNum;
     }
 }
