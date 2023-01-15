@@ -48,7 +48,7 @@ public class EasyAI {
      * @param col
      * @return
      */
-    private boolean isValid(int row, int col) {
+    public boolean isValid(int row, int col) {
         if (row < 1 || col < 1 || row > 10 || col > 10) return false; // make sure the coordinate is not out of bounds
         return board[row][col] == 0; // make sure no other ship is in the coordinate
     }
@@ -56,7 +56,7 @@ public class EasyAI {
     /**
      * This method will place thw five ships in valid positions and store their IDs on the board
      */
-    private void placeShips() {
+    public void placeShips() {
         int ID = 1; // current ID of the ship
         // for loop to place all ships from destroyer (2 holes) to carrier (5 holes)
         for (int length : new int[]{2, 3, 3, 4, 5}) {
@@ -91,7 +91,7 @@ public class EasyAI {
      * @param coordinate
      * @return
      */
-    private HitOrMiss hitOrMiss(Coordinate coordinate) {
+    public HitOrMiss hitOrMiss(Coordinate coordinate) {
         if (board[coordinate.getX()][coordinate.getY()] == 0) {
             // If no ship is hit, inform that nothing is hit
             return new HitOrMiss(false, -1, -1);
@@ -106,7 +106,7 @@ public class EasyAI {
      * It will pass this onto the main game class in order to proceed with the game
      * @return
      */
-    private Coordinate guessCoordinate() {
+    public Coordinate guessCoordinate() {
         int rowGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
         int colGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
         return new Coordinate(rowGuess, colGuess);
@@ -118,7 +118,7 @@ public class EasyAI {
      * based on if it's a hit or miss, so nothing will be implemented here.
      * @param hit
      */
-    private void getInformation(boolean hit) {
+    public void getInformation(boolean hit) {
 
     }
 }
