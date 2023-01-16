@@ -13,18 +13,25 @@ public class ExpertAI {
      * board --> the board that stores the IDs of all ships
      * vector --> the array responsible for moving vertically or horizontally in either direction
      * countHit --> array to count how many hits for each ship based on ID
+     * trackCount --> track the number of times each enemy ship is hit
+     * alreadyGuessed --> an array that stores all blocks that are already guessed to prevent from guessing again
+     * rowGuess --> stores the value of the current row guess
+     * colGuess --> stores the value of the current column guess
+     * vectorIndex --> stores the direction to guess when currently on a ship
      * trackHits --> track hits in order to guess the optimal coordinates
-     * 
+     * trackID --> tracks the ID of the ship corresponding to the trackHits array when a ship is hit
      */
     private Random random;
     private int board[][];
     private int vector[][];
     private int countHit[];
+    private int trackCount[];
     private boolean alreadyGuessed[][];
     private int rowGuess;
-    private int columnGuess;
+    private int colGuess;
     private int vectorIndex;
     ArrayList<Coordinate> trackHits;
+    ArrayList<Integer> trackID;
 
     /**
      * This constructor will enable the initialization for the EasyAI class, and it
@@ -39,12 +46,26 @@ public class ExpertAI {
 
         // set values for vector
         vector = new int[][] {
-                {1, -1, 0, 0}, // vector for moving vertically (row vector)
-                {0, 0, 1, -1} // vector for moving horizontally (column vector)
+                {-1, 0, 1, 0}, // vector for moving vertically (row vector)
+                {0, 1, 0, -1} // vector for moving horizontally (column vector)
         };
 
-        // set values for countHit
+        // initialize for countHit
         countHit = new int[6];
+        
+        // initialize trackCount
+        trackCount = new int[6];
+        
+        // initialize alreadyGuessed
+        alreadyGuessed = new boolean[11][11];
+        
+        // initialize rowGuess, colGuess, and vectorIndex
+        rowGuess = 0;
+        colGuess = 0;
+        vectorIndex = -1;
+        
+        // intiialize trackHits
+        trackHits = new ArrayList<Coordinate>();
     }
 
     /**
@@ -159,19 +180,94 @@ public class ExpertAI {
      * @return
      */
     public Coordinate guessCoordinate() {
-        int rowGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
-        int colGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
+        // If we currently don't have info on any ships, just make a random guess not guessed before
+        if (trackHits.isEmpty()) {
+            do {
+                rowGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
+                colGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
+            } while (alreadyGuessed[rowGuess][colGuess]);
+        } else { // Otherwise, make the optimal guess
+            if (vectorIndex == -1) { // If it's the first time hitting a ship, guess a direction
+                vectorIndex = random.nextInt(4);
+                rowGuess = trackHits.get(0).getX() + vector[0][vectorIndex];
+                colGuess = trackHits.get(0).getY() + vector[1][vectorIndex];
+            } else { // Otherwise, follow the current direction
+                rowGuess += vector[0][vectorIndex];
+                colGuess += vector[1][vectorIndex];
+                if (alreadyGuessed[rowGuess][colGuess]) {
+                    vectorIndex = changeDirection(vectorIndex);
+                    rowGuess = trackHits.get(0).getX() + vector[0][vectorIndex];
+                    colGuess = trackHits.get(0).getY() + vector[1][vectorIndex];
+                }
+            }
+        }
+        alreadyGuessed[rowGuess][colGuess] = true;
         return new Coordinate(rowGuess, colGuess);
+    }
+
+    /**
+     * This method will switch the direction of the vector.
+     * 
+     * For ex. if currently going up, then go down
+     *         if currently going right, then go left
+     *         etc.
+     * @param currentIndex
+     */
+    public int changeDirection(int currentIndex) {
+        if (currentIndex == 0) return 2;
+        else if (currentIndex == 1) return 3;
+        else if (currentIndex == 2) return 0;
+        return 1;
     }
 
     /**
      * This method will get the information on whether the guessed coordinates was a hit or miss.
      * It will use this information to guess the next optimal coordinate
      * @param hit
+     * @param ID
      * @param destroyed
      */
-    public void getInformation(boolean hit, boolean destroyed) {
-
+    public void getInformation(boolean hit, int ID, boolean destroyed) {
+        if (!hit) {
+            if (vectorIndex != -1) {
+                if (trackCount[ID] > 1) {
+                    // If we are currently on the ship, switch direction to guarantee to hit the ship again
+                    vectorIndex = changeDirection(vectorIndex);
+                    rowGuess = trackHits.get(0).getX() + vector[0][vectorIndex];
+                    colGuess = trackHits.get(0).getY() + vector[1][vectorIndex];
+                } else {
+                    // Otherwise, we are on a ship but chose the wrong direction to go next, so switch directions
+                    ++vectorIndex;
+                    if (vectorIndex == 4) vectorIndex = 0;
+                    rowGuess = trackHits.get(0).getX() + vector[0][vectorIndex];
+                    colGuess = trackHits.get(0).getY() + vector[1][vectorIndex];
+                }
+            }
+        } else {
+            ++trackCount[ID]; // add 1 hit to the current ship ID
+            // If the ship is destroyed, remove the ship from the ArrayLists and reset the vectorIndex
+            if (destroyed) {
+                vectorIndex = -1;
+                trackHits.remove(0);
+                trackID.remove(0);
+            } else {
+                // If we either hit a new ship or stumble upon a new ship while currently tracked on a ship.
+                // Then we add this initial coordinate to our trackHits and trackID arraylist
+                if (trackHits.isEmpty()) {
+                    trackHits.add(new Coordinate(rowGuess, colGuess));
+                    trackID.add(ID);
+                }
+                if (trackID.get(0) != ID) {
+                    trackHits.add(new Coordinate(rowGuess, colGuess));
+                    trackID.add(ID);
+                    // If the ID is different from our target ship, we still need to switch directions
+                    ++vectorIndex;
+                    if (vectorIndex == 4) vectorIndex = 0;
+                    rowGuess = trackHits.get(0).getX() + vector[0][vectorIndex];
+                    colGuess = trackHits.get(0).getY() + vector[1][vectorIndex];
+                }
+            }
+        }
     }
 
     /**
