@@ -52,18 +52,18 @@ public class ExpertAI {
 
         // initialize for countHit
         countHit = new int[6];
-        
+
         // initialize trackCount
         trackCount = new int[6];
-        
+
         // initialize alreadyGuessed
         alreadyGuessed = new boolean[11][11];
-        
+
         // initialize rowGuess, colGuess, and vectorIndex
         rowGuess = 0;
         colGuess = 0;
         vectorIndex = -1;
-        
+
         // intiialize trackHits
         trackHits = new ArrayList<Coordinate>();
     }
@@ -191,13 +191,22 @@ public class ExpertAI {
                 vectorIndex = random.nextInt(4);
                 rowGuess = trackHits.get(0).getX() + vector[0][vectorIndex];
                 colGuess = trackHits.get(0).getY() + vector[1][vectorIndex];
-            } else { // Otherwise, follow the current direction
+            } else { // Otherwise, follow the current direction or switch directions if needed
                 rowGuess += vector[0][vectorIndex];
                 colGuess += vector[1][vectorIndex];
                 if (alreadyGuessed[rowGuess][colGuess]) {
-                    vectorIndex = changeDirection(vectorIndex);
-                    rowGuess = trackHits.get(0).getX() + vector[0][vectorIndex];
-                    colGuess = trackHits.get(0).getY() + vector[1][vectorIndex];
+                    if (trackCount[trackID.get(0)] > 1) {
+                        vectorIndex = changeDirection(vectorIndex);
+                        rowGuess = trackHits.get(0).getX() + vector[0][vectorIndex];
+                        colGuess = trackHits.get(0).getY() + vector[1][vectorIndex];
+                    } else {
+                        do {
+                            vectorIndex++;
+                            if (vectorIndex == 4) vectorIndex = 0;
+                            rowGuess = trackHits.get(0).getX() + vector[0][vectorIndex];
+                            colGuess = trackHits.get(0).getY() + vector[1][vectorIndex];
+                        } while (alreadyGuessed[rowGuess][colGuess]);
+                    }
                 }
             }
         }
@@ -207,7 +216,7 @@ public class ExpertAI {
 
     /**
      * This method will switch the direction of the vector.
-     * 
+     *
      * For ex. if currently going up, then go down
      *         if currently going right, then go left
      *         etc.
@@ -256,15 +265,17 @@ public class ExpertAI {
                 if (trackHits.isEmpty()) {
                     trackHits.add(new Coordinate(rowGuess, colGuess));
                     trackID.add(ID);
-                }
-                if (trackID.get(0) != ID) {
+                    vectorIndex = -1;
+                } else if (trackID.get(0) != ID) {
                     trackHits.add(new Coordinate(rowGuess, colGuess));
                     trackID.add(ID);
                     // If the ID is different from our target ship, we still need to switch directions
-                    ++vectorIndex;
-                    if (vectorIndex == 4) vectorIndex = 0;
-                    rowGuess = trackHits.get(0).getX() + vector[0][vectorIndex];
-                    colGuess = trackHits.get(0).getY() + vector[1][vectorIndex];
+                    do {
+                        ++vectorIndex;
+                        if (vectorIndex == 4) vectorIndex = 0;
+                        rowGuess = trackHits.get(0).getX() + vector[0][vectorIndex];
+                        colGuess = trackHits.get(0).getY() + vector[1][vectorIndex];
+                    } while (alreadyGuessed[rowGuess][colGuess]);
                 }
             }
         }
