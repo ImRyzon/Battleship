@@ -140,12 +140,12 @@ public class EasyAI {
 
     /**
      * This method will get the information on whether the guessed coordinates was a hit or miss.
-     * However, since this is an Easy AI, it will do nothing about this since it has no strategy
-     * based on if it's a hit or miss, so nothing will be implemented here.
+     * It will use this information to guess the next optimal coordinate
      * @param hit
+     * @param ID
      * @param destroyed
      */
-    public void getInformation(boolean hit, boolean destroyed) {
+    public void getInformation(boolean hit, int ID, boolean destroyed) {
 
     }
 
