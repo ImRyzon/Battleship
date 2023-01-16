@@ -14,6 +14,7 @@ public class HitOrMiss {
     private boolean hit;
     private int shipID;
     private int countHits;
+    private boolean destroyedShip;
 
     /**
      * this constructor will instantiate a new HitOrMiss object with the necessary information
@@ -22,10 +23,11 @@ public class HitOrMiss {
      * @param shipID
      * @param countHits
      */
-    public HitOrMiss(boolean hit, int shipID, int countHits) {
+    public HitOrMiss(boolean hit, int shipID, int countHits, boolean destroyedShip) {
         this.hit = hit;
         this.shipID = shipID;
         this.countHits = countHits;
+        this.destroyedShip = destroyedShip;
     }
 
     /**
