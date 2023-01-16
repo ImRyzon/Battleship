@@ -9,11 +9,11 @@
  * The game rules will be shown in the terminal when you click the rule button in menu.
  */
 
-public class Main {
+public class Launch {
 
     public static void main(String[] args) throws Exception {
 
         //Instantiate loginPage object for the LoginPage class
-        LoginPage loginPage = new LoginPage();
+		LoginPage loginPage = new LoginPage();
     }
 }
