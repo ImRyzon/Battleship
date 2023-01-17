@@ -40,14 +40,14 @@ public class EasyAI {
     }
 
     /**
-     * This method will check if the current coordinate is valid
+     * This method will check if the current coordinate is valid and not out-of-bounds
      * @param row
      * @param col
      * @return
      */
     public boolean isValid(int row, int col) {
         if (row < 1 || col < 1 || row > 10 || col > 10) return false; // make sure the coordinate is not out of bounds
-        return board[row][col] == 0; // make sure no other ship is in the coordinate
+        return true;
     }
 
     /**
@@ -118,13 +118,13 @@ public class EasyAI {
     public HitOrMiss hitOrMiss(Coordinate coordinate) {
         if (board[coordinate.getX()][coordinate.getY()] == 0) {
             // If no ship is hit, inform that nothing is hit and set default values of false and -1
-            return new HitOrMiss(false, -1, -1, false);
+            return new HitOrMiss(false,false);
         }
         // If it is a hit, then return the ID of the ship hit and the total hits this ship induced
         int currentID = board[coordinate.getX()][coordinate.getY()];
         countHit[currentID]++; // update countHit
         board[coordinate.getX()][coordinate.getY()] = 0; // reset the current block to be 0
-        return new HitOrMiss(true, currentID, countHit[currentID], destroyedShip(countHit[currentID], currentID));
+        return new HitOrMiss(true, destroyedShip(countHit[currentID], currentID));
     }
 
     /**
@@ -142,26 +142,9 @@ public class EasyAI {
      * This method will get the information on whether the guessed coordinates was a hit or miss.
      * It will use this information to guess the next optimal coordinate
      * @param hit
-     * @param ID
      * @param destroyed
      */
-    public void getInformation(boolean hit, int ID, boolean destroyed) {
-
-    }
-
-    /**
-     * Getter for the board, note that it is not necessary to make a setter for this
-     * @return
-     */
-    public int[][] getBoard() {
-        return this.board;
-    }
-
-    /**
-     * Getter for the countHit array, note that it is not necessary to make a setter for this
-     * @return
-     */
-    public int[] getCountHit() {
-        return this.countHit;
+    public void getInformation(boolean hit, boolean destroyed) {
+        // do nothing
     }
 }
