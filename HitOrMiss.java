@@ -8,38 +8,24 @@ public class HitOrMiss {
 
     /**
      * hit --> whether any ship is hit or not
-     * shipID --> iD of ship if hit
-     * countHits --> number of hits on this ship if hit
+     * destroyedShip --> whether the hit ship is destroyed or not
      */
     private boolean hit;
-    private int shipID;
-    private int countHits;
     private boolean destroyedShip;
 
     /**
      * this constructor will instantiate a new HitOrMiss object with the necessary information
      * given
      * @param hit
-     * @param shipID
-     * @param countHits
+     * @param destroyedShip
      */
-    public HitOrMiss(boolean hit, int shipID, int countHits, boolean destroyedShip) {
+    public HitOrMiss(boolean hit, boolean destroyedShip) {
         this.hit = hit;
-        this.shipID = shipID;
-        this.countHits = countHits;
         this.destroyedShip = destroyedShip;
     }
 
     /**
-     * setter for hit
-     * @param hit
-     */
-    public void setHit(boolean hit) {
-        this.hit = hit;
-    }
-
-    /**
-     * getter for hit
+     * Getter for hit attribute
      * @return
      */
     public boolean getHit() {
@@ -47,34 +33,10 @@ public class HitOrMiss {
     }
 
     /**
-     * setter for shipID
-     * @param shipID
-     */
-    public void setID(int shipID) {
-        this.shipID = shipID;
-    }
-
-    /**
-     * getter for shipID
+     * Getter for destroyedShip attribute
      * @return
      */
-    public int getID() {
-        return this.shipID;
-    }
-
-    /**
-     * setter for countHits
-     * @param countHits
-     */
-    public void setCountHit(int countHits) {
-        this.countHits = countHits;
-    }
-
-    /**
-     * getter for countHits
-     * @return
-     */
-    public int getCountHit() {
-        return this.countHits;
+    public boolean getDestroyedShip() {
+        return this.destroyedShip;
     }
 }
