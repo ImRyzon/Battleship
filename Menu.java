@@ -59,27 +59,7 @@ public class Menu implements ActionListener {
     JButton ruleButton = new JButton("Rules");
     JButton exitButton = new JButton("Exit");
 
-    ImageIcon icon = new ImageIcon("hammer.png");
-
-    ImageIcon titleIcon = new ImageIcon("titleimage.png");
-
-    static File currentUser = new File("currentUser.txt");
-    static Scanner input;
-
-    static {
-        try {
-            input = new Scanner(currentUser);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    static String name = input.nextLine();
-
-    static File userStat = new File(name + ".txt");
-
-    PrintWriter nullOutput = new PrintWriter(new FileWriter(userStat, true));
-    BufferedReader br = new BufferedReader(new FileReader(userStat));
+    static String name = "Test";
 
     //constructor
     Menu() throws Exception {
@@ -90,19 +70,13 @@ public class Menu implements ActionListener {
         frame.setLayout(new BorderLayout());
         frame.setVisible(true);
         frame.setTitle("Menu");
-        frame.setIconImage(icon.getImage());
         //frame.setResizable(false);
-
-        //set the icon as the JLabel object
-        titleImage.setIcon(titleIcon);
 
         //setting up and customizing the titleText object
         titleText.setText("Welcome " + name + "!");
         titleText.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
         titleText.setForeground(Color.BLACK);
         titleText.setBounds(0, 0, 100, 50);
-
-        input.close(); //closing the scanner object
 
         //setting up and customizing the playButton object
         playButton.setFocusable(false); //set the focusable to false
@@ -160,12 +134,6 @@ public class Menu implements ActionListener {
         //adding the panels to the frame
         frame.add(titlePanel, BorderLayout.NORTH);
         frame.add(buttonPanel, BorderLayout.CENTER);
-
-        //check if the file is empty, if it is then set the default value to 0,0
-        if(br.readLine() == null) {
-            nullOutput.println("0,0");
-            nullOutput.close();
-        }
     }
 
     /**
@@ -201,14 +169,14 @@ public class Menu implements ActionListener {
 
         //if the ruleButton is clicked, print out the rules
         if(e.getSource() == ruleButton) {
-            System.out.println("The rules: ");
-            System.out.println("1. There are 3 plates on the table and you smash it");
-            System.out.println("2. A random number of plates will be broken");
-            System.out.println("3. Based on the number plates broken, you will either win money or lose money");
-            System.out.println("4. 0 broken plates lose $10, 1 broken plate lose $5, 2 broken plates wins $10, 3 broken plates wins $15");
-            System.out.println("5. Amount of money you have will fluctuate based on the number of plates broken, you can check the the number of plates you have broken and your balance at Profile page");
-            System.out.println("6. Please click play and play again slow as java need to write the stats to a file");
-            System.out.println();
+            frame.dispose();
+
+            //use try and catch to instantiate an object for Profile class
+            try {
+                Rules rulePage = new Rules();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         }
 
         //if the exit button is clicked

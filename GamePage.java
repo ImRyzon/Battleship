@@ -10,11 +10,7 @@ public class GamePage implements ActionListener {
     /**
      * frame: the window for the login page, all the other components are added here
      *
-     * titlePanel: a container used to store the titleImage and titleText. Added to the frame
-     *
      * buttonPanel: a container used to store the easyButton, hardButton, multiplayerButton, menuButton. Added to the frame
-     *
-     * titleImage: a JLabel object that displays an image
      *
      * titleText: a JLabel object that displays a title
      *
@@ -36,8 +32,7 @@ public class GamePage implements ActionListener {
     JPanel titlePanel = new JPanel();
 
     JPanel buttonPanel = new JPanel();
-
-    JLabel titleImage = new JLabel();
+    
     JLabel titleText = new JLabel();
 
     JButton easyButton = new JButton("Easy");
@@ -46,7 +41,7 @@ public class GamePage implements ActionListener {
     JButton menuButton = new JButton("Menu");
 
     //constructor
-    Menu() throws Exception {
+    GamePage() throws Exception {
 
         //setting up and customizing the JFrame object
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,14 +49,11 @@ public class GamePage implements ActionListener {
         frame.setLayout(new BorderLayout());
         frame.setVisible(true);
         frame.setTitle("Game Page");
-        frame.setIconImage(icon.getImage());
-        //frame.setResizable(false);
-
-        //set the icon as the JLabel object
-        titleImage.setIcon(titleIcon);
+        frame.setResizable(false);
 
         //setting up and customizing the titleText object
         titleText.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
+        titleText.setText("Game Page");
         titleText.setForeground(Color.BLACK);
         titleText.setBounds(0, 0, 100, 50);
 
@@ -109,7 +101,6 @@ public class GamePage implements ActionListener {
         buttonPanel.setBackground(Color.GRAY);
 
         //adding the components to the titlePanel object
-        titlePanel.add(titleImage);
         titlePanel.add(titleText);
 
         //adding the components to the buttonPanel object
@@ -121,7 +112,7 @@ public class GamePage implements ActionListener {
         //adding the panels to the frame
         frame.add(titlePanel, BorderLayout.NORTH);
         frame.add(buttonPanel, BorderLayout.CENTER);
-
+    }
     /**
      * actionPerformed method will perform certain actions based on what the user did
      * @param e
@@ -135,7 +126,7 @@ public class GamePage implements ActionListener {
 
             //use try and catch to instantiate an object for Game class
             try {
-                gameBoard game = new gameBoard();
+                GameBoard game = new GameBoard();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -147,7 +138,7 @@ public class GamePage implements ActionListener {
 
             //use try and catch to instantiate an object for Profile class
             try {
-                gameBoard game = new gameBoard();
+                GameBoard game = new GameBoard();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -159,7 +150,7 @@ public class GamePage implements ActionListener {
 
             //use try and catch to instantiate an object for Profile class
             try {
-                gameMultiplayer game = new gameMultiplayer();
+                GameMultiplayer game = new GameMultiplayer();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
