@@ -20,27 +20,11 @@ public class Coordinate {
     }
 
     /**
-     * setter for x
-     * @param x
-     */
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    /**
      * getter for x
      * @return
      */
     public int getX() {
         return this.x;
-    }
-
-    /**
-     * setter for y
-     * @param y
-     */
-    public void setY(int y) {
-        this.y = y;
     }
 
     /**
