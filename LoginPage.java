@@ -1,4 +1,3 @@
-package ics4u.gui.BreakThePlates;
 /* Name: BCSC
  * Date: January 16th, 2023
  * File Name: LoginPage.java

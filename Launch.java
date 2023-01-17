@@ -1,5 +1,5 @@
 /**
- * Name: Daniel Guo
+ * Name: BCSC
  * Date: December 13, 2022
  *
  * Description: Create a multi frame application that will showcase the swing and awt concepts with the BreakAPlate game.
