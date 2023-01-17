@@ -181,7 +181,7 @@ public class Menu implements ActionListener {
 
             //use try and catch to instantiate an object for Game class
             try {
-                Game game = new Game();
+                GamePage game = new GamePage();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
