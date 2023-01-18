@@ -29,10 +29,9 @@ public class GamePage implements ActionListener {
 
     JFrame frame = new JFrame();
 
+    JPanel buttonPanel = new JPanel();
     JPanel titlePanel = new JPanel();
 
-    JPanel buttonPanel = new JPanel();
-    
     JLabel titleImage = new JLabel();
     ImageIcon titleIcon = new ImageIcon("GamePageTitleImage.png");
 
@@ -108,6 +107,7 @@ public class GamePage implements ActionListener {
         frame.add(titlePanel, BorderLayout.NORTH);
         frame.add(buttonPanel, BorderLayout.CENTER);
     }
+
     /**
      * actionPerformed method will perform certain actions based on what the user did
      * @param e

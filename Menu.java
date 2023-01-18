@@ -28,7 +28,6 @@ public class Menu implements ActionListener {
     JButton rules = new JButton();
     JButton profile = new JButton();
     JButton exit = new JButton();
-    ImageIcon brokenPlate = new ImageIcon("brokenplate.png");
 
     /**
      * This constructor enables other classes to create an object of this class.
@@ -112,7 +111,7 @@ public class Menu implements ActionListener {
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == playGame) { // Redirect user to game screen if they want to play
             frame.dispose();
-            BreakAPlate game = new BreakAPlate();
+            GamePage game = new GamePage();
         } else if (event.getSource() == rules) { // Redirect user to rules screen if they want to see the rules
             frame.dispose();
             Rules rules = new Rules();
