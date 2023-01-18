@@ -33,7 +33,8 @@ public class GamePage implements ActionListener {
 
     JPanel buttonPanel = new JPanel();
     
-    JLabel titleText = new JLabel();
+    JLabel titleImage = new JLabel();
+    ImageIcon titleIcon = new ImageIcon("GamePageTitleImage.png");
 
     JButton easyButton = new JButton("Easy");
     JButton hardButton = new JButton("Hard");
@@ -50,12 +51,6 @@ public class GamePage implements ActionListener {
         frame.setVisible(true);
         frame.setTitle("Game Page");
         frame.setResizable(false);
-
-        //setting up and customizing the titleText object
-        titleText.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-        titleText.setText("Game Page");
-        titleText.setForeground(Color.BLACK);
-        titleText.setBounds(0, 0, 100, 50);
 
         //setting up and customizing the easyButton object
         easyButton.setFocusable(false); //set the focusable to false
@@ -97,11 +92,11 @@ public class GamePage implements ActionListener {
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
         //changing the color of the 2 panel
-        titlePanel.setBackground(Color.GRAY);
         buttonPanel.setBackground(Color.GRAY);
 
         //adding the components to the titlePanel object
-        titlePanel.add(titleText);
+        titleImage.setIcon(titleIcon);
+        titlePanel.add(titleImage);
 
         //adding the components to the buttonPanel object
         buttonPanel.add(easyButton);
