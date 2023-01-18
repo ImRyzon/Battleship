@@ -28,9 +28,8 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
     JTextField usernameText = new JTextField();  //Create password field for user to enter their username
     JPasswordField passwordText = new JPasswordField(); //Create password field for user to enter their password
 
-    //Create file for database and current user ID
-    static File accounts = new File("Database.txt");
-    static File userID = new File("UserID.txt");
+    static File accounts = new File("database.txt");
+    //Creates new file to store username and password
 
     ImageIcon gameIcon = new ImageIcon("GameIcon.png");
     //Create the game icon image
@@ -53,12 +52,12 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
 
         //Welcome title label configuration
         titleLabel.setIcon(titleIcon); //Add image to the icon
-        titleLabel.setBounds(85, 25, 500, 194); //Set the size of the label and location
+        titleLabel.setBounds(50, 25, 500, 194); //Set the size of the label and location
 
         //loginLabel label configuration
         loginLabel.setOpaque(true); //Set the label visible to the user
         loginLabel.setBackground(new Color(0, 0, 0, 0)); //Set the label background as opaque
-        loginLabel.setBounds(250, 225, 350, 175); //Set the size of the label
+        loginLabel.setBounds(215, 225, 350, 175); //Set the size of the label
 
         //Login button configuration
         loginButton.setBounds(0, 125, 125, 40); //Set the size and location of the button
@@ -85,11 +84,11 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
         loginLabel.add(passwordText); //Add the password text field to the label
 
         //Username text label configuration
-        usernameLabel.setBounds(85, 215, 150, 50); //Set size and location of text label
+        usernameLabel.setBounds(50, 215, 150, 50); //Set size and location of text label
         usernameLabel.setIcon(usernameIcon); //Add username icon to username label
 
         //Password text label configuration
-        passwordLabel.setBounds(85, 270, 150, 50); //Set size and location of text label
+        passwordLabel.setBounds(50, 270, 150, 50); //Set size and location of text label
         passwordLabel.setIcon(passwordIcon); //Add password icon to password label
 
         //Frame configuration
@@ -105,7 +104,6 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
         layeredPane.add(loginLabel, Integer.valueOf(2)); //Set the welcome label at position 2
         layeredPane.add(usernameLabel, Integer.valueOf(3)); //Set the username label at position 3
         layeredPane.add(passwordLabel, Integer.valueOf(4)); //Set the password label as the furthest forward
-
         this.add(layeredPane); //Add the layered pane to the frame
         this.setIconImage(gameIcon.getImage()); //Set the game icon image
         this.setVisible(true); //Set the frame visible to user
@@ -114,12 +112,10 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
     //Method to check if buttons were pressed and preform actions based on what was input
     @Override
     public void actionPerformed(ActionEvent e) {
-        //Try and catch with the print writers
+        //Try and catch with the print writer
         PrintWriter output = null;
-        PrintWriter idWriter = null;
         try {
             output = new PrintWriter(new FileWriter(accounts, true));
-            idWriter = new PrintWriter(userID);
             //Create output to print to the username and password file
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -131,11 +127,11 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
 
         //Button inputs
         if (e.getSource() == loginButton) { //If user clicks on login button
-            //Try and catch to see if credentials are correct
+            //Try and catch to see if cridentials are correct
             try {
-                if(loginCredentials(username, password)){ //Check if credentials are correct
+                if(loginCredentials(username, password)){ //Check if cridentials are correct
                     this.dispose(); //Dispose the current frame
-                    Menu menu = new Menu(); //Create new frame for the home page
+                    new Menu(); //Create new frame for the home page
                     //Create option pane to tell user the login is successful
                     JOptionPane.showMessageDialog(null,
                             "Hi " + username + ", you have successfully logged in",
@@ -144,7 +140,7 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
                             JOptionPane.INFORMATION_MESSAGE); //Use information message template
                 }
                 else{ //If the login is unsuccessful
-                    //Create option pane to tell user the credentials are incorrect
+                    //Create option pane to tell user the cridentials are incorrect
                     JOptionPane.showMessageDialog(null,
                             "The input username or password is incorrect",
                             //Sets the message user will see on option pane
@@ -161,7 +157,7 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
             try {
                 if (accountExists(username, password) == -1) { //Check if account already exists
                     if (output != null) { //Make sure file doesn't try to use null in a case where an object is required
-                        output.println(username + ";" + password + ";0;0;0;0"); //Add username and password to account file
+                        output.println(username + ";" + password + ";;;;"); //Add username and password to account file
                         output.close(); //Close the output to update the file with username with password
                     }
                     //Create option pane to tell user the registration is successful
@@ -204,7 +200,7 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
     }
 
     //Method to check if the user has entered the correct credentials
-    public boolean loginCredentials(String username, String password) throws Exception { //Throw exception for scanner
+    public boolean loginCredentials(String username, String password) throws Exception{ //Throw exception for scanner
         Scanner input = new Scanner(accounts); //Create scanner to read username and passwords in the file
         while(input.hasNextLine()){ //While the file still has usernames and passwords
             String[] credentials = input.nextLine().split(";"); //Store the username and passwords and split
@@ -219,7 +215,7 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
     }
 
     /* Method to check if the username already exists in the account file
-     * -1 = Username and Password do not exist
+     * -1 = Username and Password are valid
      * 0 = Username is already taken
      * 1 = Username or password is empty
      * 2 = Username or password has a semicolon
