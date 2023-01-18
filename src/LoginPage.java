@@ -131,7 +131,7 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
             try {
                 if(loginCredentials(username, password)){ //Check if cridentials are correct
                     this.dispose(); //Dispose the current frame
-//                    new HomePage(); //Create new frame for the home page
+                    new Menu(); //Create new frame for the home page
                     //Create option pane to tell user the login is successful
                     JOptionPane.showMessageDialog(null,
                             "Hi " + username + ", you have successfully logged in",
