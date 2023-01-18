@@ -1,189 +1,131 @@
-import javax.swing.*;
+/**
+ * This class will act as the menu page of the Break A Plate game
+ */
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.util.Scanner;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class Menu implements ActionListener {
 
     /**
-     * frame: the window for the login page, all the other components are added here
-     *
-     * titlePanel: a container used to store the titleImage and titleText. Added to the frame
-     *
-     * buttonPanel: a container used to store the playButton, profileButton, ruleButton, exitButton. Added to the frame
-     *
-     * titleImage: a JLabel object that displays an image
-     *
-     * titleText: a JLabel object that displays a title
-     *
-     * playButton: a JButton that deletes the current frame and instantiates a Game class object. It has an ActionListener on it
-     * and when clicked, calls the action performed method
-     *
-     * profileButton: a JButton that deletes the current frame and instantiates a Profile class object. It has an ActionListener on it
-     * and when clicked, calls the action performed method
-     *
-     * ruleButton: a JButton that prints out the rules in the terminal. It has an ActionListener on it
-     * and when clicked, calls the action performed method
-     *
-     * exitButton: a JButton that deletes the current frame. It has an ActionListener on it
-     * and when clicked, calls the action performed method
-     *
-     * icon: an ImageIcon object used to paint icons from images, in this case, from hammer.jpg
-     *
-     * currentUser: the text file that stores which user is currently logged in
-     *
-     * input: a Scanner object used to retrieve information on currentUser text file
-     *
-     * name: String variable used to store the String retrieved by input
-     *
-     * userStat: a File object with the file name as the name of the current logged-in user
-     *
-     * nullOutput: PrintWriter object used to write to the userStat file if it is empty
-     *
-     * br: BufferReader object that is used to read the file and check if it is empty
+     * These are the objects needed to make the menu
+     * panel --> the container that stores all the needed components
+     * frame --> the container that acts as the actual window of the menu page
+     * title --> the title of the game "Break A Plate"
+     * icon --> the image of a broken plate for the icon of the game
+     * playGame --> the button in which the user presses if they wish to start the game
+     * rules --> the button in which the user presses if they wish to see the rules
+     * profile --> the button in which the user presses if they wish to see their profile
+     * exit --> the button in which the user presses if they want to exit the game
+     * brokenPlate --> the actual image file of the broken plate
      */
-
+    JPanel panel = new JPanel();
     JFrame frame = new JFrame();
+    JTextField title = new JTextField("Welcome To Break A Plate!");
+    JLabel icon = new JLabel();
+    JButton playGame = new JButton();
+    JButton rules = new JButton();
+    JButton profile = new JButton();
+    JButton exit = new JButton();
+    ImageIcon brokenPlate = new ImageIcon("brokenplate.png");
 
-    JPanel titlePanel = new JPanel();
-
-    JPanel buttonPanel = new JPanel();
-
-    JLabel titleImage = new JLabel();
-    JLabel titleText = new JLabel();
-
-    JButton playButton = new JButton("Play");
-    JButton profileButton = new JButton("Profile");
-    JButton ruleButton = new JButton("Rules");
-    JButton exitButton = new JButton("Exit");
-
-    static String name = "Test";
-
-    //constructor
-    Menu() throws Exception {
-
-        //setting up and customizing the JFrame object
+    /**
+     * This constructor enables other classes to create an object of this class.
+     *
+     * It will also implement the needed logic and steps in order to help make the menu
+     * page work and function properly.
+     */
+    Menu() {
+        // Set the frame size, close operation, visibility, title, background, and add the panel
+        frame.setSize(560, 550);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(750, 450);
-        frame.setLayout(new BorderLayout());
         frame.setVisible(true);
-        frame.setTitle("Menu");
-        //frame.setResizable(false);
+        frame.add(panel);
+        frame.setTitle("Main Menu");
+        frame.setBackground(Color.WHITE);
 
-        //setting up and customizing the titleText object
-        titleText.setText("Welcome " + name + "!");
-        titleText.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-        titleText.setForeground(Color.BLACK);
-        titleText.setBounds(0, 0, 100, 50);
+        // Set the mode of the panel to absolute positioning and set the appropriate colors
+        panel.setLayout(null);
+        panel.setBackground(new Color(211, 211, 211));
 
-        //setting up and customizing the playButton object
-        playButton.setFocusable(false); //set the focusable to false
-        playButton.setPreferredSize(new Dimension(250, 60)); //set preferred dimensions
-        playButton.setFont(new Font("MV Boli", Font.BOLD, 40)); //sets the text font and text size
-        playButton.addActionListener(this); //adding an ActionListener
-        playButton.setBackground(Color.WHITE); //set the color of the button
-        playButton.setForeground(Color.BLACK); //set the color of the text
-        playButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 7)); //sets the border for the button
+        // Customize the title text field and add it to the panel
+        title.setBounds(50, 10, 420, 50);
+        title.setFont(new Font("Comic Sans MS", Font.BOLD, 30));
+        title.setBorder(BorderFactory.createLineBorder(new Color(211, 211, 211), 0));
+        title.setBackground(new Color(211, 211, 211));
+        title.setVisible(true);
+        panel.add(title);
 
-        //setting up and customizing the balanceButton object
-        profileButton.setFocusable(false); //set the focusable to false
-        profileButton.setPreferredSize(new Dimension(250, 60)); //set preferred dimensions
-        profileButton.setFont(new Font("MV Boli", Font.BOLD, 40)); //sets the text font and text size
-        profileButton.addActionListener(this); //adding an ActionListener
-        profileButton.setBackground(Color.WHITE); //set the color of the button
-        profileButton.setForeground(Color.BLACK); //set the color of the text
-        profileButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 7)); //sets the border for the button
+        // Set the icon to the broken plate image and add it to the panel
+        icon.setIcon(brokenPlate);
+        icon.setBounds(425, 90, 100, 100);
+        icon.setVisible(true);
+        panel.add(icon);
 
-        //setting up and customizing the playButton object
-        ruleButton.setFocusable(false); //set the focusable to false
-        ruleButton.setPreferredSize(new Dimension(250, 60)); //set preferred dimensions
-        ruleButton.setFont(new Font("MV Boli", Font.BOLD, 40)); //sets the text font and text size
-        ruleButton.addActionListener(this); //adding an ActionListener
-        ruleButton.setBackground(Color.WHITE); //set the color of the button
-        ruleButton.setForeground(Color.BLACK); //set the color of the text
-        ruleButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 7)); //sets the border for the button
+        // Customize the playGame button and add it to the panel
+        playGame.setText("Play");
+        playGame.setBounds(160, 100, 175, 75);
+        playGame.setFont(new Font("Comic Sans MS", Font.BOLD, 30));
+        playGame.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+        playGame.setBackground(Color.WHITE);
+        playGame.addActionListener(this);
+        panel.add(playGame);
 
-        //setting up and customizing the playButton object
-        exitButton.setFocusable(false); //set the focusable to false
-        exitButton.setPreferredSize(new Dimension(250, 60)); //set preferred dimensions
-        exitButton.setFont(new Font("MV Boli", Font.BOLD, 40)); //sets the text font and text size
-        exitButton.addActionListener(this); //adding an ActionListener
-        exitButton.setBackground(Color.WHITE); //set the color of the button
-        exitButton.setForeground(Color.BLACK); //set the color of the text
-        exitButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 7)); //sets the border for the button
+        // Customize the rules button and add it to the panel
+        rules.setText("Rules");
+        rules.setBounds(160, 200, 175, 75);
+        rules.setFont(new Font("Comic Sans MS", Font.BOLD, 30));
+        rules.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+        rules.setBackground(Color.WHITE);
+        rules.addActionListener(this);
+        panel.add(rules);
 
-        //setting the layout for the buttonPanel object
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        // Customize the profile button and add it to the panel
+        profile.setText("Profile");
+        profile.setBounds(160, 300, 175, 75);
+        profile.setFont(new Font("Comic Sans MS", Font.BOLD, 30));
+        profile.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+        profile.setBackground(Color.WHITE);
+        profile.addActionListener(this);
+        panel.add(profile);
 
-        //changing the color of the 2 panel
-        titlePanel.setBackground(Color.GRAY);
-        buttonPanel.setBackground(Color.GRAY);
+        // Customize the exit button and add it to the panel
+        exit.setText("Exit");
+        exit.setBounds(160, 400, 175, 75);
+        exit.setFont(new Font("Comic Sans MS", Font.BOLD, 30));
+        exit.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+        exit.setBackground(Color.WHITE);
+        exit.addActionListener(this);
+        panel.add(exit);
 
-        //adding the components to the titlePanel object
-        titlePanel.add(titleImage);
-        titlePanel.add(titleText);
-
-        //adding the components to the buttonPanel object
-        buttonPanel.add(playButton);
-        buttonPanel.add(profileButton);
-        buttonPanel.add(ruleButton);
-        buttonPanel.add(exitButton);
-
-        //adding the panels to the frame
-        frame.add(titlePanel, BorderLayout.NORTH);
-        frame.add(buttonPanel, BorderLayout.CENTER);
+        // Set the panel to be visible
+        panel.setVisible(true);
     }
 
     /**
-     * actionPerformed method will perform certain actions based on what the user did
-     * @param e
+     * This method will redirect the user to the corresponding page based on which button
+     * they pressed
+     * @param event
      */
     @Override
-    public void actionPerformed(ActionEvent e) {
-
-        //if playButton is clicked
-        if(e.getSource() == playButton) {
-            frame.dispose(); //delete the current frame
-
-            //use try and catch to instantiate an object for Game class
-            try {
-                GamePage game = new GamePage();
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-        }
-
-        //if profileButton is clicked
-        if(e.getSource() == profileButton) {
+    public void actionPerformed(ActionEvent event) {
+        if (event.getSource() == playGame) { // Redirect user to game screen if they want to play
             frame.dispose();
-
-            //use try and catch to instantiate an object for Profile class
+            BreakAPlate game = new BreakAPlate();
+        } else if (event.getSource() == rules) { // Redirect user to rules screen if they want to see the rules
+            frame.dispose();
+            Rules rules = new Rules();
+        } else if (event.getSource() == profile) { // Redirect user to profile screen if they wish
+            frame.dispose();
             try {
                 Profile profile = new Profile();
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }
-
-        //if the ruleButton is clicked, print out the rules
-        if(e.getSource() == ruleButton) {
+        } else if (event.getSource() == exit) { // If user wants to exit, then terminate the program
             frame.dispose();
-
-            //use try and catch to instantiate an object for Profile class
-            try {
-                Rules rulePage = new Rules();
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-        }
-
-        //if the exit button is clicked
-        if(e.getSource() == exitButton) {
-            System.out.println("Goodbye, see you next time!"); //print out a message on screen
-
-            frame.dispose(); //delete the frame
+            System.exit(0);
         }
     }
 }
