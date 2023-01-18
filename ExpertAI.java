@@ -191,11 +191,12 @@ public class ExpertAI {
                         break;
                     }
                 }
-                // Remove the last index of trackHits, notice how it is acting as a Queue data structure
-                trackHits.remove(trackHits.size() - 1);
                 // If any configuration works, we do not need to check any other block, and we break
                 if (works) {
                     break;
+                } else {
+                    // Else, remove this value since it is not useful anymore
+                    trackHits.remove(trackHits.size() - 1);
                 }
             }
             // If no adjacent blocks work, then we must guess a random coordinate again
