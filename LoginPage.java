@@ -19,8 +19,8 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
     JLabel backgroundLabel = new JLabel(); //Creates the label for the background image
     JLabel titleLabel = new JLabel(); //Creates the label for the title of the game
     JLabel loginLabel = new JLabel(); //Creates the label for the login text fields and buttons
-    JLabel usernameLabel = new JLabel("Username"); //Creates label to display the word "username"
-    JLabel passwordLabel = new JLabel("Password"); //Creates label to display the word "password"
+    JLabel usernameLabel = new JLabel(); //Creates label to display the word "username"
+    JLabel passwordLabel = new JLabel(); //Creates label to display the word "password"
 
     JButton loginButton = new JButton("Login"); //Creates the login button
     JButton registerButton = new JButton("Register"); //Creates the register button
@@ -37,9 +37,9 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
     //Create the login background image
     ImageIcon titleIcon = new ImageIcon("TitleIcon.png");
     //Create the game title image
-    ImageIcon usernameIcon = new ImageIcon("src/ics4u/gui/BreakThePlates/usernameIcon.png");
+    ImageIcon usernameIcon = new ImageIcon("UsernameIcon.png");
     //Create the username image
-    ImageIcon passwordIcon = new ImageIcon("src/ics4u/gui/BreakThePlates/passwordIcon.png");
+    ImageIcon passwordIcon = new ImageIcon("PasswordIcon.png");
     //Create the username image
 
     LoginPage() {
@@ -57,7 +57,7 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
         //loginLabel label configuration
         loginLabel.setOpaque(true); //Set the label visible to the user
         loginLabel.setBackground(new Color(0, 0, 0, 0)); //Set the label background as opaque
-        loginLabel.setBounds(200, 225, 350, 175); //Set the size of the label
+        loginLabel.setBounds(250, 225, 350, 175); //Set the size of the label
 
         //Login button configuration
         loginButton.setBounds(0, 125, 125, 40); //Set the size and location of the button
@@ -84,11 +84,11 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
         loginLabel.add(passwordText); //Add the password text field to the label
 
         //Username text label configuration
-        usernameLabel.setBounds(85, 225, 100, 40); //Set size and location of text label
+        usernameLabel.setBounds(85, 215, 150, 50); //Set size and location of text label
         usernameLabel.setIcon(usernameIcon); //Add username icon to username label
 
         //Password text label configuration
-        passwordLabel.setBounds(85, 275, 100, 40); //Set size and location of text label
+        passwordLabel.setBounds(85, 270, 150, 50); //Set size and location of text label
         passwordLabel.setIcon(passwordIcon); //Add password icon to password label
 
         //Frame configuration
