@@ -157,7 +157,7 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
             try {
                 if (accountExists(username, password) == -1) { //Check if account already exists
                     if (output != null) { //Make sure file doesn't try to use null in a case where an object is required
-                        output.println(username + ";" + password); //Add username and password to account file
+                        output.println(username + ";" + password + ";;"); //Add username and password to account file
                         output.close(); //Close the output to update the file with username with password
                     }
                     //Create option pane to tell user the registration is successful
