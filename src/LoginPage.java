@@ -35,7 +35,7 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
     //Create the game icon image
     ImageIcon backgroundIcon = new ImageIcon("LoginBackground.png");
     //Create the login background image
-    ImageIcon titleIcon = new ImageIcon("src/ics4u/gui/BreakThePlates/titleIcon.png");
+    ImageIcon titleIcon = new ImageIcon("TitleIcon.png");
     //Create the game title image
     ImageIcon usernameIcon = new ImageIcon("src/ics4u/gui/BreakThePlates/usernameIcon.png");
     //Create the username image
@@ -52,7 +52,7 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
 
         //Welcome title label configuration
         titleLabel.setIcon(titleIcon); //Add image to the icon
-        titleLabel.setBounds(200, 50, 600, 125); //Set the size of the label and location
+        titleLabel.setBounds(85, 25, 500, 194); //Set the size of the label and location
 
         //loginLabel label configuration
         loginLabel.setOpaque(true); //Set the label visible to the user
@@ -155,7 +155,7 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
         if (e.getSource() == registerButton) { //If user clicks on register button
             //Try and catch to see if account exists
             try {
-                if (accountExists(username, password)) { //Check if account already exists
+                if (accountExists(username, password) == -1) { //Check if account already exists
                     if (output != null) { //Make sure file doesn't try to use null in a case where an object is required
                         output.println(username + ";" + password); //Add username and password to account file
                         output.close(); //Close the output to update the file with username with password
@@ -167,10 +167,26 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
                             "Registration Successful",  //Set option pane title
                             JOptionPane.INFORMATION_MESSAGE); //Use information message template
                 }
-                else { //If the account has already been taken
+                else if (accountExists(username, password) == 0) { //If the username has already been taken
                     //Create option pane to tell user the username has been taken
                     JOptionPane.showMessageDialog(null,
-                            "Sorry, that username or password is invalid",
+                            "Sorry, that username has already been taken",
+                            //Sets the message user will see on option pane
+                            "Registration Unsuccessful", //Set option pane title
+                            JOptionPane.ERROR_MESSAGE); //Use error message template
+                }
+                else if (accountExists(username, password) == 1) { //If the username or password is empty
+                    //Create option pane to tell user the username has been taken
+                    JOptionPane.showMessageDialog(null,
+                            "Sorry, the username and password cannot be empty",
+                            //Sets the message user will see on option pane
+                            "Registration Unsuccessful", //Set option pane title
+                            JOptionPane.ERROR_MESSAGE); //Use error message template
+                }
+                else { //If the username or password contains a semicolon
+                    //Create option pane to tell user the username has been taken
+                    JOptionPane.showMessageDialog(null,
+                            "Sorry, the username and password cannot contain a semicolon",
                             //Sets the message user will see on option pane
                             "Registration Unsuccessful", //Set option pane title
                             JOptionPane.ERROR_MESSAGE); //Use error message template
@@ -198,23 +214,28 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
         return false; //Username does not exist yet
     }
 
-    //Method to check if the username already exists in the account file
-    public boolean accountExists(String username, String password) throws Exception{ //Throw exception for scanner
+    /* Method to check if the username already exists in the account file
+     * -1 = Username and Password are valid
+     * 0 = Username is already taken
+     * 1 = Username or password is empty
+     * 2 = Username or password has a semicolon
+     */
+    public int accountExists(String username, String password) throws Exception{ //Throw exception for scanner
         if(username.equals("") || password.equals("")){ //If the username or password is empty
-            return false; //Username or password is empty
+            return 1; //Username or password is empty
         }
         if(username.contains(";") || password.contains(";")){ //Check if username has a semicolon
-            return false; //Return that the password is invalid
+            return 2; //Return that the password has a semicolon
         }
         Scanner input = new Scanner(accounts); //Create scanner to read username and passwords in the file
         while(input.hasNextLine()){ //While the file still has usernames and passwords
             String[] credentials = input.nextLine().split(";"); //Store the username and passwords and split
             if(credentials[0].equalsIgnoreCase(username)){ //Check if username is equal to account database
                 input.close(); //Close the scanner input
-                return false; //Username already exists
+                return 0; //Username already exists
             }
         }
         input.close(); //Close the scanner input
-        return true; //Username does not exist yet
+        return -1; //Username does not exist yet
     }
 }
