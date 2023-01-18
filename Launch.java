@@ -14,6 +14,6 @@ public class Launch {
     public static void main(String[] args) throws Exception {
 
         //Instantiate loginPage object for the LoginPage class
-		Rules rule = new Rules();
+		Menu rule = new Menu();
     }
 }
