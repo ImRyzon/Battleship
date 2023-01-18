@@ -22,7 +22,7 @@ public class Menu implements ActionListener {
      */
     JPanel panel = new JPanel();
     JFrame frame = new JFrame();
-    JTextField title = new JTextField("Welcome To Break A Plate!");
+    JTextField title = new JTextField("Placeholdeer");
     JLabel icon = new JLabel();
     JButton playGame = new JButton();
     JButton rules = new JButton();
@@ -57,7 +57,6 @@ public class Menu implements ActionListener {
         panel.add(title);
 
         // Set the icon to the broken plate image and add it to the panel
-        icon.setIcon(brokenPlate);
         icon.setBounds(425, 90, 100, 100);
         icon.setVisible(true);
         panel.add(icon);
@@ -109,20 +108,38 @@ public class Menu implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent event) {
+        
         if (event.getSource() == playGame) { // Redirect user to game screen if they want to play
             frame.dispose();
-            GamePage game = new GamePage();
-        } else if (event.getSource() == rules) { // Redirect user to rules screen if they want to see the rules
+            
+            try {
+                GamePage game = new GamePage();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        } 
+        
+        else if (event.getSource() == rules) { // Redirect user to rules screen if they want to see the rules
             frame.dispose();
-            Rules rules = new Rules();
-        } else if (event.getSource() == profile) { // Redirect user to profile screen if they wish
+
+            try {
+                Rules rule = new Rules();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        } 
+        
+        else if (event.getSource() == profile) { // Redirect user to profile screen if they wish
             frame.dispose();
+
             try {
                 Profile profile = new Profile();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (event.getSource() == exit) { // If user wants to exit, then terminate the program
+        } 
+        
+        else if (event.getSource() == exit) { // If user wants to exit, then terminate the program
             frame.dispose();
             System.exit(0);
         }
