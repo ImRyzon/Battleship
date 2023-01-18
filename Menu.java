@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Menu implements ActionListener {
+public class Menu extends JFrame implements ActionListener {
 
     /**
      * These are the objects needed to make the menu
@@ -19,15 +19,17 @@ public class Menu implements ActionListener {
      * profile --> the button in which the user presses if they wish to see their profile
      * exit --> the button in which the user presses if they want to exit the game
      * brokenPlate --> the actual image file of the broken plate
+     * menu --> the image icon used for this frame
      */
     JPanel panel = new JPanel();
-    JFrame frame = new JFrame();
-    JTextField title = new JTextField("Placeholdeer");
+    JLabel title = new JLabel("Welcome To Break A Plate!");
     JLabel icon = new JLabel();
     JButton playGame = new JButton();
     JButton rules = new JButton();
     JButton profile = new JButton();
     JButton exit = new JButton();
+    ImageIcon brokenPlate = new ImageIcon("brokenplate.png");
+    ImageIcon menu = new ImageIcon("menu.png");
 
     /**
      * This constructor enables other classes to create an object of this class.
@@ -36,17 +38,18 @@ public class Menu implements ActionListener {
      * page work and function properly.
      */
     Menu() {
-        // Set the frame size, close operation, visibility, title, background, and add the panel
-        frame.setSize(560, 550);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.add(panel);
-        frame.setTitle("Main Menu");
-        frame.setBackground(Color.WHITE);
+        // Set the frame size, close operation, visibility, title, background, and icon, and add the panel
+        this.setSize(560, 550);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
+        this.add(panel);
+        this.setTitle("Main Menu");
+        this.setIconImage(menu.getImage());
+        this.setBackground(Color.WHITE);
 
         // Set the mode of the panel to absolute positioning and set the appropriate colors
         panel.setLayout(null);
-        panel.setBackground(new Color(211, 211, 211));
+        panel.setBackground(new Color(229, 223, 223));
 
         // Customize the title text field and add it to the panel
         title.setBounds(50, 10, 420, 50);
@@ -57,6 +60,7 @@ public class Menu implements ActionListener {
         panel.add(title);
 
         // Set the icon to the broken plate image and add it to the panel
+        icon.setIcon(brokenPlate);
         icon.setBounds(425, 90, 100, 100);
         icon.setVisible(true);
         panel.add(icon);
@@ -108,39 +112,25 @@ public class Menu implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent event) {
-        
         if (event.getSource() == playGame) { // Redirect user to game screen if they want to play
-            frame.dispose();
-            
+            this.dispose();
             try {
-                GamePage game = new GamePage();
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
+                GamePage page = new GamePage();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } 
-        
-        else if (event.getSource() == rules) { // Redirect user to rules screen if they want to see the rules
-            frame.dispose();
-
-            try {
-                Rules rule = new Rules();
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-        } 
-        
-        else if (event.getSource() == profile) { // Redirect user to profile screen if they wish
-            frame.dispose();
-
+        } else if (event.getSource() == rules) { // Redirect user to rules screen if they want to see the rules
+            this.dispose();
+            Rules rules = new Rules();
+        } else if (event.getSource() == profile) { // Redirect user to profile screen if they wish
+            this.dispose();
             try {
                 Profile profile = new Profile();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } 
-        
-        else if (event.getSource() == exit) { // If user wants to exit, then terminate the program
-            frame.dispose();
+        } else if (event.getSource() == exit) { // If user wants to exit, then terminate the program
+            this.dispose();
             System.exit(0);
         }
     }
