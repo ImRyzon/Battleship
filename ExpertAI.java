@@ -109,7 +109,7 @@ public class ExpertAI {
                 // Create a for loop that checks if the current position of the ship is valid or not
                 for (int i = 1; i <= length; i++) {
                     // If it is out of bounds or there is any ships surrounding, it is invalid
-                    if (!isValid(curRow, curCol) || hasSurroundingShip(curRow, curCol) || board[curRow][curCol] != 0) {
+                    if (!isValid(curRow, curCol) || hasSurroundingShip(curRow, curCol)) {
                         works = false;
                         break;
                     }
