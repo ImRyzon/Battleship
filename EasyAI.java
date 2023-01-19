@@ -1,4 +1,7 @@
 /**
+ * @author Mark Wang
+ * 2023-1-17
+ *
  * This class will implement the simple AI that will use a randomized
  * attack strategy when incorporated.
  */
