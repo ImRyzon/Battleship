@@ -1,5 +1,5 @@
 /**
- * @author Nathanael You
+ * @author Nathanael You, Mark Wang
  * 2023-1-18
  *
  * This class will act as the login page for the Battleship game
