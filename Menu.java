@@ -111,25 +111,40 @@ public class Menu extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent event) {
+
         if (event.getSource() == playGame) { // Redirect user to game screen if they want to play
             this.dispose();
-            GamePage page = new GamePage();
-        } else if (event.getSource() == rules) { // Redirect user to rules screen if they want to see the rules
+
+            try {
+                GamePage game = new GamePage();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } 
+        
+        else if (event.getSource() == rules) { // Redirect user to rules screen if they want to see the rules
             this.dispose();
+
             try {
                 Rules rules = new Rules();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (event.getSource() == profile) { // Redirect user to profile screen if they wish
+        } 
+        
+        else if (event.getSource() == profile) { // Redirect user to profile screen if they wish
             this.dispose();
+
             try {
                 Profile profile = new Profile();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (event.getSource() == exit) { // If user wants to exit, then terminate the program
+        } 
+        
+        else if (event.getSource() == exit) { // If user wants to exit, then terminate the program
             this.dispose();
+
             System.exit(0);
         }
     }

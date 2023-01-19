@@ -12,6 +12,10 @@ public class Launch {
      * @param args
      */
     public static void main(String[] args) {
-        LoginPage page = new LoginPage();
+        try {
+                GamePage menu = new GamePage();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }
 }

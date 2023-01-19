@@ -1,165 +1,159 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.util.Scanner;
+/**
+ * @author Daniel Guo
+ * 2023-1-18
+ *
+ * This class will act as the menu page for the Battleship Game
+ */
 
-public class GamePage implements ActionListener {
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class GamePage extends JFrame implements ActionListener {
 
     /**
-     * frame: the window for the login page, all the other components are added here
-     *
-     * buttonPanel: a container used to store the easyButton, hardButton, multiplayerButton, menuButton. Added to the frame
-     *
-     * titleText: a JLabel object that displays a title
-     *
-     * easyButton: a JButton that deletes the current frame and instantiates a gameBoard class object. It has an ActionListener on it
-     * and when clicked, calls the action performed method
-     *
-     * hardButton: a JButton that deletes the current frame and instantiates a gameBoard class object. It has an ActionListener on it
-     * and when clicked, calls the action performed method
-     *
-     * multiplayerButton: a JButton that deletes the current frame and instantiates a gameMultiplayer class object. It has an ActionListener on it
-     * and when clicked, calls the action performed method
-     *
-     * menuButton: a JButton that deletes the current frame and instantiates a Menu class object. It has an ActionListener on it
-     * and when clicked, calls the action performed method
+     * These are the objects needed to make the game page
+     * panel --> the container that stores all the needed components
+     * frame --> the container that acts as the actual window of the menu page
+     * titleLabel --> the title of the game page
+     * backgroundLabel --> the background of the game page
+     * easyButton --> the button in which the user presses if they wish to play an easy game
+     * hardButton --> the button in which the user presses if they wish to play a hard game
+     * multiplayerButton --> the button in which the user presses if they wish to play against another player using shared computer
+     * menuButton --> the button in which the user presses if they want to return to the menu
+     * titleImage --> the actual image file of the title text
+     * backgroundImage --> the actual image file of the background for game page
+     * menu --> the image icon used for this frame
      */
+    JPanel panel = new JPanel();
+    JLabel titleLabel = new JLabel();
+    JLabel backgroundLabel = new JLabel();
+    JButton easyButton = new JButton();
+    JButton hardButton = new JButton();
+    JButton multiplayerButton = new JButton();
+    JButton menuButton = new JButton();
+    ImageIcon titleImage = new ImageIcon("GamePageTitleImg.png");
+    ImageIcon backgroundImage = new ImageIcon("GamePageBackground.png");
 
-    JFrame frame = new JFrame();
+    /**
+     * This constructor enables other classes to create an object of this class.
+     *
+     * It will also implement the needed logic and steps in order to help make the game
+     * page work and function properly.
+     */
+    GamePage() {
 
-    JPanel buttonPanel = new JPanel();
-    JPanel titlePanel = new JPanel();
+        //Customizing the title image and adding it to the panel
+        titleLabel.setBounds(75, 20, 800, 100);
+        titleLabel.setIcon(titleImage);
+        panel.add(titleLabel);
+        
+        //Set the frame size, close operation, visibility, title, background, and icon, and add the panel
+        this.setSize(540, 700);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
+        this.add(panel);
+        this.setTitle("Game Page");
+        this.setBackground(Color.WHITE);
+        this.setResizable(false);
 
-    JLabel titleImage = new JLabel();
-    ImageIcon titleIcon = new ImageIcon("GamePageTitleImage.png");
+        //Set the layout of the panel to be null
+        panel.setLayout(null);
 
-    JButton easyButton = new JButton("Easy");
-    JButton hardButton = new JButton("Hard");
-    JButton multiplayerButton = new JButton("Multiplayer");
-    JButton menuButton = new JButton("Menu");
+        //Customize the easyButton button and add it to the panel
+        easyButton.setText("Easy");
+        easyButton.setBounds(135, 150, 255, 75);
+        easyButton.setFont(new Font("Monospaced", Font.BOLD, 30));
+        easyButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+        easyButton.setBackground(Color.WHITE);
+        easyButton.addActionListener(this);
+        panel.add(easyButton);
 
-    //constructor
-    GamePage() throws Exception {
+        //Customize the hardButton button and add it to the panel
+        hardButton.setText("Hard");
+        hardButton.setBounds(135, 250, 255, 75);
+        hardButton.setFont(new Font("Monospaced", Font.BOLD, 30));
+        hardButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+        hardButton.setBackground(Color.WHITE);
+        hardButton.addActionListener(this);
+        panel.add(hardButton);
 
-        //setting up and customizing the JFrame object
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(750, 450);
-        frame.setLayout(new BorderLayout());
-        frame.setVisible(true);
-        frame.setTitle("Game Page");
-        frame.setResizable(false);
+        //Customize the multiplayerButton button and add it to the panel
+        multiplayerButton.setText("Multiplayer");
+        multiplayerButton.setBounds(135, 350, 255, 75);
+        multiplayerButton.setFont(new Font("Monospaced", Font.BOLD, 30));
+        multiplayerButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+        multiplayerButton.setBackground(Color.WHITE);
+        multiplayerButton.addActionListener(this);
+        panel.add(multiplayerButton);
 
-        //setting up and customizing the easyButton object
-        easyButton.setFocusable(false); //set the focusable to false
-        easyButton.setPreferredSize(new Dimension(250, 60)); //set preferred dimensions
-        easyButton.setFont(new Font("MV Boli", Font.BOLD, 40)); //sets the text font and text size
-        easyButton.addActionListener(this); //adding an ActionListener
-        easyButton.setBackground(Color.WHITE); //set the color of the button
-        easyButton.setForeground(Color.BLACK); //set the color of the text
-        easyButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 7)); //sets the border for the button
+        //Customize the menuButton and add it to the panel
+        menuButton.setText("Menu");
+        menuButton.setBounds(135, 450, 255, 75);
+        menuButton.setFont(new Font("Monospaced", Font.BOLD, 30));
+        menuButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+        menuButton.setBackground(Color.WHITE);
+        menuButton.addActionListener(this);
+        panel.add(menuButton);
 
-        //setting up and customizing the balanceButton object
-        hardButton.setFocusable(false); //set the focusable to false
-        hardButton.setPreferredSize(new Dimension(250, 60)); //set preferred dimensions
-        hardButton.setFont(new Font("MV Boli", Font.BOLD, 40)); //sets the text font and text size
-        hardButton.addActionListener(this); //adding an ActionListener
-        hardButton.setBackground(Color.WHITE); //set the color of the button
-        hardButton.setForeground(Color.BLACK); //set the color of the text
-        hardButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 7)); //sets the border for the button
+        //Customize the background
+        backgroundLabel.setBounds(0, 0, 540, 700);
+        backgroundLabel.setIcon(backgroundImage);
+        panel.add(backgroundLabel);
 
-        //setting up and customizing the easyButton object
-        multiplayerButton.setFocusable(false); //set the focusable to false
-        multiplayerButton.setPreferredSize(new Dimension(250, 60)); //set preferred dimensions
-        multiplayerButton.setFont(new Font("MV Boli", Font.BOLD, 40)); //sets the text font and text size
-        multiplayerButton.addActionListener(this); //adding an ActionListener
-        multiplayerButton.setBackground(Color.WHITE); //set the color of the button
-        multiplayerButton.setForeground(Color.BLACK); //set the color of the text
-        multiplayerButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 7)); //sets the border for the button
-
-        //setting up and customizing the easyButton object
-        menuButton.setFocusable(false); //set the focusable to false
-        menuButton.setPreferredSize(new Dimension(250, 60)); //set preferred dimensions
-        menuButton.setFont(new Font("MV Boli", Font.BOLD, 40)); //sets the text font and text size
-        menuButton.addActionListener(this); //adding an ActionListener
-        menuButton.setBackground(Color.WHITE); //set the color of the button
-        menuButton.setForeground(Color.BLACK); //set the color of the text
-        menuButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 7)); //sets the border for the button
-
-        //setting the layout for the buttonPanel object
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-
-        //changing the color of the 2 panel
-        buttonPanel.setBackground(Color.GRAY);
-
-        //adding the components to the titlePanel object
-        titleImage.setIcon(titleIcon);
-        titlePanel.add(titleImage);
-
-        //adding the components to the buttonPanel object
-        buttonPanel.add(easyButton);
-        buttonPanel.add(hardButton);
-        buttonPanel.add(multiplayerButton);
-        buttonPanel.add(menuButton);
-
-        //adding the panels to the frame
-        frame.add(titlePanel, BorderLayout.NORTH);
-        frame.add(buttonPanel, BorderLayout.CENTER);
+        // Set the panel to be visible
+        panel.setVisible(true);
     }
 
     /**
-     * actionPerformed method will perform certain actions based on what the user did
-     * @param e
+     * This method will redirect the user to the corresponding page based on which button
+     * they pressed
+     * @param event
      */
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent event) {
 
-        //if easyButton is clicked
-        if(e.getSource() == easyButton) {
-            frame.dispose(); //delete the current frame
+        if (event.getSource() == easyButton) { //Redirect user to a gameboard
+            this.dispose(); //Deleting the current frame
 
-            //use try and catch to instantiate an object for Game class
+            //use try and catch to instantiate an object for GameBoard class
+            try {
+                GamePage game = new GamePage();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } 
+        
+        else if (event.getSource() == hardButton) { //Redirect user to a gameboard
+            this.dispose(); //Deleting the current frame
+
+            //use try and catch to instantiate an object for GameBoard class
             try {
                 GameBoard game = new GameBoard();
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }
+        } 
+        
+        else if (event.getSource() == multiplayerButton) { //Redirect user to a gameboard
+            this.dispose(); //Deleting the current frame
 
-        //if hardButton is clicked
-        if(e.getSource() == hardButton) {
-            frame.dispose();
-
-            //use try and catch to instantiate an object for Profile class
+            //use try and catch to instantiate an object for GameBoard class
             try {
                 GameBoard game = new GameBoard();
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }
+        } 
+        
+        else if (event.getSource() == menuButton) { //Redirect the user to the menu page
+            this.dispose(); //Deleting the current frame
 
-        //if the multiplayerButton is clicked, print out the rules
-        if(e.getSource() == multiplayerButton) {
-            frame.dispose();
-
-            //use try and catch to instantiate an object for Profile class
-            try {
-                GameMultiplayer game = new GameMultiplayer();
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-        }
-
-        //if the exit button is clicked
-        if(e.getSource() == menuButton) {
-            frame.dispose();
-
-            //use try and catch to instantiate an object for Profile class
+            //use try and catch to instantiate an object for Menu class
             try {
                 Menu menu = new Menu();
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
