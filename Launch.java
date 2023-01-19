@@ -13,7 +13,7 @@ public class Launch {
      */
     public static void main(String[] args) {
         try {
-                GamePage menu = new GamePage();
+                LoginPage window = new LoginPage();
             } catch (Exception e) {
                 e.printStackTrace();
             }
