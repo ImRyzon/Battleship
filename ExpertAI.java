@@ -1,4 +1,7 @@
 /**
+ * @author Mark Wang
+ * 2023-1-19
+ *
  * This class will implement the expert AI and will implement the optimal strategy
  * to place ships as well as guessing coordinates
  */
@@ -47,7 +50,7 @@ public class ExpertAI {
         // initialize for countHit
         countHit = new int[6];
 
-        // initialize alreadyGuessed
+        // initialize alreadyGuessed using 1-based indexing
         alreadyGuessed = new boolean[11][11];
 
         // initialize rowGuess and colGuess
