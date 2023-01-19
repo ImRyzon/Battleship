@@ -1,47 +1,45 @@
-/* Name: BCSC
- * Date: January 16th, 2023
- * File Name: LoginPage.java
- * Description: Create an introductory frame that will introduce the application and provide interface
- * for a user to enter their name and password and an option pane window that will give the user feedback
- * if they have logged in properly or not.
+/**
+ * @author Nathanael You
+ * 2023-1-18
+ *
+ * This class will act as the login page for the Battleship game
  */
 
-//Imports all needed GUI classes
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
-import java.io.*; //Imports java file input and output
-import java.util.Scanner; //Imports Scanner
+import java.util.*;
+import java.io.*;
 
-public class LoginPage extends JFrame implements ActionListener { //Make JFrame and add an action listener
+public class LoginPage extends JFrame implements ActionListener {
+
     JLayeredPane layeredPane = new JLayeredPane(); //Creates layered pane for Login page
-
     JLabel backgroundLabel = new JLabel(); //Creates the label for the background image
     JLabel titleLabel = new JLabel(); //Creates the label for the title of the game
     JLabel loginLabel = new JLabel(); //Creates the label for the login text fields and buttons
     JLabel usernameLabel = new JLabel(); //Creates label to display the word "username"
     JLabel passwordLabel = new JLabel(); //Creates label to display the word "password"
-
     JButton loginButton = new JButton("Login"); //Creates the login button
     JButton registerButton = new JButton("Register"); //Creates the register button
-
     JTextField usernameText = new JTextField();  //Create password field for user to enter their username
     JPasswordField passwordText = new JPasswordField(); //Create password field for user to enter their password
+    static File database = new File("Database.txt"); // file for database
+    static File userID = new File("UserID.txt"); // file for current user ID
+    static File statistics = new File("Statistics.txt"); // file for statistics
+    ImageIcon gameIcon = new ImageIcon("GameIcon.png");//Create the game icon image
+    ImageIcon backgroundIcon = new ImageIcon("LoginBackground.png");//Create the login background image
+    ImageIcon titleIcon = new ImageIcon("TitleIcon.png");//Create the game title image
+    ImageIcon usernameIcon = new ImageIcon("UsernameIcon.png");//Create the username image
+    ImageIcon passwordIcon = new ImageIcon("PasswordIcon.png");//Create the username image
 
-    static File accounts = new File("database.txt");
-    //Creates new file to store username and password
-
-    ImageIcon gameIcon = new ImageIcon("GameIcon.png");
-    //Create the game icon image
-    ImageIcon backgroundIcon = new ImageIcon("LoginBackground.png");
-    //Create the login background image
-    ImageIcon titleIcon = new ImageIcon("TitleIcon.png");
-    //Create the game title image
-    ImageIcon usernameIcon = new ImageIcon("UsernameIcon.png");
-    //Create the username image
-    ImageIcon passwordIcon = new ImageIcon("PasswordIcon.png");
-    //Create the username image
-
+    /**
+     * This constructor of the class will allow for other classes to instantiate an object of this class. This
+     * will be used in the LaunchGame class when first launching the game, as it redirects the user to the
+     * login page.
+     *
+     * Apart from that, this constructor will also hold the necessary logic and operations needed in order to
+     * create an effective and comprehensive login page for the user.
+     */
     LoginPage() {
         //Layered pane configuration
         layeredPane.setBounds(0, 0, 960, 540); //Set size and location of the layered pane
@@ -52,18 +50,20 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
 
         //Welcome title label configuration
         titleLabel.setIcon(titleIcon); //Add image to the icon
-        titleLabel.setBounds(60, 25, 500, 194); //Set the size of the label and location
+        titleLabel.setBounds(190, 25, 500, 194); //Set the size of the label and location
 
         //loginLabel label configuration
         loginLabel.setOpaque(true); //Set the label visible to the user
         loginLabel.setBackground(new Color(0, 0, 0, 0)); //Set the label background as opaque
-        loginLabel.setBounds(225, 225, 350, 175); //Set the size of the label
+        loginLabel.setBounds(275, 225, 500, 500); //Set the size of the label
 
         //Login button configuration
         loginButton.setBounds(0, 125, 125, 40); //Set the size and location of the button
         loginButton.setFocusable(false); //Set the button as non-focusable
         loginButton.addActionListener(this); //Add an action listener to the button
         loginButton.setFont(new Font("Monospaced", Font.BOLD, 20)); //Set font and font size
+        loginButton.setBackground(new Color(255, 255, 255)); // set background color
+        loginButton.setBorder(BorderFactory.createEtchedBorder()); // create border
         loginLabel.add(loginButton); //Add the login button to the label
 
         //Register button configuration
@@ -71,24 +71,28 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
         registerButton.setFocusable(false); //Set the button as non-focusable
         registerButton.addActionListener(this); //Add an action listener to the button
         registerButton.setFont(new Font("Monospaced", Font.BOLD, 20)); //Set font and font size
+        registerButton.setBackground(new Color(255, 255, 255)); // set background color
+        registerButton.setBorder(BorderFactory.createEtchedBorder()); // create border
         loginLabel.add(registerButton); //Add the register button to the label
 
         //Username text field configuration
-        usernameText.setBounds(0, 0, 350, 40); //Set size and location of text field
+        usernameText.setBounds(105, 0, 350, 40); //Set size and location of text field
         usernameText.setFont(new Font("Monospaced", Font.BOLD, 20)); //Set font and font size
+        usernameText.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3)); // create border
         loginLabel.add(usernameText); //Add the username text field to the label
 
         //Password text field configuration
-        passwordText.setBounds(0, 50, 350, 40); //Set size and location of text field
+        passwordText.setBounds(105, 50, 350, 40); //Set size and location of text field
         passwordText.setFont(new Font("Arial", Font.PLAIN, 20)); //Set font and font size
+        passwordText.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3)); // create border
         loginLabel.add(passwordText); //Add the password text field to the label
 
         //Username text label configuration
-        usernameLabel.setBounds(60, 215, 150, 50); //Set size and location of text label
+        usernameLabel.setBounds(150, 215, 150, 50); //Set size and location of text label
         usernameLabel.setIcon(usernameIcon); //Add username icon to username label
 
         //Password text label configuration
-        passwordLabel.setBounds(60, 270, 150, 50); //Set size and location of text label
+        passwordLabel.setBounds(150, 270, 150, 50); //Set size and location of text label
         passwordLabel.setIcon(passwordIcon); //Add password icon to password label
 
         //Frame configuration
@@ -104,6 +108,7 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
         layeredPane.add(loginLabel, Integer.valueOf(2)); //Set the welcome label at position 2
         layeredPane.add(usernameLabel, Integer.valueOf(3)); //Set the username label at position 3
         layeredPane.add(passwordLabel, Integer.valueOf(4)); //Set the password label as the furthest forward
+
         this.add(layeredPane); //Add the layered pane to the frame
         this.setIconImage(gameIcon.getImage()); //Set the game icon image
         this.setVisible(true); //Set the frame visible to user
