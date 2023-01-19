@@ -1,4 +1,7 @@
 /**
+ * @author Mark Wang
+ * 2023-1-17
+ *
  * This class will implement a custom object that allows for easier accessing
  * and setting of coordinates
  */
