@@ -1,5 +1,9 @@
 /**
- * This class will act as the launch page
+ * @author Mark Wang
+ * 2023-1-18
+ *
+ * This class will act as the launch page for the Battleship game, and will
+ * redirect the user to the login page
  */
 
 public class Launch {
@@ -12,10 +16,6 @@ public class Launch {
      * @param args
      */
     public static void main(String[] args) {
-        try {
-                LoginPage window = new LoginPage();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        LoginPage login = new LoginPage();
     }
 }
