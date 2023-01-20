@@ -52,12 +52,12 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
 
         //Welcome title label configuration
         titleLabel.setIcon(titleIcon); //Add image to the icon
-        titleLabel.setBounds(85, 25, 500, 194); //Set the size of the label and location
+        titleLabel.setBounds(60, 25, 500, 194); //Set the size of the label and location
 
         //loginLabel label configuration
         loginLabel.setOpaque(true); //Set the label visible to the user
         loginLabel.setBackground(new Color(0, 0, 0, 0)); //Set the label background as opaque
-        loginLabel.setBounds(250, 225, 350, 175); //Set the size of the label
+        loginLabel.setBounds(225, 225, 350, 175); //Set the size of the label
 
         //Login button configuration
         loginButton.setBounds(0, 125, 125, 40); //Set the size and location of the button
@@ -84,11 +84,11 @@ public class LoginPage extends JFrame implements ActionListener { //Make JFrame 
         loginLabel.add(passwordText); //Add the password text field to the label
 
         //Username text label configuration
-        usernameLabel.setBounds(85, 215, 150, 50); //Set size and location of text label
+        usernameLabel.setBounds(60, 215, 150, 50); //Set size and location of text label
         usernameLabel.setIcon(usernameIcon); //Add username icon to username label
 
         //Password text label configuration
-        passwordLabel.setBounds(85, 270, 150, 50); //Set size and location of text label
+        passwordLabel.setBounds(60, 270, 150, 50); //Set size and location of text label
         passwordLabel.setIcon(passwordIcon); //Add password icon to password label
 
         //Frame configuration
