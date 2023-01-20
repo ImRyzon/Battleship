@@ -54,20 +54,18 @@ public class LoginPage extends JFrame implements ActionListener {
 
         //Welcome title label configuration
         titleLabel.setIcon(titleIcon); //Add image to the icon
-        titleLabel.setBounds(190, 25, 500, 194); //Set the size of the label and location
+        titleLabel.setBounds(60, 25, 500, 194); //Set the size of the label and location
 
         //loginLabel label configuration
         loginLabel.setOpaque(true); //Set the label visible to the user
         loginLabel.setBackground(new Color(0, 0, 0, 0)); //Set the label background as opaque
-        loginLabel.setBounds(275, 225, 500, 500); //Set the size of the label
+        loginLabel.setBounds(225, 225, 350, 175); //Set the size of the label
 
         //Login button configuration
         loginButton.setBounds(0, 125, 125, 40); //Set the size and location of the button
         loginButton.setFocusable(false); //Set the button as non-focusable
         loginButton.addActionListener(this); //Add an action listener to the button
         loginButton.setFont(new Font("Monospaced", Font.BOLD, 20)); //Set font and font size
-        loginButton.setBackground(new Color(255, 255, 255)); // set background color
-        loginButton.setBorder(BorderFactory.createEtchedBorder()); // create border
         loginLabel.add(loginButton); //Add the login button to the label
 
         //Register button configuration
@@ -75,28 +73,24 @@ public class LoginPage extends JFrame implements ActionListener {
         registerButton.setFocusable(false); //Set the button as non-focusable
         registerButton.addActionListener(this); //Add an action listener to the button
         registerButton.setFont(new Font("Monospaced", Font.BOLD, 20)); //Set font and font size
-        registerButton.setBackground(new Color(255, 255, 255)); // set background color
-        registerButton.setBorder(BorderFactory.createEtchedBorder()); // create border
         loginLabel.add(registerButton); //Add the register button to the label
 
         //Username text field configuration
-        usernameText.setBounds(105, 0, 350, 40); //Set size and location of text field
+        usernameText.setBounds(0, 0, 350, 40); //Set size and location of text field
         usernameText.setFont(new Font("Monospaced", Font.BOLD, 20)); //Set font and font size
-        usernameText.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3)); // create border
         loginLabel.add(usernameText); //Add the username text field to the label
 
         //Password text field configuration
-        passwordText.setBounds(105, 50, 350, 40); //Set size and location of text field
+        passwordText.setBounds(0, 50, 350, 40); //Set size and location of text field
         passwordText.setFont(new Font("Arial", Font.PLAIN, 20)); //Set font and font size
-        passwordText.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3)); // create border
         loginLabel.add(passwordText); //Add the password text field to the label
 
         //Username text label configuration
-        usernameLabel.setBounds(150, 215, 150, 50); //Set size and location of text label
+        usernameLabel.setBounds(60, 215, 150, 50); //Set size and location of text label
         usernameLabel.setIcon(usernameIcon); //Add username icon to username label
 
         //Password text label configuration
-        passwordLabel.setBounds(150, 270, 150, 50); //Set size and location of text label
+        passwordLabel.setBounds(60, 270, 150, 50); //Set size and location of text label
         passwordLabel.setIcon(passwordIcon); //Add password icon to password label
 
         //Frame configuration
@@ -112,7 +106,6 @@ public class LoginPage extends JFrame implements ActionListener {
         layeredPane.add(loginLabel, Integer.valueOf(2)); //Set the welcome label at position 2
         layeredPane.add(usernameLabel, Integer.valueOf(3)); //Set the username label at position 3
         layeredPane.add(passwordLabel, Integer.valueOf(4)); //Set the password label as the furthest forward
-
         this.add(layeredPane); //Add the layered pane to the frame
         this.setIconImage(gameIcon.getImage()); //Set the game icon image
         this.setVisible(true); //Set the frame visible to user
