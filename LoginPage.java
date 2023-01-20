@@ -129,25 +129,30 @@ public class LoginPage extends JFrame implements ActionListener {
         String password = passwordText.getText();
 
         if (event.getSource() == loginButton) {
-            // use a try-catch method to handle IOExceptions when retrieving data from the database file
-            try {
-                // call the checkValidity() method to see whether the entered credentials are valid or not
-                if (checkValidity(username, password)) {
-                    // If the credentials are valid, then the user may proceed to the actual game
-                    int result = JOptionPane.showConfirmDialog(null, "Login Successful, Press OK To Proceed", "Success", JOptionPane.OK_CANCEL_OPTION);
+            // check if credentials are empty
+            if (username.equals("") || password.equals("")) {
+                JOptionPane.showMessageDialog(null, "Login Failed, Credentials Cannot be Empty", "Failed", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // use a try-catch method to handle IOExceptions when retrieving data from the database file
+                try {
+                    // call the checkValidity() method to see whether the entered credentials are valid or not
+                    if (checkValidity(username, password)) {
+                        // If the credentials are valid, then the user may proceed to the actual game
+                        int result = JOptionPane.showConfirmDialog(null, "Login Successful, Press OK To Proceed", "Success", JOptionPane.OK_CANCEL_OPTION);
 
-                    // Check is the user pressed "OK" in the JOptionPane before playing, then create object of menu
-                    if (result == JOptionPane.OK_OPTION) {
-                        appendID(username, password);
-                        this.dispose();
-                        Menu menu = new Menu();
+                        // Check is the user pressed "OK" in the JOptionPane before playing, then create object of menu
+                        if (result == JOptionPane.OK_OPTION) {
+                            appendID(username, password);
+                            this.dispose();
+                            Menu menu = new Menu();
+                        }
+                    } else {
+                        // Otherwise, inform the user they entered invalid credentials and let them try again
+                        JOptionPane.showMessageDialog(null, "Login Failed, No Such Name Exists.", "Failed", JOptionPane.INFORMATION_MESSAGE);
                     }
-                } else {
-                    // Otherwise, inform the user they entered invalid credentials and let them try again
-                    JOptionPane.showMessageDialog(null, "Login Failed, No Such Name Exists.", "Failed", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception exception) {
+                    exception.printStackTrace(); // If an error occurred, then print the error
                 }
-            } catch (Exception exception) {
-                exception.printStackTrace(); // If an error occurred, then print the error
             }
         } else if (event.getSource() == registerButton) {
             if (username.equals("") || password.equals("")) {
