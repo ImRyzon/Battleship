@@ -1,19 +1,21 @@
-/*
- * Name: Daniel Guo
- * Date: December 13, 2022
+/**
+ * @author Mark Wang
+ * 2023-1-18
  *
- * Description: Create a multi frame application that will showcase the swing and awt concepts with the BreakAPlate game.
- * The game contains 4 pages: the actual game, profile page, menu, and log in page.
- * When program first runs, the login page will be launched. After the user logs in, the menu page will be launched, from the menu page,
- * the user can choose to go to the profile page or the game page.
- * The game rules will be shown in the terminal when you click the rule button in menu.
+ * This class will act as the launch page for the Battleship game, and will
+ * redirect the user to the login page
  */
 
 public class Launch {
 
-    public static void main(String[] args) throws Exception {
-
-        //Instantiate loginPage object for the LoginPage class
-        new LoginPage();
+    /**
+     * This main method will launch the Break A Plate game. However, before
+     * actually playing the game, the user must first go through the login page and
+     * enter valid credentials in order to proceed into the actual game, hence why it calls
+     * an object of the LoginPage class
+     * @param args
+     */
+    public static void main(String[] args) {
+        LoginPage login = new LoginPage();
     }
 }
