@@ -150,23 +150,23 @@ public class LoginPage extends JFrame implements ActionListener {
                 exception.printStackTrace(); // If an error occurred, then print the error
             }
         } else if (event.getSource() == registerButton) {
-            // check if any credentials are empty
             if (username.equals("") || password.equals("")) {
                 JOptionPane.showMessageDialog(null, "Register Failed, Credentials Cannot Be Empty", "Failed", JOptionPane.INFORMATION_MESSAGE);
-            }
-            // use a try-catch method to handle IOExceptions when retrieving data from the database file
-            try {
-                // call the checkValidity() method to see whether the entered credentials are valid or not
-                if (checkValidity(username, password)) {
-                    // If the name is found, then the registration failed since the credentials already exist
-                    JOptionPane.showMessageDialog(null, "Register Failed, This User Already Exists.", "Failed", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    // Otherwise, call the appendDatabase() method to store the credentials in the database
-                    appendDatabase(username, password);
-                    JOptionPane.showMessageDialog(null, "Register Successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // use a try-catch method to handle IOExceptions when retrieving data from the database file
+                try {
+                    // call the checkValidity() method to see whether the entered credentials are valid or not
+                    if (checkValidity(username, password)) {
+                        // If the name is found, then the registration failed since the credentials already exist
+                        JOptionPane.showMessageDialog(null, "Register Failed, This User Already Exists.", "Failed", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        // Otherwise, call the appendDatabase() method to store the credentials in the database
+                        appendDatabase(username, password);
+                        JOptionPane.showMessageDialog(null, "Register Successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (Exception exception) {
+                    exception.printStackTrace(); // If an error occurred, then print the error
                 }
-            } catch (Exception exception) {
-                exception.printStackTrace(); // If an error occurred, then print the error
             }
         }
 
