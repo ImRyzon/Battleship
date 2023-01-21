@@ -34,6 +34,7 @@ public class GamePage extends JFrame implements ActionListener {
     JButton menuButton = new JButton();
     ImageIcon titleImage = new ImageIcon("GamePageTitleImg.png");
     ImageIcon backgroundImage = new ImageIcon("GamePageBackground.png");
+    ImageIcon menuIcon = new ImageIcon("gamepageIcon.png");
 
     /**
      * This constructor enables other classes to create an object of this class.
@@ -47,14 +48,15 @@ public class GamePage extends JFrame implements ActionListener {
         titleLabel.setBounds(75, 20, 800, 100);
         titleLabel.setIcon(titleImage);
         panel.add(titleLabel);
-        
-        //Set the frame size, close operation, visibility, title, background, and icon, and add the panel
+
+        //Customize frame
         this.setSize(540, 700);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.add(panel);
         this.setTitle("Game Page");
         this.setBackground(Color.WHITE);
+        this.setIconImage(menuIcon.getImage());
         this.setResizable(false);
 
         //Set the layout of the panel to be null
@@ -118,40 +120,40 @@ public class GamePage extends JFrame implements ActionListener {
 
             //use try and catch to instantiate an object for GameBoard class
             try {
-                new GamePage();
+//                GameBoard game = new GameBoard();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } 
-        
+        }
+
         else if (event.getSource() == hardButton) { //Redirect user to a gameboard
             this.dispose(); //Deleting the current frame
 
             //use try and catch to instantiate an object for GameBoard class
             try {
-                new GameBoard();
+//                GameBoard game = new GameBoard();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } 
-        
+        }
+
         else if (event.getSource() == multiplayerButton) { //Redirect user to a gameboard
             this.dispose(); //Deleting the current frame
 
             //use try and catch to instantiate an object for GameBoard class
             try {
-                new GameBoard();
+//                GameBoard game = new GameBoard();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } 
-        
+        }
+
         else if (event.getSource() == menuButton) { //Redirect the user to the menu page
             this.dispose(); //Deleting the current frame
 
             //use try and catch to instantiate an object for Menu class
             try {
-                new Menu();
+                Menu menu = new Menu();
             } catch (Exception e) {
                 e.printStackTrace();
             }
