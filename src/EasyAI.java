@@ -59,7 +59,7 @@ public class EasyAI {
     }
 
     /**
-     * This method will place thw five ships in valid positions and store their IDs on the board
+     * This method will place the five ships in valid positions and store their IDs on the board
      */
     public void placeShips() {
         int ID = 1; // current ID of the ship
