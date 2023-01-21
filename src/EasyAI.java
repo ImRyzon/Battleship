@@ -15,11 +15,13 @@ public class EasyAI {
      * board --> the board that stores the IDs of all ships
      * vector --> the array responsible for moving vertically or horizontally in either direction
      * countHit --> array to count how many hits for each ship based on ID
+     * alreadyGuessed --> array to keep track of already guessed coordinates
      */
     private Random random;
     private int board[][];
     private int vector[][];
     private int countHit[];
+    boolean alreadyGuessed[][];
 
     /**
      * This constructor will enable the initialization for the EasyAI class, and it
@@ -40,6 +42,9 @@ public class EasyAI {
 
         // set values for countHit
         countHit = new int[6];
+
+        // initialize alreadyGuessed
+        alreadyGuessed = new boolean[11][11];
     }
 
     /**
@@ -121,13 +126,13 @@ public class EasyAI {
     public HitOrMiss hitOrMiss(Coordinate coordinate) {
         if (board[coordinate.getX()][coordinate.getY()] == 0) {
             // If no ship is hit, inform that nothing is hit and set default values of false and -1
-            return new HitOrMiss(false,false);
+            return new HitOrMiss(false,-1, false);
         }
         // If it is a hit, then return the ID of the ship hit and the total hits this ship induced
         int currentID = board[coordinate.getX()][coordinate.getY()];
         countHit[currentID]++; // update countHit
         board[coordinate.getX()][coordinate.getY()] = 0; // reset the current block to be 0
-        return new HitOrMiss(true, destroyedShip(countHit[currentID], currentID));
+        return new HitOrMiss(true, currentID, destroyedShip(countHit[currentID], currentID));
     }
 
     /**
@@ -136,18 +141,24 @@ public class EasyAI {
      * @return
      */
     public Coordinate guessCoordinate() {
-        int rowGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
-        int colGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
+        int rowGuess;
+        int colGuess;
+
+        do {
+            rowGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
+            colGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
+        } while (alreadyGuessed[rowGuess][colGuess]); // keep guessing until we hit a coordinate we did not guess before
+
+        alreadyGuessed[rowGuess][colGuess] = true;
         return new Coordinate(rowGuess, colGuess);
     }
 
     /**
      * This method will get the information on whether the guessed coordinates was a hit or miss.
      * It will use this information to guess the next optimal coordinate
-     * @param hit
-     * @param destroyed
+     * @param info
      */
-    public void getInformation(boolean hit, boolean destroyed) {
+    public void getInformation(HitOrMiss info) {
         // do nothing
     }
 }
