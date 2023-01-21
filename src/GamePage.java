@@ -34,7 +34,7 @@ public class GamePage extends JFrame implements ActionListener {
     JButton menuButton = new JButton();
     ImageIcon titleImage = new ImageIcon("GamePageTitleImg.png");
     ImageIcon backgroundImage = new ImageIcon("GamePageBackground.png");
-    ImageIcon menuIcon = new ImageIcon("menuIcon.png");
+    ImageIcon menuIcon = new ImageIcon("gamepageIcon.png");
 
     /**
      * This constructor enables other classes to create an object of this class.
