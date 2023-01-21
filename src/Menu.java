@@ -53,7 +53,7 @@ public class Menu extends JFrame implements ActionListener {
         panel.setLayout(null);
 
         // Customize the title text field and add it to the panel
-        title.setBounds(190, 35, 420, 50);
+        title.setBounds(210, 35, 420, 50);
         title.setFont(new Font("Monospaced", Font.BOLD, 50));
         title.setBorder(BorderFactory.createLineBorder(new Color(211, 211, 211), 0));
         title.setBackground(new Color(211, 211, 211));
@@ -61,7 +61,7 @@ public class Menu extends JFrame implements ActionListener {
 
         // Customize the playGame button and add it to the panel
         playGame.setText("Play");
-        playGame.setBounds(160, 150, 175, 75);
+        playGame.setBounds(183, 150, 175, 75);
         playGame.setFont(new Font("Monospaced", Font.BOLD, 30));
         playGame.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
         playGame.setBackground(Color.WHITE);
@@ -70,7 +70,7 @@ public class Menu extends JFrame implements ActionListener {
 
         // Customize the rules button and add it to the panel
         rules.setText("Rules");
-        rules.setBounds(160, 250, 175, 75);
+        rules.setBounds(183, 250, 175, 75);
         rules.setFont(new Font("Monospaced", Font.BOLD, 30));
         rules.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
         rules.setBackground(Color.WHITE);
@@ -79,7 +79,7 @@ public class Menu extends JFrame implements ActionListener {
 
         // Customize the profile button and add it to the panel
         profile.setText("Profile");
-        profile.setBounds(160, 350, 175, 75);
+        profile.setBounds(183, 350, 175, 75);
         profile.setFont(new Font("Monospaced", Font.BOLD, 30));
         profile.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
         profile.setBackground(Color.WHITE);
@@ -88,7 +88,7 @@ public class Menu extends JFrame implements ActionListener {
 
         // Customize the exit button and add it to the panel
         exit.setText("Exit");
-        exit.setBounds(160, 450, 175, 75);
+        exit.setBounds(183, 450, 175, 75);
         exit.setFont(new Font("Monospaced", Font.BOLD, 30));
         exit.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
         exit.setBackground(Color.WHITE);
