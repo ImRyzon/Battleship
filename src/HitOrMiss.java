@@ -14,6 +14,7 @@ public class HitOrMiss {
      * destroyedShip --> whether the hit ship is destroyed or not
      */
     private boolean hit;
+    private int ID;
     private boolean destroyedShip;
 
     /**
@@ -22,8 +23,9 @@ public class HitOrMiss {
      * @param hit
      * @param destroyedShip
      */
-    public HitOrMiss(boolean hit, boolean destroyedShip) {
+    public HitOrMiss(boolean hit, int ID, boolean destroyedShip) {
         this.hit = hit;
+        this.ID = ID;
         this.destroyedShip = destroyedShip;
     }
 
@@ -33,6 +35,14 @@ public class HitOrMiss {
      */
     public boolean getHit() {
         return this.hit;
+    }
+
+    /**
+     * Getter for ID attribute
+     * @return
+     */
+    public int getID() {
+        return this.ID;
     }
 
     /**
