@@ -6,29 +6,32 @@
  * to place ships as well as guessing coordinates
  */
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class ExpertAI {
 
     /**
      * random --> Random object that will be used to place ships
+     * currentGuess --> Stores the coordinate of the most recent guess
      * board --> the board that stores the IDs of all ships
      * vector --> the array responsible for moving vertically or horizontally in either direction
      * countHit --> array to count how many hits for each ship based on ID
-     * alreadyGuessed --> an array that stores all blocks that are already guessed to prevent from guessing again
-     * rowGuess --> stores the value of the current row guess
-     * colGuess --> stores the value of the current column guess
-     * trackHits --> track hits in order to guess the optimal coordinates
+     * shipLocation --> array to keep track of ship locations based on their ID. if it is confirmed that there
+     *                  exists no ship in a location, mark it as 0. Default value is -1
+     * destroyed --> array to check if the ship with each ID has been destroyed or not
+     * initialHit --> the initial hit coordinate for every ship ID, default value is -1
+     * isHorizontal --> tracks if each ship based on their ID is horizontal or vertical. Default is -1, meaning
+     *                  that we initially don't know if it's horizontal or vertical
      */
     private Random random;
+    private Coordinate currentGuess;
     private int board[][];
     private int vector[][];
     private int countHit[];
-    private boolean alreadyGuessed[][];
-    private int rowGuess;
-    private int colGuess;
-    ArrayList<Coordinate> trackHits;
+    private int shipLocation[][];
+    private boolean destroyed[];
+    Coordinate initialHit[];
+    int isHorizontal[];
 
     /**
      * This constructor will enable the initialization for the EasyAI class, and it
@@ -50,15 +53,24 @@ public class ExpertAI {
         // initialize for countHit
         countHit = new int[6];
 
-        // initialize alreadyGuessed using 1-based indexing
-        alreadyGuessed = new boolean[11][11];
+        // initialize destroyed
+        destroyed = new boolean[6];
 
-        // initialize rowGuess and colGuess
-        rowGuess = 0;
-        colGuess = 0;
+        // initialize alreadyGuessed
+        shipLocation = new int[11][11];
+        for (int i = 0; i < 11; i++) {
+            for (int j = 0; j < 1; j++) {
+                shipLocation[i][j] = -1;
+            }
+        }
 
-        // initialize trackHits
-        trackHits = new ArrayList<Coordinate>();
+        // initialize initialHit
+        initialHit = new Coordinate[6];
+        for (int i = 0; i < 6; i++) initialHit[i] = new Coordinate(-1, -1);
+
+        // initialize isHorizontal
+        isHorizontal = new int[6];
+        for (int i = 0; i < 6; i++) isHorizontal[i] = -1;
     }
 
     /**
@@ -158,13 +170,13 @@ public class ExpertAI {
     public HitOrMiss hitOrMiss(Coordinate coordinate) {
         if (board[coordinate.getX()][coordinate.getY()] == 0) {
             // If no ship is hit, inform that nothing is hit and set default values of false and -1
-            return new HitOrMiss(false, false);
+            return new HitOrMiss(false, -1, false);
         }
         // If it is a hit, then return the ID of the ship hit and the total hits this ship induced
         int currentID = board[coordinate.getX()][coordinate.getY()];
         countHit[currentID]++; // update countHit
         board[coordinate.getX()][coordinate.getY()] = 0; // reset the current block to be 0
-        return new HitOrMiss(true, destroyedShip(countHit[currentID], currentID));
+        return new HitOrMiss(true, currentID, destroyedShip(countHit[currentID], currentID));
     }
 
     /**
@@ -173,59 +185,104 @@ public class ExpertAI {
      * @return
      */
     public Coordinate guessCoordinate() {
-        if (trackHits.isEmpty()) {
-            // If no hits are tracked, get a random coordinate until the coordinate is valid
-            do {
-                rowGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
-                colGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
-            } while (alreadyGuessed[rowGuess][colGuess]);
-        } else {
-            // Otherwise, track all the hits and guess adjacent blocks if they are valid
-            boolean works = false; // track whether any of all the configurations are valid or not
-            // check all the coordinates in trackHits until it's empty or a configuration works
-            while (!trackHits.isEmpty()) {
-                // Loop through and check all adjacent squares
-                for (int i = 0; i < 4; i++) {
-                    rowGuess = trackHits.get(trackHits.size() - 1).getX() + vector[0][i];
-                    colGuess = trackHits.get(trackHits.size() - 1).getY() + vector[1][i];
-                    // If the current location works, then break out of the loop
-                    if (isValid(rowGuess, colGuess) && !alreadyGuessed[rowGuess][colGuess]) {
-                        works = true;
-                        break;
+        for (int i = 1; i <= 5; i++) {
+            // if the current ship is not destroyed and the initial coordinate is known, then target it
+            if (!destroyed[i] && initialHit[i].getX() != -1 && initialHit[i].getY() != -1) {
+                int x = initialHit[i].getX();
+                int y = initialHit[i].getY();
+
+                // if we don't know the configuration of the current ship, guess a direction
+                if (isHorizontal[i] == -1) {
+                    for (int index = 0; index < 4; index++) {
+                        int adjacentX = x + vector[0][index];
+                        int adjacentY = y + vector[1][index];
+
+                        // If the coordinate is out of bounds, then guess another coordinate
+                        if (!isValid(adjacentX, adjacentY)) {
+                            continue;
+                        }
+
+                        // if the adjacent square is never guessed before, then we can guess it
+                        if (shipLocation[adjacentX][adjacentY] == -1) {
+                            currentGuess = new Coordinate(adjacentX, adjacentY);
+                            return currentGuess;
+                        }
+                    }
+                } else {
+                    // store the appropriate indices of the vector knowing the direction
+                    int indices[];
+                    if (isHorizontal[i] == 1) indices = new int[]{1, 3};
+                    else indices = new int[]{0, 2};
+
+                    for (int index : indices) {
+                        int adjacentX = x + vector[0][index];
+                        int adjacentY = y + vector[1][index];
+
+                        // if the adjacent square is out of bounds, then guess another direction
+                        if (!isValid(adjacentX, adjacentY)) {
+                            continue;
+                        }
+
+                        // Create an infinite loop that only ends when we want it to
+                        while (true) {
+                            // if the current square is not guessed, then guess it
+                            if (shipLocation[adjacentX][adjacentY] == -1) {
+                                currentGuess = new Coordinate(adjacentX, adjacentY);
+                                return currentGuess;
+                            } else if (shipLocation[adjacentX][adjacentY] == i) {
+                                // if this coordinate is part of the same ship, then
+                                // we don't give up just yet, and we try another coordinate
+                                adjacentX += vector[0][index];
+                                adjacentY += vector[1][index];
+                            } else {
+                                break; // otherwise, the coordinate is part of another ship, and we stop
+                            }
+                        }
                     }
                 }
-                // If any configuration works, we do not need to check any other block, and we break
-                if (works) {
-                    break;
-                } else {
-                    // Else, remove this value since it is not useful anymore
-                    trackHits.remove(trackHits.size() - 1);
-                }
-            }
-            // If no adjacent blocks work, then we must guess a random coordinate again
-            if (!works) {
-                do {
-                    rowGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
-                    colGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
-                } while (alreadyGuessed[rowGuess][colGuess]);
             }
         }
-        // mark the current location as already guessed and return the coordinates
-        alreadyGuessed[rowGuess][colGuess] = true;
-        return new Coordinate(rowGuess, colGuess);
+        // if no ship already has been guessed, then we must guess a coordinate, as we have no info
+        // on any of the current ships on the board
+        int rowGuess;
+        int colGuess;
+
+        do {
+            rowGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
+            colGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
+        } while (shipLocation[rowGuess][colGuess] != -1); // keep guessing until we get a coordinate we never guessed before
+
+        currentGuess = new Coordinate(rowGuess, colGuess);
+        return currentGuess;
     }
 
     /**
      * This method will get the information on whether the guessed coordinates was a hit or miss.
      * It will use this information to guess the next optimal coordinate
-     * @param hit
-     * @param destroyed
+     * @param info
      */
-    public void getInformation(boolean hit, boolean destroyed) {
-        // If the ship is hit but not destroyed, then we know we are in the middle of attack a ship
-        // So we store it in the trackHits ArrayList to check every adjacent square
-        if (hit && !destroyed) {
-            trackHits.add(new Coordinate(rowGuess, colGuess));
+    public void getInformation(HitOrMiss info) {
+        // If we missed, then mark the current location to have no ships
+        if (!info.getHit()) {
+            shipLocation[currentGuess.getX()][currentGuess.getY()] = 0;
+        } else if (info.getDestroyedShip()) { // if the ship is destroyed, then mark it as destroyed
+            destroyed[info.getID()] = true;
+            shipLocation[currentGuess.getX()][currentGuess.getY()] = info.getID();
+        } else {
+            // if this ship has never been hit before, then mark the initial hit coordinate
+            if (initialHit[info.getID()].getX() == -1 || initialHit[info.getID()].getY() == -1) {
+                initialHit[info.getID()] = currentGuess;
+            } else {
+                // Otherwise, we can determine if the ship is horizontal or vertical
+                if (currentGuess.getY() == initialHit[info.getID()].getY()) {
+                    // if the y-coordinate is the same, then the ship is vertical
+                    isHorizontal[info.getID()] = 0;
+                } else {
+                    // Otherwise, the ship is horizontal
+                    isHorizontal[info.getID()] = 1;
+                }
+            }
+            shipLocation[currentGuess.getX()][currentGuess.getY()] = info.getID(); // mark the current coordinate
         }
     }
 }
