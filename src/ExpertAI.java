@@ -235,7 +235,7 @@ public class ExpertAI {
                                 adjacentX += vector[0][index];
                                 adjacentY += vector[1][index];
                             } else {
-                                break; // otherwise, the coordinate is part of another ship, and we stop
+                                break; // otherwise, the coordinate is part of another ship or none at all, and we stop
                             }
                         }
                     }
