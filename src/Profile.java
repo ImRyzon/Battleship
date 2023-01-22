@@ -32,6 +32,11 @@ public class Profile extends JFrame implements ActionListener {
     JButton backToMenu = new JButton("Menu");
     ImageIcon profile = new ImageIcon("profile.png");
 
+    /**
+     * This constructor will allow other classes to create an object of this class and will also
+     * implement the  necessary logic to build the profile page
+     * @throws Exception
+     */
     Profile() throws Exception {
         // Set the frame size, close operation, visibility, title, background, and icon, and add the panel
         this.setSize(525, 550);
@@ -54,7 +59,7 @@ public class Profile extends JFrame implements ActionListener {
         title.setVisible(true);
         panel.add(title);
 
-        // Populate and customize the currentStats array, then add it to the panel
+        // Fill and customize the numBroken array, then add it to the panel
         fillStatistics();
         int y = 100;
         for (int i = 0; i < 4; i++) {
@@ -80,7 +85,7 @@ public class Profile extends JFrame implements ActionListener {
     }
 
     /**
-     * This method will populate the statistics array so that it can output all the statistics of the user.
+     * This method will fill the statistics array so that it can output all the statistics of the user.
      * @throws Exception
      */
     public void fillStatistics() throws Exception {
