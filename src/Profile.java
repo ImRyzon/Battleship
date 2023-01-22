@@ -54,7 +54,7 @@ public class Profile extends JFrame implements ActionListener {
         title.setVisible(true);
         panel.add(title);
 
-        // Fill and customize the numBroken array, then add it to the panel
+        // Fill and customize the currentStats array, then add it to the panel
         fillStatistics();
         int y = 100;
         for (int i = 0; i < 4; i++) {
