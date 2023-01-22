@@ -54,7 +54,7 @@ public class Profile extends JFrame implements ActionListener {
         title.setVisible(true);
         panel.add(title);
 
-        // Fill and customize the currentStats array, then add it to the panel
+        // Populate and customize the currentStats array, then add it to the panel
         fillStatistics();
         int y = 100;
         for (int i = 0; i < 4; i++) {
@@ -80,7 +80,7 @@ public class Profile extends JFrame implements ActionListener {
     }
 
     /**
-     * This method will fill the statistics array so that it can output all the statistics of the user.
+     * This method will populate the statistics array so that it can output all the statistics of the user.
      * @throws Exception
      */
     public void fillStatistics() throws Exception {
