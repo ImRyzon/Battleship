@@ -8,6 +8,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
 
 public class GameBoard extends JFrame implements ActionListener {
 
@@ -29,12 +30,20 @@ public class GameBoard extends JFrame implements ActionListener {
     private ImageIcon gameIcon = new ImageIcon("GameIcon.png");
     private int friendlyShipsDestroyed = 0;
     private int enemyShipsDestroyed = 0;
-    private JLabel friendlyLabel = new JLabel("Friendly Ships Destroyed: " + friendlyShipsDestroyed);
+    private JLabel friendlyLabel = new JLabel();
     private JLabel enemyLabel = new JLabel();
+    private JLabel yourHit = new JLabel();
+    private JLabel aiHit = new JLabel();
     private ImageIcon explosionImage = new ImageIcon("explosion.png");
     private ImageIcon cloudImage = new ImageIcon("clouds.png");
     private ImageIcon oceanImage = new ImageIcon("ocean.png");
     private JLabel oceanLabel = new JLabel();
+    private JPanel infoPanel = new JPanel();
+    private JLabel counterLabel = new JLabel();
+    Timer timer;
+    int second, minute;
+    String ddSecond, ddMinute;
+    DecimalFormat dFormat = new DecimalFormat("00");
 
     /**
      * This constructor will allow for instantiation of this class while also implementing the necessary
@@ -45,6 +54,9 @@ public class GameBoard extends JFrame implements ActionListener {
         attackPanel.setLayout(new GridLayout(11, 11, 0, 0));
         attackPanel.setBounds(10, 10, 650, 650);
         attackPanel.setBackground(Color.BLUE);
+
+        infoPanel.setBounds(700, 470, 450, 191);
+        infoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 
         // create the attack grid and customize it
         for(int y = 0; y < 11; y++) {
@@ -98,6 +110,7 @@ public class GameBoard extends JFrame implements ActionListener {
             for(int x = 0; x < 11; x++) {
                 defenseGrid[x][y] = new JButton();
                 defenseGrid[x][y].setFocusable(false);
+                defenseGrid[x][y].setEnabled(false);
                 defenseGrid[x][y].setBackground(Color.BLACK);
                 defensePanel.add(defenseGrid[x][y]);
 
@@ -122,18 +135,39 @@ public class GameBoard extends JFrame implements ActionListener {
 
         // customize the frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1200, 725);
+        this.setSize(1170, 700);
         this.setBackground(Color.WHITE);
         this.setLayout(null);
         this.setTitle("Game Board");
         this.setResizable(false);
 
-        oceanLabel.setIcon(oceanImage);
-        oceanLabel.setBounds(10, 10, 650, 650);
+        friendlyLabel.setText("Friendly Ships Destroyed: " + friendlyShipsDestroyed);
+        friendlyLabel.setFont(new Font("Monospaced", Font.BOLD, 25));
+        infoPanel.add(friendlyLabel);
+
+        enemyLabel.setText("Enemy Ships Destroyed: " + enemyShipsDestroyed);
+        enemyLabel.setFont(new Font("Monospaced", Font.BOLD, 25));
+        infoPanel.add(enemyLabel);
+
+        yourHit.setText("You hit AI's " + "Placeholder");
+        yourHit.setFont(new Font("Monospaced", Font.BOLD, 25));
+        infoPanel.add(yourHit);
+
+        aiHit.setText("AI hit your " + "Placeholder");
+        aiHit.setFont(new Font("Monospaced", Font.BOLD, 25));
+        infoPanel.add(aiHit);
+
+        second = 0;
+        minute = 0;
+        counterLabel.setFont(new Font("Monospaced", Font.BOLD, 25));
+        normalTimer();
+        timer.start();
+        infoPanel.add(counterLabel);
 
         // add the panels and gameIcon to the frame
         this.add(attackPanel);
         this.add(defensePanel);
+        this.add(infoPanel);
         this.setIconImage(gameIcon.getImage()); //Set the game icon image
         this.setVisible(true);
     }
@@ -143,7 +177,30 @@ public class GameBoard extends JFrame implements ActionListener {
      */
     public void updateLabel() {
         friendlyLabel.setText("Friendly Ships Destroyed: " + friendlyShipsDestroyed);
-        enemyLabel.setText("");
+
+        enemyLabel.setText("Enemy Ships Destroyed: " + enemyShipsDestroyed);
+    }
+
+    public void normalTimer() {
+
+        timer = new Timer(1000, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                second++;
+                ddSecond = dFormat.format(second);
+                ddMinute = dFormat.format(minute);
+
+                counterLabel.setText("Time Elapsed: " + ddMinute + ":" + ddSecond);
+
+                if(second == 60) {
+                    second = 0;
+                    minute++;
+                    counterLabel.setText("Time Elapsed: " + ddMinute + ":" + ddSecond);
+                }
+            }
+        });
     }
 
     @Override
