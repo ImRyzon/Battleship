@@ -11,6 +11,7 @@
  * why we decided to avoid this approach.
  */
 
+import java.util.ArrayList;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -35,6 +36,83 @@ public class Battleship extends JFrame implements ActionListener {
     private int lengths[];
     private int countHit[];
     private boolean isPlaced[];
+    JButton[][] placeGrid = new JButton[10][10];
+    String[] shipNames = {"Destroyer", "Submarine", "Cruiser", "Battleship", "Carrier"};
+    ArrayList<String> shipPlaced = new ArrayList<String>();
+    JComboBox shipSelect = new JComboBox();
+    JComboBox shipDelete = new JComboBox();
+    JButton placeButton = new JButton();
+    JButton rotateButton = new JButton();
+    JButton readyButton = new JButton();
+    JPanel actionPanel = new JPanel();
+    JPanel buttonPanel = new JPanel();
+
+    Battleship() {
+
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(1200, 700);
+        this.setBackground(Color.WHITE);
+        this.setLayout(null);
+        this.setTitle("Place Your Ships");
+        this.setResizable(false);
+
+        actionPanel.setLayout(null);
+        actionPanel.setVisible(true);
+
+        actionPanel.setBounds(700, 10, 1200, 700);
+
+        buttonPanel.setLayout(new GridLayout(10, 10, 1, 1));
+        buttonPanel.setBounds(10, 10, 650, 650);
+        buttonPanel.setBackground(new Color(25, 255, 0));
+
+        for(int y = 0; y < 10; y++) {
+            for(int x = 0; x < 10; x++) {
+                placeGrid[y][x] = new JButton();
+                placeGrid[y][x].setFocusable(false);
+                placeGrid[y][x].addActionListener(this);
+                placeGrid[y][x].setBackground(Color.BLACK);
+                buttonPanel.add(placeGrid[y][x]);
+            }
+        }
+
+        shipSelect = new JComboBox(shipNames);
+        shipSelect.setBounds(135, 50, 255, 75);
+        shipSelect.addActionListener(this);
+        actionPanel.add(shipSelect);
+
+        shipDelete = new JComboBox(shipPlaced.toArray());
+        shipDelete.setBounds(135, 150, 255, 75);
+        shipDelete.addActionListener(this);
+        actionPanel.add(shipDelete);
+
+        rotateButton.setText("Rotate Ship");
+        rotateButton.setBounds(135, 250, 255, 75);
+        rotateButton.setFont(new Font("Monospaced", Font.BOLD, 30));
+        rotateButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+        rotateButton.setBackground(Color.WHITE);
+        rotateButton.addActionListener(this);
+        actionPanel.add(rotateButton);
+
+        placeButton.setText("Place Ship");
+        placeButton.setBounds(135, 350, 255, 75);
+        placeButton.setFont(new Font("Monospaced", Font.BOLD, 30));
+        placeButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+        placeButton.setBackground(Color.WHITE);
+        placeButton.addActionListener(this);
+        actionPanel.add(placeButton);
+
+        readyButton.setText("Ready");
+        readyButton.setBounds(135, 450, 255, 75);
+        readyButton.setFont(new Font("Monospaced", Font.BOLD, 30));
+        readyButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+        readyButton.setBackground(Color.WHITE);
+        readyButton.addActionListener(this);
+        actionPanel.add(readyButton);
+
+        this.add(buttonPanel);
+        this.add(actionPanel);
+        this.setVisible(true);
+    }
 
     /**
      * this constructor will allow other classes to instantiate an object of this class, and it will
@@ -144,5 +222,11 @@ public class Battleship extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        if(e.getSource() == shipSelect) {
+            
+            String ship = shipSelect.getSelectedItem().toString();
+            shipSelect.removeItem(ship);
+            shipDelete.addItem(ship);
+        }
     }
 }
