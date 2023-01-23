@@ -16,6 +16,6 @@ public class Launch {
      * @param args
      */
     public static void main(String[] args) {
-        LoginPage login = new LoginPage();
+        GameBoard login = new GameBoard();
     }
 }
