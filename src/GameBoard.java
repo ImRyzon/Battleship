@@ -29,9 +29,12 @@ public class GameBoard extends JFrame implements ActionListener {
     private ImageIcon gameIcon = new ImageIcon("GameIcon.png");
     private int friendlyShipsDestroyed = 0;
     private int enemyShipsDestroyed = 0;
-    private JLabel friendlyLabel = new JLabel();
+    private JLabel friendlyLabel = new JLabel("Friendly Ships Destroyed: " + friendlyShipsDestroyed);
     private JLabel enemyLabel = new JLabel();
-    ImageIcon explosionImage = new ImageIcon("explosion.png");
+    private ImageIcon explosionImage = new ImageIcon("explosion.png");
+    private ImageIcon cloudImage = new ImageIcon("clouds.png");
+    private ImageIcon oceanImage = new ImageIcon("ocean.png");
+    private JLabel oceanLabel = new JLabel();
 
     /**
      * This constructor will allow for instantiation of this class while also implementing the necessary
@@ -39,17 +42,20 @@ public class GameBoard extends JFrame implements ActionListener {
      */
     GameBoard() {
         // customize attackPanel
-        attackPanel.setLayout(new GridLayout(11, 11, 1, 1));
+        attackPanel.setLayout(new GridLayout(11, 11, 0, 0));
         attackPanel.setBounds(10, 10, 650, 650);
-        attackPanel.setBackground(new Color(52, 152, 235));
+        attackPanel.setBackground(Color.BLUE);
 
         // create the attack grid and customize it
         for(int y = 0; y < 11; y++) {
             for(int x = 0; x < 11; x++) {
                 attackGrid[x][y] = new JButton();
+                attackGrid[x][y].setOpaque(false);
                 attackGrid[x][y].setFocusable(false);
+                attackGrid[x][y].setBorderPainted(false);
                 attackGrid[x][y].addActionListener(this);
                 attackGrid[x][y].setBackground(Color.BLACK);
+                attackGrid[x][y].setIcon(cloudImage);
                 attackPanel.add(attackGrid[x][y]);
 
                 // set numbers and characters as the coordinates
@@ -57,7 +63,10 @@ public class GameBoard extends JFrame implements ActionListener {
                     attackGrid[x][y].setEnabled(false);
                     if(y != 0){
                         attackGrid[x][y].setText(String.valueOf(y));
+                        attackGrid[x][y].setOpaque(true);
+                        attackGrid[x][y].setBorderPainted(true);
                         attackGrid[x][y].setFont(new Font("Comic Sans MS", Font.BOLD, 15));
+                        attackGrid[x][y].setIcon(null);
                     }
                 }
 
@@ -65,14 +74,22 @@ public class GameBoard extends JFrame implements ActionListener {
                     attackGrid[x][y].setEnabled(false);
                     if(x != 0){
                         attackGrid[x][y].setText(String.valueOf((char)(x + 'A' - 1)));
+                        attackGrid[x][y].setOpaque(true);
+                        attackGrid[x][y].setBorderPainted(true);
                         attackGrid[x][y].setFont(new Font("Comic Sans MS", Font.BOLD, 15));
+                        attackGrid[x][y].setIcon(null);
                     }
                 }
             }
         }
 
+        attackGrid[0][0].setBorderPainted(true);
+        attackGrid[0][0].setOpaque(true);
+        attackGrid[0][0].setIcon(null);
+        attackGrid[0][0].setBackground(Color.BLACK);
+
         // customize defensePanel
-        defensePanel.setLayout(new GridLayout(11, 11, 1, 1));
+        defensePanel.setLayout(new GridLayout(11, 11));
         defensePanel.setBounds(700, 10, 450, 450);
         defensePanel.setBackground(new Color(52, 152, 235));
 
@@ -111,6 +128,9 @@ public class GameBoard extends JFrame implements ActionListener {
         this.setTitle("Game Board");
         this.setResizable(false);
 
+        oceanLabel.setIcon(oceanImage);
+        oceanLabel.setBounds(10, 10, 650, 650);
+
         // add the panels and gameIcon to the frame
         this.add(attackPanel);
         this.add(defensePanel);
@@ -131,9 +151,14 @@ public class GameBoard extends JFrame implements ActionListener {
 
         if(event.getSource() == attackGrid[1][1]) {
             
-            attackGrid[1][1].setEnabled(false);
-            attackGrid[1][1].setOpaque(false);
             attackGrid[1][1].setIcon(explosionImage);
+            attackGrid[1][1].setOpaque(false);
+        }
+
+        if(event.getSource() == attackGrid[1][2]) {
+
+            attackGrid[1][2].setIcon(null);
+            attackGrid[1][2].setIcon(oceanImage);
         }
     }
 }
