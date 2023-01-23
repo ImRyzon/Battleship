@@ -12,29 +12,25 @@ import java.util.*;
 import java.io.*;
 
 public class LoginPage extends JFrame implements ActionListener {
-    JLayeredPane layeredPane = new JLayeredPane(); //Creates layered pane for Login page
 
+    JLayeredPane layeredPane = new JLayeredPane(); //Creates layered pane for Login page
     JLabel backgroundLabel = new JLabel(); //Creates the label for the background image
     JLabel titleLabel = new JLabel(); //Creates the label for the title of the game
     JLabel loginLabel = new JLabel(); //Creates the label for the login text fields and buttons
     JLabel usernameLabel = new JLabel(); //Creates label to display the word "username"
     JLabel passwordLabel = new JLabel(); //Creates label to display the word "password"
-
     JButton loginButton = new JButton("Login"); //Creates the login button
     JButton registerButton = new JButton("Register"); //Creates the register button
-
     JTextField usernameText = new JTextField();  //Create password field for user to enter their username
     JPasswordField passwordText = new JPasswordField(); //Create password field for user to enter their password
-
     static File database = new File("Database.txt"); // file for database
     static File userID = new File("UserID.txt"); // file for current user ID
     static File statistics = new File("Statistics.txt"); // file for statistics
-
-    ImageIcon gameIcon = new ImageIcon("GameIcon.png"); //Create the game icon image
-    ImageIcon backgroundIcon = new ImageIcon("LoginBackground.png"); //Create the login background image
-    ImageIcon titleIcon = new ImageIcon("TitleIcon.png"); //Create the game title image
-    ImageIcon usernameIcon = new ImageIcon("UsernameIcon.png"); //Create the username image
-    ImageIcon passwordIcon = new ImageIcon("PasswordIcon.png"); //Create the username image
+    ImageIcon gameIcon = new ImageIcon("GameIcon.png");//Create the game icon image
+    ImageIcon backgroundIcon = new ImageIcon("LoginBackground.png");//Create the login background image
+    ImageIcon titleIcon = new ImageIcon("TitleIcon.png");//Create the game title image
+    ImageIcon usernameIcon = new ImageIcon("UsernameIcon.png");//Create the username image
+    ImageIcon passwordIcon = new ImageIcon("PasswordIcon.png");//Create the username image
 
     /**
      * This constructor of the class will allow for other classes to instantiate an object of this class. This
@@ -117,6 +113,7 @@ public class LoginPage extends JFrame implements ActionListener {
      *
      * If the login button is pressed, then search the database for the credentials. If it is found, then
      * the user may proceed with the actual game. If not, then tell the user to try again
+     * @param event
      */
     @Override
     public void actionPerformed(ActionEvent event) {
@@ -125,43 +122,49 @@ public class LoginPage extends JFrame implements ActionListener {
         String password = passwordText.getText();
 
         if (event.getSource() == loginButton) {
-            // use a try-catch method to handle IOExceptions when retrieving data from the database file
-            try {
-                // call the checkValidity() method to see whether the entered credentials are valid or not
-                if (checkValidity(username, password)) {
-                    // If the credentials are valid, then the user may proceed to the actual game
-                    int result = JOptionPane.showConfirmDialog(null, "Login Successful, Press OK To Proceed", "Success", JOptionPane.OK_CANCEL_OPTION);
+            // check if credentials are empty
+            if (username.equals("") || password.equals("")) {
+                JOptionPane.showMessageDialog(null, "Login Failed, Credentials Cannot be Empty", "Failed", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // use a try-catch method to handle IOExceptions when retrieving data from the database file
+                try {
+                    // call the checkValidity() method to see whether the entered credentials are valid or not
+                    if (checkValidity(username, password)) {
+                        // If the credentials are valid, then the user may proceed to the actual game
+                        int result = JOptionPane.showConfirmDialog(null, "Login Successful, Press OK To Proceed", "Success", JOptionPane.OK_CANCEL_OPTION);
 
-                    // Check is the user pressed "OK" in the JOptionPane before playing, then create object of menu
-                    if (result == JOptionPane.OK_OPTION) {
-                        appendID(username, password);
-                        this.dispose();
-                        new Menu();
+                        // Check is the user pressed "OK" in the JOptionPane before playing, then create object of menu
+                        if (result == JOptionPane.OK_OPTION) {
+                            appendID(username, password);
+                            this.dispose();
+                            Menu menu = new Menu();
+                        }
+                    } else {
+                        // Otherwise, inform the user they entered invalid credentials and let them try again
+                        JOptionPane.showMessageDialog(null, "Login Failed, No Such Name Exists.", "Failed", JOptionPane.INFORMATION_MESSAGE);
                     }
-                } else {
-                    // Otherwise, inform the user they entered invalid credentials and let them try again
-                    JOptionPane.showMessageDialog(null, "Login Failed, No Such Name Exists.", "Failed", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception exception) {
+                    exception.printStackTrace(); // If an error occurred, then print the error
                 }
-            } catch (Exception exception) {
-                exception.printStackTrace(); // If an error occurred, then print the error
             }
         } else if (event.getSource() == registerButton) {
-            // use a try-catch method to handle IOExceptions when retrieving data from the database file
-            try {
-                // call the checkValidity() method to see whether the entered credentials are valid or not
-                if (checkValidity(username, password)) {
-                    // If the name is found, then the registration failed since the credentials already exist
-                    JOptionPane.showMessageDialog(null,
-                            "Register Failed, This User Already Exists.",
-                            "Failed", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    // Otherwise, call the appendDatabase() method to store the credentials in the database
-                    appendDatabase(username, password);
-                    JOptionPane.showMessageDialog(null, "Register Successful.",
-                            "Success", JOptionPane.INFORMATION_MESSAGE);
+            if (username.equals("") || password.equals("")) {
+                JOptionPane.showMessageDialog(null, "Register Failed, Credentials Cannot Be Empty", "Failed", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // use a try-catch method to handle IOExceptions when retrieving data from the database file
+                try {
+                    // call the checkValidity() method to see whether the entered credentials are valid or not
+                    if (checkValidity(username, password)) {
+                        // If the name is found, then the registration failed since the credentials already exist
+                        JOptionPane.showMessageDialog(null, "Register Failed, This User Already Exists.", "Failed", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        // Otherwise, call the appendDatabase() method to store the credentials in the database
+                        appendDatabase(username, password);
+                        JOptionPane.showMessageDialog(null, "Register Successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (Exception exception) {
+                    exception.printStackTrace(); // If an error occurred, then print the error
                 }
-            } catch (Exception exception) {
-                exception.printStackTrace(); // If an error occurred, then print the error
             }
         }
 
@@ -173,6 +176,10 @@ public class LoginPage extends JFrame implements ActionListener {
     /**
      * This method will search the database using a Scanner to check whether a certain username and password
      * combination exists. If it does, then it will return true, else return false.
+     * @param username
+     * @param password
+     * @return
+     * @throws Exception
      */
     boolean checkValidity(String username, String password) throws Exception {
         Scanner readDatabase = new Scanner(database); // Declare scanner to read file
@@ -183,8 +190,7 @@ public class LoginPage extends JFrame implements ActionListener {
             String currentPassword = readDatabase.nextLine();
             readDatabase.nextLine(); // to account for line breaks
 
-            // If the current pair of username and password equals the one given in parameters, then it is found
-            // return true
+            // If the current pair of username and password equals the one given in parameters, then it is found - return true
             if (currentUsername.equals(username) && currentPassword.equals(password)) {
                 return true;
             }
@@ -197,6 +203,9 @@ public class LoginPage extends JFrame implements ActionListener {
     /**
      * This method will append credentials in the database using PrintWriter to append to a file
      * Furthermore, it will also append to the statistics database
+     * @param username
+     * @param password
+     * @throws Exception
      */
     void appendDatabase(String username, String password) throws Exception {
         // Initialize a PrintWriter object to append to the file
@@ -216,6 +225,8 @@ public class LoginPage extends JFrame implements ActionListener {
 
     /**
      * This method will append the ID of the current logged-in user to another file to be used in profile page
+     * @param username
+     * @param password
      */
     void appendID(String username, String password) throws Exception {
         PrintWriter writeUserID = new PrintWriter(userID); // write to UserID file
