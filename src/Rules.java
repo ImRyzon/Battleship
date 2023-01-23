@@ -36,7 +36,7 @@ public class Rules extends JFrame implements ActionListener {
      */
     Rules() throws Exception {
         // Set the frame size, close operation, visibility, title, background, icon, and add the panel
-        this.setSize(960, 750);
+        this.setSize(960, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.add(panel);
@@ -73,7 +73,7 @@ public class Rules extends JFrame implements ActionListener {
 
         // Customize the menu button and add it to the panel
         backToMenu.setText("Menu");
-        backToMenu.setBounds(405, 635, 125, 75);
+        backToMenu.setBounds(405, 650, 125, 75);
         backToMenu.setFont(new Font("Monospaced", Font.BOLD, 30));
         backToMenu.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
         backToMenu.setBackground(Color.WHITE);
