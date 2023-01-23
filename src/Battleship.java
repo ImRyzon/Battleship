@@ -3,12 +3,8 @@
  * 2023-1-21
  *
  * This class will act as the actual game that includes the gameboard GUI and all the
- * necessary logic to play the game
- *
- * Small note: There is another way to only use the appropriate AI depending on the difficulty instead of
- * just creating an object of both AI at the same time. However, one has to know interfaces and class abstraction.
- * Due to interfaces not being explicitly taught in the ICS4U curriculum and our semester, it is for this reason
- * why we decided to avoid this approach.
+ * necessary logic to play the game by allowing the user to place ships
+ * 
  */
 
 import java.util.ArrayList;
