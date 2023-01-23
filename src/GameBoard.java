@@ -8,7 +8,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.text.DecimalFormat;
+import java.text.*;
 
 public class GameBoard extends JFrame implements ActionListener {
 
