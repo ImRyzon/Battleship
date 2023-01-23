@@ -16,6 +16,6 @@ public class Launch {
      * @param args
      */
     public static void main(String[] args) {
-        Battleship login = new Battleship();
+        GameBoard login = new GameBoard();
     }
 }

@@ -31,6 +31,7 @@ public class GameBoard extends JFrame implements ActionListener {
     private int enemyShipsDestroyed = 0;
     private JLabel friendlyLabel = new JLabel();
     private JLabel enemyLabel = new JLabel();
+    ImageIcon explosionImage = new ImageIcon("explosion.png");
 
     /**
      * This constructor will allow for instantiation of this class while also implementing the necessary
@@ -38,7 +39,7 @@ public class GameBoard extends JFrame implements ActionListener {
      */
     GameBoard() {
         // customize attackPanel
-        attackPanel.setLayout(new GridLayout(11, 11, 0, 0));
+        attackPanel.setLayout(new GridLayout(11, 11, 1, 1));
         attackPanel.setBounds(10, 10, 650, 650);
         attackPanel.setBackground(new Color(52, 152, 235));
 
@@ -56,7 +57,7 @@ public class GameBoard extends JFrame implements ActionListener {
                     attackGrid[x][y].setEnabled(false);
                     if(y != 0){
                         attackGrid[x][y].setText(String.valueOf(y));
-                        attackGrid[x][y].setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+                        attackGrid[x][y].setFont(new Font("Comic Sans MS", Font.BOLD, 15));
                     }
                 }
 
@@ -64,14 +65,14 @@ public class GameBoard extends JFrame implements ActionListener {
                     attackGrid[x][y].setEnabled(false);
                     if(x != 0){
                         attackGrid[x][y].setText(String.valueOf((char)(x + 'A' - 1)));
-                        attackGrid[x][y].setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+                        attackGrid[x][y].setFont(new Font("Comic Sans MS", Font.BOLD, 15));
                     }
                 }
             }
         }
 
         // customize defensePanel
-        defensePanel.setLayout(new GridLayout(11, 11, 2, 2));
+        defensePanel.setLayout(new GridLayout(11, 11, 1, 1));
         defensePanel.setBounds(700, 10, 450, 450);
         defensePanel.setBackground(new Color(52, 152, 235));
 
@@ -80,7 +81,6 @@ public class GameBoard extends JFrame implements ActionListener {
             for(int x = 0; x < 11; x++) {
                 defenseGrid[x][y] = new JButton();
                 defenseGrid[x][y].setFocusable(false);
-                defenseGrid[x][y].addActionListener(this);
                 defenseGrid[x][y].setBackground(Color.BLACK);
                 defensePanel.add(defenseGrid[x][y]);
 
@@ -129,5 +129,11 @@ public class GameBoard extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
 
+        if(event.getSource() == attackGrid[1][1]) {
+            
+            attackGrid[1][1].setEnabled(false);
+            attackGrid[1][1].setOpaque(false);
+            attackGrid[1][1].setIcon(explosionImage);
+        }
     }
 }
