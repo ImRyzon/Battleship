@@ -22,6 +22,20 @@ public class GameBoard extends JFrame implements ActionListener {
      * enemyShipsDestroyed --> counts how many of enemy ships are destroyed
      * friendlyLabel --> label that displays how many friendly ships have been destroyed
      * enemyLabel --> label that displays how many enemy ships have been destroyed
+     * yourHit --> JLabel for your hit
+     * aiHit --> JLabel indicating AI hit
+     * explosionImage --> image for explosions when ships are hit
+     * cloudImage --> image for clouds (default image when square isn't guessed)
+     * oceanImage --> image for oceans when the square contains no ships
+     * oceanLabel --> label for ocean
+     * infoPanel --> panel to store information and statistics
+     * counterLabel --> label that keeps track of time
+     * timer --> actual timer with time
+     * second --> displays seconds
+     * minute --> displays minutes
+     * ddSecond --> decimal format for second
+     * ddMinute --> decimal format for minute
+     * dFormat --> decimal format for formatting
      */
     private JButton[][] attackGrid = new JButton[11][11];
     private JPanel attackPanel = new JPanel();
@@ -40,27 +54,31 @@ public class GameBoard extends JFrame implements ActionListener {
     private JLabel oceanLabel = new JLabel();
     private JPanel infoPanel = new JPanel();
     private JLabel counterLabel = new JLabel();
-    Timer timer;
-    int second, minute;
-    String ddSecond, ddMinute;
-    DecimalFormat dFormat = new DecimalFormat("00");
+    private Timer timer;
+    private int second;
+    private int minute;
+    private String ddSecond;
+    private String ddMinute;
+    private DecimalFormat dFormat = new DecimalFormat("00");
 
     /**
      * This constructor will allow for instantiation of this class while also implementing the necessary
      * logic to make the game board function whe playing the game
      */
-    GameBoard() {
+    public GameBoard() {
         // customize attackPanel
         attackPanel.setLayout(new GridLayout(11, 11, 0, 0));
         attackPanel.setBounds(10, 10, 650, 650);
         attackPanel.setBackground(Color.BLUE);
 
+        // customise infoPanel
         infoPanel.setBounds(700, 470, 450, 191);
         infoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 
         // create the attack grid and customize it
         for(int y = 0; y < 11; y++) {
             for(int x = 0; x < 11; x++) {
+                // customize current button
                 attackGrid[x][y] = new JButton();
                 attackGrid[x][y].setOpaque(false);
                 attackGrid[x][y].setFocusable(false);
@@ -95,6 +113,7 @@ public class GameBoard extends JFrame implements ActionListener {
             }
         }
 
+        // customize top left cell
         attackGrid[0][0].setBorderPainted(true);
         attackGrid[0][0].setOpaque(true);
         attackGrid[0][0].setIcon(null);
@@ -108,6 +127,7 @@ public class GameBoard extends JFrame implements ActionListener {
         // create defense grid and customize it
         for(int y = 0; y < 11; y++) {
             for(int x = 0; x < 11; x++) {
+                // customize current defense grid button
                 defenseGrid[x][y] = new JButton();
                 defenseGrid[x][y].setFocusable(false);
                 defenseGrid[x][y].setEnabled(false);
@@ -141,22 +161,27 @@ public class GameBoard extends JFrame implements ActionListener {
         this.setTitle("Game Board");
         this.setResizable(false);
 
+        // customize friendlyLabel
         friendlyLabel.setText("Friendly Ships Destroyed: " + friendlyShipsDestroyed);
         friendlyLabel.setFont(new Font("Monospaced", Font.BOLD, 25));
         infoPanel.add(friendlyLabel);
 
+        // customize enemyLabel
         enemyLabel.setText("Enemy Ships Destroyed: " + enemyShipsDestroyed);
         enemyLabel.setFont(new Font("Monospaced", Font.BOLD, 25));
         infoPanel.add(enemyLabel);
 
+        // customize yourHit
         yourHit.setText("Your latest hit: " + "Placeholder");
         yourHit.setFont(new Font("Monospaced", Font.BOLD, 25));
         infoPanel.add(yourHit);
 
+        // customize aiHIT
         aiHit.setText("AI's latest hit: " + "Placeholder");
         aiHit.setFont(new Font("Monospaced", Font.BOLD, 25));
         infoPanel.add(aiHit);
 
+        // customize time
         second = 0;
         minute = 0;
         counterLabel.setFont(new Font("Monospaced", Font.BOLD, 25));
@@ -181,6 +206,9 @@ public class GameBoard extends JFrame implements ActionListener {
         enemyLabel.setText("Enemy Ships Destroyed: " + enemyShipsDestroyed);
     }
 
+    /**
+     * This method will keep track of time elapsed
+     */
     public void normalTimer() {
 
         timer = new Timer(1000, new ActionListener() {
@@ -203,11 +231,15 @@ public class GameBoard extends JFrame implements ActionListener {
         });
     }
 
+    /**
+     * This method will execute appropriate actions when a certain button or other structure is clicked
+     * @param event
+     */
     @Override
     public void actionPerformed(ActionEvent event) {
 
         if(event.getSource() == attackGrid[1][1]) {
-            
+
             attackGrid[1][1].setIcon(explosionImage);
             attackGrid[1][1].setOpaque(false);
         }
