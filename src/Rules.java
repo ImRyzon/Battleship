@@ -36,13 +36,14 @@ public class Rules extends JFrame implements ActionListener {
      */
     Rules() throws Exception {
         // Set the frame size, close operation, visibility, title, background, icon, and add the panel
-        this.setSize(960, 950);
+        this.setSize(960, 750);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.add(panel);
         this.setTitle("Rules");
         this.setBackground(Color.WHITE);
         this.setIconImage(rulesIcon.getImage());
+        this.setResizable(false);
 
         // Set the mode of the panel to absolute positioning and set the appropriate colors
         panel.setLayout(null);
@@ -67,12 +68,12 @@ public class Rules extends JFrame implements ActionListener {
             rules[i].setBackground(new Color(255, 204, 203));
             rules[i].setVisible(true);
             panel.add(rules[i]);
-            y += 50;
+            y += 40;
         }
 
         // Customize the menu button and add it to the panel
         backToMenu.setText("Menu");
-        backToMenu.setBounds(405, 765, 125, 75);
+        backToMenu.setBounds(405, 635, 125, 75);
         backToMenu.setFont(new Font("Monospaced", Font.BOLD, 30));
         backToMenu.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
         backToMenu.setBackground(Color.WHITE);
