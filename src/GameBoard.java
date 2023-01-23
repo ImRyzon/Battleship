@@ -149,11 +149,11 @@ public class GameBoard extends JFrame implements ActionListener {
         enemyLabel.setFont(new Font("Monospaced", Font.BOLD, 25));
         infoPanel.add(enemyLabel);
 
-        yourHit.setText("You hit AI's " + "Placeholder");
+        yourHit.setText("Your latest hit: " + "Placeholder");
         yourHit.setFont(new Font("Monospaced", Font.BOLD, 25));
         infoPanel.add(yourHit);
 
-        aiHit.setText("AI hit your " + "Placeholder");
+        aiHit.setText("AI's latest hit: " + "Placeholder");
         aiHit.setFont(new Font("Monospaced", Font.BOLD, 25));
         infoPanel.add(aiHit);
 
