@@ -62,6 +62,8 @@ public class LoginPage extends JFrame implements ActionListener {
         loginButton.setFocusable(false); //Set the button as non-focusable
         loginButton.addActionListener(this); //Add an action listener to the button
         loginButton.setFont(new Font("Monospaced", Font.BOLD, 20)); //Set font and font size
+        loginButton.setBackground(Color.WHITE);
+        loginButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         loginLabel.add(loginButton); //Add the login button to the label
 
         //Register button configuration
@@ -69,6 +71,8 @@ public class LoginPage extends JFrame implements ActionListener {
         registerButton.setFocusable(false); //Set the button as non-focusable
         registerButton.addActionListener(this); //Add an action listener to the button
         registerButton.setFont(new Font("Monospaced", Font.BOLD, 20)); //Set font and font size
+        registerButton.setBackground(Color.WHITE);
+        registerButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         loginLabel.add(registerButton); //Add the register button to the label
 
         //Username text field configuration
