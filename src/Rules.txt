@@ -1,0 +1,13 @@
+1. Five Ships will be placed on a 10 x 10 grid either horizontally or vertically
+2. The five ships and the amount of space they take up are:
+   - Carrier: five holes
+   - Battleship: four holes
+   - Cruiser: three holes
+   - Submarine: three holes
+   - Destroyer: two holes
+3. When you guess a coordinate, the opponent will inform you if you hit a ship or not.
+4. If you hit a ship, then the block turns red. If you miss, then it turns white.
+5. If you hit a ship, you are informed what type of ship you hit.
+6. If you hit a ship, you are informed if you have sunk a ship or not.
+7. Sinking a ship is defined as guessing every coordinate that ship is associated with.
+8. The first player to sink all five of their opponents' ships wins!
