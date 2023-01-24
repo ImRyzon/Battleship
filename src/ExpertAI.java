@@ -56,10 +56,14 @@ public class ExpertAI {
         // initialize destroyed
         destroyed = new boolean[6];
 
+        // initialize initialHit
+        initialHit = new Coordinate[6];
+        for (int i = 1; i <= 5; i++) initialHit[i] = new Coordinate(-1, -1);
+
         // initialize alreadyGuessed
         shipLocation = new int[11][11];
         for (int i = 0; i < 11; i++) {
-            for (int j = 0; j < 1; j++) {
+            for (int j = 0; j < 11; j++) {
                 shipLocation[i][j] = -1;
             }
         }
@@ -132,7 +136,9 @@ public class ExpertAI {
                     curRow += vector[0][idx];
                     curCol += vector[1][idx];
                 }
+
                 if (!works) continue; // If it is invalid, then try another coordinate
+
                 // If everything is valid, then loop again and place the ID on the set squares
                 for (int i = 1; i <= length; i++) {
                     board[rowPlace][colPlace] = ID;
@@ -225,6 +231,11 @@ public class ExpertAI {
 
                         // Create an infinite loop that only ends when we want it to
                         while (true) {
+                            // if position is not valid, then break
+                            if (!isValid(adjacentX, adjacentY)) {
+                                break;
+                            }
+
                             // if the current square is not guessed, then guess it
                             if (shipLocation[adjacentX][adjacentY] == -1) {
                                 currentGuess = new Coordinate(adjacentX, adjacentY);
