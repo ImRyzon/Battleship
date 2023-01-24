@@ -1,5 +1,5 @@
 /**
- * @author Mark Wang
+ * @author Mark Wang, Nathanael You
  * 2023-1-18
  *
  * This class will display the Profile of the current logged-in user
@@ -22,15 +22,21 @@ public class Profile extends JFrame implements ActionListener {
      * userID --> the userID filepath to get the current user ID
      * statistics --> the statistics filepath to retrieve and fill the currentStats array
      * backToMenu --> the button that will re-direct the user back to the main menu when they wish
+     * profileBackground --> image to display profile background
      * profile --> the image icon used for this frame
+     * profileTitle --> image to display profile image
      */
-    JPanel panel = new JPanel();
+
+    JLayeredPane panel = new JLayeredPane();
+    JLabel background = new JLabel();
     JLabel[] currentStats = new JLabel[4];
     JLabel title = new JLabel("Profile");
     File userID = new File("UserID.txt");
     File statistics = new File("Statistics.txt");
     JButton backToMenu = new JButton("Menu");
+    ImageIcon profileBackground = new ImageIcon("ProfileBackground.png");
     ImageIcon profile = new ImageIcon("profile.png");
+    ImageIcon profileTitle = new ImageIcon("profileTitle.png");
 
     /**
      * This constructor will allow other classes to create an object of this class and will also
@@ -47,27 +53,31 @@ public class Profile extends JFrame implements ActionListener {
         this.setBackground(Color.WHITE);
         this.setIconImage(profile.getImage());
 
-        // Set the mode of the panel to absolute positioning and set the appropriate colors
+        // Set the mode of the panel to absolutely positioning and set the appropriate colors
         panel.setLayout(null);
-        panel.setBackground(new Color(173, 216, 230));
+        panel.setBackground(new Color(0, 0, 0, 0));
 
-        // Customize the title text field and add it to the panel
-        title.setBounds(200, 10, 420, 50);
-        title.setFont(new Font("Comic Sans MS", Font.BOLD, 30));
-        title.setBorder(BorderFactory.createLineBorder(new Color(255, 213, 128), 0));
-        title.setBackground(new Color(255, 213, 128));
+        // Customize the title panel
+        background.setBounds(0, 0, 525, 550);
+        background.setIcon(profileBackground);
+        background.setVisible(true);
+        panel.add(background, Integer.valueOf(0));
+
+        // Customize the title panel
+        title.setBounds(142, 10, 240, 136);
+        title.setIcon(profileTitle);
         title.setVisible(true);
-        panel.add(title);
+        panel.add(title, Integer.valueOf(1));
 
         // Fill and customize the numBroken array, then add it to the panel
         fillStatistics();
-        int y = 100;
+        int y = 140;
         for (int i = 0; i < 4; i++) {
             currentStats[i].setBounds(125, y, 420, 55);
             currentStats[i].setFont(new Font("Comic Sans MS", Font.BOLD, 18));
             currentStats[i].setBorder(BorderFactory.createLineBorder(Color.WHITE, 0));
             currentStats[i].setVisible(true);
-            panel.add(currentStats[i]);
+            panel.add(currentStats[i], Integer.valueOf(i + 2));
             y += 50;
         }
 
