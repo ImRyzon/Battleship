@@ -6,12 +6,11 @@
  * to place ships as well as guessing coordinates
  */
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ExpertAI {
 
     /**
-     * random --> Random object that will be used to place ships
      * currentGuess --> Stores the coordinate of the most recent guess
      * board --> the board that stores the IDs of all ships
      * vector --> the array responsible for moving vertically or horizontally in either direction
@@ -23,7 +22,6 @@ public class ExpertAI {
      * isHorizontal --> tracks if each ship based on their ID is horizontal or vertical. Default is -1, meaning
      *                  that we initially don't know if it's horizontal or vertical
      */
-    private Random random;
     private Coordinate currentGuess;
     private int board[][];
     private int vector[][];
@@ -38,8 +36,6 @@ public class ExpertAI {
      * will initialize and set the appropriate values and objects
      */
     public ExpertAI() {
-        // initialize random object
-        random = new Random();
 
         // set the bounds for the board, notice it is 11 since we use 1-based indexing
         board = new int[11][11];
@@ -119,9 +115,9 @@ public class ExpertAI {
         // Carrier: 5 holes
         for (int length : new int[]{2, 3, 3, 4, 5}) {
             while (true) {
-                int rowPlace = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
-                int colPlace = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
-                int idx = random.nextInt(4); // get a random integer in the range [0, 3]
+                int rowPlace = ThreadLocalRandom.current().nextInt(1, 11); // get a random integer in the range [1, 10]
+                int colPlace = ThreadLocalRandom.current().nextInt(1, 11); // get a random integer in the range [1, 10]
+                int idx = ThreadLocalRandom.current().nextInt(0, 4); // get a random integer in the range [0, 3]
                 boolean works = true; // boolean that tracks whether the current configuration works or not
                 int curRow = rowPlace; // set the current row to the row set by Random
                 int curCol = colPlace; // set the current column to the column set by Random
@@ -259,8 +255,8 @@ public class ExpertAI {
         int colGuess;
 
         do {
-            rowGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
-            colGuess = random.nextInt(10) + 1; // get a random integer in the range [1, 10]
+            rowGuess = ThreadLocalRandom.current().nextInt(1, 11); // get a random integer in the range [1, 10]
+            colGuess = ThreadLocalRandom.current().nextInt(1, 11); // get a random integer in the range [1, 10]
         } while (shipLocation[rowGuess][colGuess] != -1); // keep guessing until we get a coordinate we never guessed before
 
         currentGuess = new Coordinate(rowGuess, colGuess);
