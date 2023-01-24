@@ -329,7 +329,7 @@ public class GameBoard extends JFrame implements ActionListener {
     public boolean checkWinner() {
         if (enemyShipsDestroyed == 5) {
             int result = JOptionPane.showConfirmDialog(null,
-                    "You Win!", "Congratulations", JOptionPane.OK_OPTION);
+                    "You Win!", "Congratulations", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
 
             try {
                 updateStatistics(1);
@@ -345,7 +345,7 @@ public class GameBoard extends JFrame implements ActionListener {
             return true;
         } else if (friendlyShipsDestroyed == 5) {
             int result = JOptionPane.showConfirmDialog(null,
-                    "AI Wins", "Game Over", JOptionPane.OK_OPTION);
+                    "AI Wins", "Game Over", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
 
             try {
                 updateStatistics(2);
