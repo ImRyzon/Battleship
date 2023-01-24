@@ -6,6 +6,9 @@
  * attack strategy when incorporated.
  */
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Random;
 
 public class EasyAI {
@@ -98,6 +101,30 @@ public class EasyAI {
                 break;
             }
             ID++;
+        }
+
+        storeBoard(); // store the board
+    }
+
+    /**
+     * This method will store the board to a file
+     */
+    public void storeBoard() {
+        try {
+            File file = new File("AIBoard.txt");
+            PrintWriter writer = new PrintWriter(file);
+
+            for (int i = 1; i <= 10; i++) {
+                for (int j = 1; j <= 10; j++) {
+                    writer.print(board[i][j]);
+                    if (j < 10) writer.print(" ");
+                    else writer.println();
+                }
+            }
+
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
