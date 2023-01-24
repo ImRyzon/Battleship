@@ -13,8 +13,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
-import java.io.*;
 import java.util.ArrayList;
 import java.awt.*;
 import java.awt.event.*;
@@ -71,22 +69,23 @@ public class PlaceShips extends JFrame implements ActionListener {
     private File userBoard = new File("UserBoard.txt");
     private PrintWriter writeBoard;
 
-    Clip backgroundClip;
+    Clip backgroundClip = AudioSystem.getClip();
     AudioInputStream audioInputStreamA;
-    Clip buttonClip;
+    Clip buttonClip = AudioSystem.getClip();
     AudioInputStream audioInputStreamB;
+    
     /**
      * this constructor will allow other classes to instantiate an object of this class, and it will
      * also implement the necessary logic for the game.
      * @param hard (whether the difficulty is hard or not, and will use the correct AI
      */
-    public PlaceShips(boolean hard) {
+    public PlaceShips(boolean hard) throws LineUnavailableException {
 
         try {
             playBackground();
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1200, 700);
@@ -206,10 +205,10 @@ public class PlaceShips extends JFrame implements ActionListener {
     public void playBackground() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         audioInputStreamA = AudioSystem.getAudioInputStream(new File("background_music2.wav"));
-        
+
         // create clip reference
         backgroundClip = AudioSystem.getClip();
-          
+
         // open audioInputStream to the clip
         backgroundClip.open(audioInputStreamA);
 
@@ -221,10 +220,10 @@ public class PlaceShips extends JFrame implements ActionListener {
     public void playButton() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         audioInputStreamB = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
-        
+
         // create clip reference
         backgroundClip = AudioSystem.getClip();
-          
+
         // open audioInputStream to the clip
         buttonClip.open(audioInputStreamB);
 
@@ -374,7 +373,7 @@ public class PlaceShips extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == placeButton) {
-            
+
             try {
                 playButton();
             } catch (Exception exception) {
@@ -410,13 +409,13 @@ public class PlaceShips extends JFrame implements ActionListener {
         }
 
         else if (e.getSource() == deleteButton) {
-            
+
             try {
                 playButton();
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
-            
+
             // if no ships are selected, then get the user to redo
             if (shipDelete.getItemCount() == 0) {
                 JOptionPane.showMessageDialog(null, "No Ship Selected", "Invalid", JOptionPane.INFORMATION_MESSAGE);
@@ -438,18 +437,18 @@ public class PlaceShips extends JFrame implements ActionListener {
         }
 
         else if (e.getSource() == rotateButton) {
-            
+
             try {
                 playButton();
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
-            
+
             switchDirection(); // switch/rotate the direction if they want to rotate
         }
 
         else if (e.getSource() == readyButton) {
-            
+
             try {
                 backgroundClip.stop();
             } catch (Exception exception) {
