@@ -9,6 +9,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ExpertAI {
@@ -24,6 +25,8 @@ public class ExpertAI {
      * initialHit --> the initial hit coordinate for every ship ID, default value is -1
      * isHorizontal --> tracks if each ship based on their ID is horizontal or vertical. Default is -1, meaning
      *                  that we initially don't know if it's horizontal or vertical
+     * algorithm --> hardcode the most optimal guessing pattern
+     * algorithmIndex --> index of the algorithm
      */
     private Coordinate currentGuess;
     private int board[][];
@@ -31,8 +34,10 @@ public class ExpertAI {
     private int countHit[];
     private int shipLocation[][];
     private boolean destroyed[];
-    Coordinate initialHit[];
-    int isHorizontal[];
+    private Coordinate initialHit[];
+    private int isHorizontal[];
+    private Coordinate algorithm[] = new Coordinate[64];
+    private int algorithmIndex = 0;
 
     /**
      * This constructor will enable the initialization for the EasyAI class, and it
@@ -74,6 +79,25 @@ public class ExpertAI {
         // initialize isHorizontal
         isHorizontal = new int[6];
         for (int i = 0; i < 6; i++) isHorizontal[i] = -1;
+
+        getAlgorithm(); // get algorithm
+    }
+
+    /**
+     * This method will get the optimal algorithm from a file and store it inside the array
+     */
+    public void getAlgorithm() {
+        try {
+            // create file and scanner and get the lines of the file
+            File algorithmFile = new File("Algorithm.txt");
+            Scanner algorithmScanner = new Scanner(algorithmFile);
+            for (int i = 0; i < 64; i++) {
+                String line[] = algorithmScanner.nextLine().split(" ");
+                algorithm[i] = new Coordinate(Integer.parseInt(line[0]), Integer.parseInt(line[1]));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -282,8 +306,10 @@ public class ExpertAI {
         int colGuess;
 
         do {
-            rowGuess = ThreadLocalRandom.current().nextInt(1, 11); // get a random integer in the range [1, 10]
-            colGuess = ThreadLocalRandom.current().nextInt(1, 11); // get a random integer in the range [1, 10]
+            // get coordinate and update index
+            rowGuess = algorithm[algorithmIndex].getX(); // x coordinate
+            colGuess = algorithm[algorithmIndex].getY(); // y coordinate
+            ++algorithmIndex;
         } while (shipLocation[rowGuess][colGuess] != -1); // keep guessing until we get a coordinate we never guessed before
 
         currentGuess = new Coordinate(rowGuess, colGuess);
