@@ -7,6 +7,7 @@
  *
  */
 
+import java.io.*;
 import java.util.ArrayList;
 import java.awt.*;
 import java.awt.event.*;
@@ -36,6 +37,8 @@ public class PlaceShips extends JFrame implements ActionListener {
      * deleteLabel --> label signifying which drop-down box is for deleting
      * currentCoordinate --> stores current coordinate
      * locations --> stores locations of all ships that are placed based on ID
+     * userBoard --> the file containing the board to be stored
+     * writeBoard --> print writer to write the board to the user board
      */
     private int vector[][];
     private int vectorIndex;
@@ -58,6 +61,8 @@ public class PlaceShips extends JFrame implements ActionListener {
     private JLabel deleteLabel = new JLabel();
     private Coordinate currentCoordinate;
     private ShipLocation locations[];
+    private File userBoard = new File("UserBoard.txt");
+    private PrintWriter writeBoard;
     /**
      * this constructor will allow other classes to instantiate an object of this class, and it will
      * also implement the necessary logic for the game.
@@ -274,6 +279,26 @@ public class PlaceShips extends JFrame implements ActionListener {
     }
 
     /**
+     * This method will store the current user's board to a file to be used in-game
+     */
+    public void writeBoardToFile() throws Exception {
+        // create PrintWriter object
+        writeBoard = new PrintWriter(userBoard);
+
+        // Loop though the board and write to file
+        for (int i = 1; i <= 10; i++) {
+            for (int j = 1; j <= 10; j++) {
+                writeBoard.print(board[i][j]);
+                if (j < 10) writeBoard.print(" ");
+                else writeBoard.println();
+            }
+        }
+
+        // close PrintWriter
+        writeBoard.close();
+    }
+
+    /**
      * The action performed method will do the appropriate actions when a button or combo box
      * has been selected
      * @param e
@@ -363,6 +388,13 @@ public class PlaceShips extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(null, "Cannot Proceed, Not All Ships Are Placed", "Error", JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
+            }
+
+            // write current board to file
+            try {
+                writeBoardToFile();
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
 
             // if all ships are placed, proceed to the game
