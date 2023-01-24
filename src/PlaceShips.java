@@ -93,7 +93,7 @@ public class PlaceShips extends JFrame implements ActionListener {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1200, 700);
-        this.setBackground(Color.WHITE);
+        this.setBackground(Color.GRAY);
         this.setLayout(null);
         this.setTitle("Place Your Ships");
         this.setResizable(false);
@@ -478,8 +478,8 @@ public class PlaceShips extends JFrame implements ActionListener {
             this.dispose();
 
             try {
-                backgroundClip.stop();
                 GameBoard board = new GameBoard(isHard);
+                backgroundClip.stop();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

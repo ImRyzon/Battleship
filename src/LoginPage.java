@@ -39,6 +39,9 @@ public class LoginPage extends JFrame implements ActionListener {
     ImageIcon usernameIcon = new ImageIcon("UsernameIcon.png");//Create the username image
     ImageIcon passwordIcon = new ImageIcon("PasswordIcon.png");//Create the username image
 
+    Clip buttonClip = AudioSystem.getClip();
+    AudioInputStream audioInputStream;
+
     /**
      * This constructor of the class will allow for other classes to instantiate an object of this class. This
      * will be used in the LaunchGame class when first launching the game, as it redirects the user to the
@@ -118,17 +121,17 @@ public class LoginPage extends JFrame implements ActionListener {
         this.setVisible(true); //Set the frame visible to user
     }
 
-    public void playSound() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public void playButton() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
-        
+        audioInputStream = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
+
         // create clip reference
-        Clip clip = AudioSystem.getClip();
-          
-        // open audioInputStream to the clip
-        clip.open(audioInputStream);
+        backgroundClip = AudioSystem.getClip();
 
-        clip.start();
+        // open audioInputStream to the clip
+        buttonClip.open(audioInputStream);
+
+        buttonClip.start();
     }
 
     /**
@@ -148,7 +151,7 @@ public class LoginPage extends JFrame implements ActionListener {
         if (event.getSource() == loginButton) {
             
             try {
-                playSound();
+                playButton();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -188,7 +191,7 @@ public class LoginPage extends JFrame implements ActionListener {
         else if (event.getSource() == registerButton) {
             
             try {
-                playSound();
+                playButton();
             } catch (Exception e) {
                 e.printStackTrace();
             }
