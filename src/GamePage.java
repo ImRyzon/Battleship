@@ -43,9 +43,9 @@ public class GamePage extends JFrame implements ActionListener {
     ImageIcon backgroundImage = new ImageIcon("GamePageBackground.png");
     ImageIcon menuIcon = new ImageIcon("gamepageIcon.png");
 
-    Clip backgroundClip;
+    Clip backgroundClip = AudioSystem.getClip();
     AudioInputStream audioInputStreamA;
-    Clip buttonClip;
+    Clip buttonClip = AudioSystem.getClip();
     AudioInputStream audioInputStreamB;
 
     /**
@@ -54,13 +54,13 @@ public class GamePage extends JFrame implements ActionListener {
      * It will also implement the needed logic and steps in order to help make the game
      * page work and function properly.
      */
-    GamePage() {
+    GamePage() throws LineUnavailableException {
 
         try {
             playBackground();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //Customizing the title image and adding it to the panel
         titleLabel.setBounds(75, 20, 800, 100);
@@ -128,10 +128,10 @@ public class GamePage extends JFrame implements ActionListener {
     public void playBackground() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         audioInputStreamA = AudioSystem.getAudioInputStream(new File("background_music1.wav"));
-        
+
         // create clip reference
         backgroundClip = AudioSystem.getClip();
-          
+
         // open audioInputStream to the clip
         backgroundClip.open(audioInputStreamA);
 
@@ -143,10 +143,10 @@ public class GamePage extends JFrame implements ActionListener {
     public void playButton() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         audioInputStreamB = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
-        
+
         // create clip reference
         backgroundClip = AudioSystem.getClip();
-          
+
         // open audioInputStream to the clip
         buttonClip.open(audioInputStreamB);
 
@@ -162,14 +162,14 @@ public class GamePage extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent event) {
 
         if (event.getSource() == easyButton) { //Redirect user to a gameboard
-            
+
             try {
                 backgroundClip.stop();
                 playButton();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            
+
             this.dispose(); //Deleting the current frame
 
             //use try and catch to instantiate an object for GameBoard class
@@ -181,14 +181,14 @@ public class GamePage extends JFrame implements ActionListener {
         }
 
         else if (event.getSource() == hardButton) { //Redirect user to a gameboard
-            
+
             try {
                 backgroundClip.stop();
                 playButton();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            
+
             this.dispose(); //Deleting the current frame
 
             //use try and catch to instantiate an object for GameBoard class
@@ -200,14 +200,14 @@ public class GamePage extends JFrame implements ActionListener {
         }
 
         else if (event.getSource() == multiplayerButton) { //Redirect user to a gameboard
-            
+
             try {
                 backgroundClip.stop();
                 playButton();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            
+
             this.dispose(); //Deleting the current frame
 
             //use try and catch to instantiate an object for GameBoard class
@@ -219,14 +219,14 @@ public class GamePage extends JFrame implements ActionListener {
         }
 
         else if (event.getSource() == menuButton) { //Redirect the user to the menu page
-            
+
             try {
                 backgroundClip.stop();
                 playButton();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            
+
             this.dispose(); //Deleting the current frame
 
             //use try and catch to instantiate an object for Menu class
