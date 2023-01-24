@@ -5,6 +5,13 @@
  * This class will act as the login page for the Battleship game
  */
 
+import java.io.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
@@ -111,6 +118,19 @@ public class LoginPage extends JFrame implements ActionListener {
         this.setVisible(true); //Set the frame visible to user
     }
 
+    public void playSound() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
+        
+        // create clip reference
+        Clip clip = AudioSystem.getClip();
+          
+        // open audioInputStream to the clip
+        clip.open(audioInputStream);
+
+        clip.start();
+    }
+
     /**
      * This method is the actionPerformed() method that indicates the procedures and steps to take after
      * a certain button is pressed.
@@ -126,10 +146,19 @@ public class LoginPage extends JFrame implements ActionListener {
         String password = passwordText.getText();
 
         if (event.getSource() == loginButton) {
+            
+            try {
+                playSound();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             // check if credentials are empty
             if (username.equals("") || password.equals("")) {
                 JOptionPane.showMessageDialog(null, "Login Failed, Credentials Cannot be Empty", "Failed", JOptionPane.INFORMATION_MESSAGE);
-            } else {
+            } 
+            
+            else {
                 // use a try-catch method to handle IOExceptions when retrieving data from the database file
                 try {
                     // call the checkValidity() method to see whether the entered credentials are valid or not
@@ -143,18 +172,32 @@ public class LoginPage extends JFrame implements ActionListener {
                             this.dispose();
                             Menu menu = new Menu();
                         }
-                    } else {
+                    } 
+                    
+                    else {
                         // Otherwise, inform the user they entered invalid credentials and let them try again
                         JOptionPane.showMessageDialog(null, "Login Failed, No Such Name Exists.", "Failed", JOptionPane.INFORMATION_MESSAGE);
                     }
+
                 } catch (Exception exception) {
                     exception.printStackTrace(); // If an error occurred, then print the error
                 }
             }
-        } else if (event.getSource() == registerButton) {
+        } 
+        
+        else if (event.getSource() == registerButton) {
+            
+            try {
+                playSound();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             if (username.equals("") || password.equals("")) {
                 JOptionPane.showMessageDialog(null, "Register Failed, Credentials Cannot Be Empty", "Failed", JOptionPane.INFORMATION_MESSAGE);
-            } else {
+            } 
+            
+            else {
                 // use a try-catch method to handle IOExceptions when retrieving data from the database file
                 try {
                     // call the checkValidity() method to see whether the entered credentials are valid or not
