@@ -137,7 +137,7 @@ public class GameBoard extends JFrame implements ActionListener {
         attackPanel.setBounds(10, 10, 650, 650);
         attackPanel.setBackground(Color.BLUE);
 
-        // customise infoPanel
+        // customize infoPanel
         infoPanel.setBounds(700, 470, 450, 225);
         infoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 
