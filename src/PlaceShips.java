@@ -44,6 +44,7 @@ public class PlaceShips extends JFrame implements ActionListener {
      * locations --> stores locations of all ships that are placed based on ID
      * userBoard --> the file containing the board to be stored
      * writeBoard --> print writer to write the board to the user board
+     * isHard --> whether the game is hard or not
      */
     private int vector[][];
     private int vectorIndex;
@@ -68,18 +69,21 @@ public class PlaceShips extends JFrame implements ActionListener {
     private ShipLocation locations[];
     private File userBoard = new File("UserBoard.txt");
     private PrintWriter writeBoard;
+    private boolean isHard;
 
     Clip backgroundClip = AudioSystem.getClip();
     AudioInputStream audioInputStreamA;
     Clip buttonClip = AudioSystem.getClip();
     AudioInputStream audioInputStreamB;
-    
+
     /**
      * this constructor will allow other classes to instantiate an object of this class, and it will
      * also implement the necessary logic for the game.
      * @param hard (whether the difficulty is hard or not, and will use the correct AI
      */
     public PlaceShips(boolean hard) throws LineUnavailableException {
+        
+        this.isHard = hard;
 
         try {
             playBackground();
@@ -475,7 +479,7 @@ public class PlaceShips extends JFrame implements ActionListener {
 
             try {
                 backgroundClip.stop();
-                GameBoard board = new GameBoard(true);
+                GameBoard board = new GameBoard(isHard);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
