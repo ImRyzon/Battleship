@@ -5,6 +5,13 @@
  * This class will act as the menu page for the Battleship Game
  */
 
+import java.io.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -107,6 +114,19 @@ public class GamePage extends JFrame implements ActionListener {
         panel.setVisible(true);
     }
 
+    public void playSound() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
+        
+        // create clip reference
+        Clip clip = AudioSystem.getClip();
+          
+        // open audioInputStream to the clip
+        clip.open(audioInputStream);
+
+        clip.start();
+    }
+
     /**
      * This method will redirect the user to the corresponding page based on which button
      * they pressed
@@ -116,6 +136,13 @@ public class GamePage extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent event) {
 
         if (event.getSource() == easyButton) { //Redirect user to a gameboard
+            
+            try {
+                playSound();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
             this.dispose(); //Deleting the current frame
 
             //use try and catch to instantiate an object for GameBoard class
@@ -127,6 +154,13 @@ public class GamePage extends JFrame implements ActionListener {
         }
 
         else if (event.getSource() == hardButton) { //Redirect user to a gameboard
+            
+            try {
+                playSound();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
             this.dispose(); //Deleting the current frame
 
             //use try and catch to instantiate an object for GameBoard class
@@ -138,6 +172,13 @@ public class GamePage extends JFrame implements ActionListener {
         }
 
         else if (event.getSource() == multiplayerButton) { //Redirect user to a gameboard
+            
+            try {
+                playSound();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
             this.dispose(); //Deleting the current frame
 
             //use try and catch to instantiate an object for GameBoard class
@@ -149,6 +190,13 @@ public class GamePage extends JFrame implements ActionListener {
         }
 
         else if (event.getSource() == menuButton) { //Redirect the user to the menu page
+            
+            try {
+                playSound();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
             this.dispose(); //Deleting the current frame
 
             //use try and catch to instantiate an object for Menu class
