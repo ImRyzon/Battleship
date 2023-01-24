@@ -447,7 +447,12 @@ public class PlaceShips extends JFrame implements ActionListener {
 
             // if all ships are placed, proceed to the game
             this.dispose();
-            GameBoard board = new GameBoard();
+
+            try {
+                GameBoard board = new GameBoard(true);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
