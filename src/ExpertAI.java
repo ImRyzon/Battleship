@@ -6,6 +6,9 @@
  * to place ships as well as guessing coordinates
  */
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ExpertAI {
@@ -145,6 +148,8 @@ public class ExpertAI {
             }
             ID++;
         }
+
+        storeBoard(); // store the board
     }
 
     /**
@@ -179,6 +184,28 @@ public class ExpertAI {
         countHit[currentID]++; // update countHit
         board[coordinate.getX()][coordinate.getY()] = 0; // reset the current block to be 0
         return new HitOrMiss(true, currentID, destroyedShip(countHit[currentID], currentID));
+    }
+
+    /**
+     * This method will store the board to a file
+     */
+    public void storeBoard() {
+        try {
+            File file = new File("AIBoard.txt");
+            PrintWriter writer = new PrintWriter(file);
+
+            for (int i = 1; i <= 10; i++) {
+                for (int j = 1; j <= 10; j++) {
+                    writer.print(board[i][j]);
+                    if (j < 10) writer.print(" ");
+                    else writer.println();
+                }
+            }
+
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
