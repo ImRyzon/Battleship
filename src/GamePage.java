@@ -147,7 +147,7 @@ public class GamePage extends JFrame implements ActionListener {
 
             //use try and catch to instantiate an object for GameBoard class
             try {
-                PlaceShip game = new PlaceShip(false);
+                PlaceShips game = new PlaceShips(false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -165,7 +165,7 @@ public class GamePage extends JFrame implements ActionListener {
 
             //use try and catch to instantiate an object for GameBoard class
             try {
-                PlaceShip game = new PlaceShip(true);
+                PlaceShips game = new PlaceShips(true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -183,7 +183,7 @@ public class GamePage extends JFrame implements ActionListener {
 
             //use try and catch to instantiate an object for GameBoard class
             try {
-                GameBoard game = new GameBoard();
+                //GameBoard game = new GameBoard();
             } catch (Exception e) {
                 e.printStackTrace();
             }
