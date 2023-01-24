@@ -112,9 +112,9 @@ public class Profile extends JFrame implements ActionListener {
         // Calculate the hit percentage, round it to the nearest whole percent, and then fill it
         double totalHits = Double.parseDouble(readStatistics.nextLine());
         double totalMisses = Double.parseDouble(readStatistics.nextLine());
-        currentStats[3] = new JLabel( "Hit Percentage: " + Math.round(totalHits / (totalHits + totalMisses)) + "%");
+        currentStats[3] = new JLabel( "Hit Percentage: " + Math.round((totalHits / (totalHits + totalMisses)) * 100.0) + "%");
 
-        // set the background color for all the
+        // set the background color for all the stats
         for (int i = 0; i < 3; i++) {
             currentStats[i].setBackground(new Color(255, 213, 128));
         }
