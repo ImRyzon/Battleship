@@ -96,11 +96,23 @@ public class GameBoard extends JFrame implements ActionListener {
     private boolean firstTurn = true;
     private boolean aiTurn;
 
+    Clip backgroundClip = AudioSystem.getClip();
+    AudioInputStream audioInputStreamA;
+    Clip buttonClip = AudioSystem.getClip();
+    AudioInputStream audioInputStreamB;
+
     /**
      * This constructor will allow for instantiation of this class while also implementing the necessary
      * logic to make the game board function whe playing the game
      */
     public GameBoard(boolean hard) throws Exception {
+        
+        try {
+            playBackground();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
         // set isHard
         this.isHard = hard;
 
@@ -255,6 +267,34 @@ public class GameBoard extends JFrame implements ActionListener {
         if (aiTurn) aiTurn();
     }
 
+    public void playBackground() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+
+        audioInputStreamA = AudioSystem.getAudioInputStream(new File("background_music2.wav"));
+
+        // create clip reference
+        backgroundClip = AudioSystem.getClip();
+
+        // open audioInputStream to the clip
+        backgroundClip.open(audioInputStreamA);
+
+        backgroundClip.loop(Clip.LOOP_CONTINUOUSLY);
+
+        backgroundClip.start();
+    }
+
+    public void playButton() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+
+        audioInputStreamB = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
+
+        // create clip reference
+        backgroundClip = AudioSystem.getClip();
+
+        // open audioInputStream to the clip
+        buttonClip.open(audioInputStreamB);
+
+        buttonClip.start();
+    }
+
     /**
      * This method will raed the board from the file and store it inside the user's board
      */
@@ -345,6 +385,9 @@ public class GameBoard extends JFrame implements ActionListener {
             }
 
             if (result == JOptionPane.OK_OPTION) {
+
+                backgroundClip.stop();
+
                 // dispose frame and redirect to menu
                 this.dispose();
                 Menu menu = new Menu();
