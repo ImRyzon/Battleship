@@ -302,7 +302,7 @@ public class GameBoard extends JFrame implements ActionListener {
     }
 
     /**
-     * This method will raed the board from the file and store it inside the user's board
+     * This method will read the board from the file and store it inside the user's board
      */
     public void getBoard() throws Exception {
         // declare scanner
