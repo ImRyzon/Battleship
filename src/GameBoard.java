@@ -80,7 +80,6 @@ public class GameBoard extends JFrame implements ActionListener {
             for(int x = 0; x < 11; x++) {
                 // customize current button
                 attackGrid[x][y] = new JButton();
-                attackGrid[x][y].setOpaque(false);
                 attackGrid[x][y].setFocusable(false);
                 attackGrid[x][y].setBorderPainted(false);
                 attackGrid[x][y].addActionListener(this);
@@ -93,7 +92,6 @@ public class GameBoard extends JFrame implements ActionListener {
                     attackGrid[x][y].setEnabled(false);
                     if(y != 0){
                         attackGrid[x][y].setText(String.valueOf(y));
-                        attackGrid[x][y].setOpaque(true);
                         attackGrid[x][y].setBorderPainted(true);
                         attackGrid[x][y].setFont(new Font("Comic Sans MS", Font.BOLD, 15));
                         attackGrid[x][y].setIcon(null);
@@ -104,7 +102,6 @@ public class GameBoard extends JFrame implements ActionListener {
                     attackGrid[x][y].setEnabled(false);
                     if(x != 0){
                         attackGrid[x][y].setText(String.valueOf((char)(x + 'A' - 1)));
-                        attackGrid[x][y].setOpaque(true);
                         attackGrid[x][y].setBorderPainted(true);
                         attackGrid[x][y].setFont(new Font("Comic Sans MS", Font.BOLD, 15));
                         attackGrid[x][y].setIcon(null);
@@ -115,7 +112,6 @@ public class GameBoard extends JFrame implements ActionListener {
 
         // customize top left cell
         attackGrid[0][0].setBorderPainted(true);
-        attackGrid[0][0].setOpaque(true);
         attackGrid[0][0].setIcon(null);
         attackGrid[0][0].setBackground(Color.BLACK);
 
@@ -130,7 +126,8 @@ public class GameBoard extends JFrame implements ActionListener {
                 // customize current defense grid button
                 defenseGrid[x][y] = new JButton();
                 defenseGrid[x][y].setFocusable(false);
-                defenseGrid[x][y].setEnabled(false);
+                defenseGrid[x][y].setBorderPainted(false);
+                defenseGrid[x][y].setIcon(oceanImage);
                 defenseGrid[x][y].setBackground(Color.BLACK);
                 defensePanel.add(defenseGrid[x][y]);
 
@@ -140,6 +137,9 @@ public class GameBoard extends JFrame implements ActionListener {
                     if(y != 0){
                         defenseGrid[x][y].setText(String.valueOf(y));
                         defenseGrid[x][y].setFont(new Font("Comic Sans MS", Font.BOLD, 5));
+                        defenseGrid[x][y].setBorderPainted(true);
+                        defenseGrid[x][y].setIcon(null);
+
                     }
                 }
 
@@ -148,10 +148,17 @@ public class GameBoard extends JFrame implements ActionListener {
                     if(x != 0) {
                         defenseGrid[x][y].setText(String.valueOf((char)(x + 'A' - 1)));
                         defenseGrid[x][y].setFont(new Font("Comic Sans MS", Font.BOLD, 5));
+                        defenseGrid[x][y].setBorderPainted(true);
+                        defenseGrid[x][y].setIcon(null);
                     }
                 }
             }
         }
+
+        // customize top left cell
+        defenseGrid[0][0].setBorderPainted(true);
+        defenseGrid[0][0].setIcon(null);
+        defenseGrid[0][0].setBackground(Color.BLACK);
 
         // customize the frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
