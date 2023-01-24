@@ -4,7 +4,7 @@
  *
  * This class will act as the actual game that includes the gameboard GUI and all the
  * necessary logic to play the game by allowing the user to place ships
- * 
+ *
  */
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Battleship extends JFrame implements ActionListener {
+public class PlaceShips extends JFrame implements ActionListener {
 
     /**
      * vector --> vector array that will allow for movement based on direction
@@ -63,7 +63,7 @@ public class Battleship extends JFrame implements ActionListener {
      * also implement the necessary logic for the game.
      * @param hard (whether the difficulty is hard or not, and will use the correct AI
      */
-    public Battleship(boolean hard) {
+    public PlaceShips(boolean hard) {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1200, 700);
