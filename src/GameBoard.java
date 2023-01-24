@@ -132,12 +132,6 @@ public class GameBoard extends JFrame implements ActionListener {
                 attackGrid[y][x].setIcon(cloudImage);
                 attackPanel.add(attackGrid[y][x]);
 
-                // if within the actual area, then set border
-                if (y > 0 && x > 0) {
-                    attackGrid[y][x].setContentAreaFilled(false);
-                    attackGrid[y][x].setBorder(new LineBorder(Color.BLACK));
-                }
-
                 // set numbers and characters as the coordinates
                 if(x == 0){
                     attackGrid[y][x].setEnabled(false);
@@ -183,15 +177,8 @@ public class GameBoard extends JFrame implements ActionListener {
                 defenseGrid[y][x].setBorderPainted(false);
                 defenseGrid[y][x].addActionListener(this);
                 defenseGrid[y][x].setBackground(Color.BLACK);
-                defenseGrid[y][x].setIcon(cloudImage);
+                if (playerBoard[y][x] == 0) defenseGrid[y][x].setIcon(cloudImage);
                 defensePanel.add(defenseGrid[y][x]);
-
-                // if within the actual area, then set border
-                // if within the actual area, then set border
-                if (y > 0 && x > 0) {
-                    defenseGrid[y][x].setContentAreaFilled(false);
-                    defenseGrid[y][x].setBorder(new LineBorder(Color.BLACK));
-                }
 
                 // set numbers and letters for the coordinates
                 if (x == 0){
@@ -344,8 +331,9 @@ public class GameBoard extends JFrame implements ActionListener {
 
     /**
      * This method will check if there is a winner and redirect user to menu if there is
+     * @return
      */
-    public void checkWinner() {
+    public boolean checkWinner() {
         if (enemyShipsDestroyed == 5) {
             int result = JOptionPane.showConfirmDialog(null,
                     "You Win!", "Congratulations", JOptionPane.OK_OPTION);
@@ -361,6 +349,7 @@ public class GameBoard extends JFrame implements ActionListener {
                 this.dispose();
                 Menu menu = new Menu();
             }
+            return true;
         } else if (friendlyShipsDestroyed == 5) {
             int result = JOptionPane.showConfirmDialog(null,
                     "AI Wins", "Game Over", JOptionPane.OK_OPTION);
@@ -376,7 +365,17 @@ public class GameBoard extends JFrame implements ActionListener {
                 this.dispose();
                 Menu menu = new Menu();
             }
+            return true;
         }
+        return false;
+    }
+
+    /**
+     * This method updates labels
+     */
+    public void updateLabels() {
+        friendlyLabel.setText("Friendly Ships Destroyed: " + friendlyShipsDestroyed);
+        enemyLabel.setText("Enemy Ships Destroyed: " + enemyShipsDestroyed);
     }
 
     /**
@@ -459,6 +458,7 @@ public class GameBoard extends JFrame implements ActionListener {
                         JOptionPane.showMessageDialog(null,
                                 displayCoordinate + ": Hit " + shipNames[currentGuess.getID()], "Your Turn", JOptionPane.INFORMATION_MESSAGE);
                         attackGrid[i][j].setIcon(explosionImage);
+                        yourHit.setText("Your latest hit: " + displayCoordinate); // update yourHit
                         try {
                             updateStatistics(4);
                         } catch (Exception ex) {
@@ -468,6 +468,7 @@ public class GameBoard extends JFrame implements ActionListener {
                         JOptionPane.showMessageDialog(null,
                                 displayCoordinate + ": Destroyed " + shipNames[currentGuess.getID()], "Your Turn", JOptionPane.INFORMATION_MESSAGE);
                         attackGrid[i][j].setIcon(explosionImage);
+                        yourHit.setText("Your latest hit: " + displayCoordinate); // update yourHit
                         ++enemyShipsDestroyed;
                         try {
                             updateStatistics(4);
@@ -482,7 +483,10 @@ public class GameBoard extends JFrame implements ActionListener {
                     }
 
                     // check for winner
-                    checkWinner();
+                    boolean checkWinner = checkWinner();
+                    if (checkWinner) return;
+
+                    updateLabels(); // update labels
 
                     /*
                     AI's turn
@@ -510,15 +514,20 @@ public class GameBoard extends JFrame implements ActionListener {
                         JOptionPane.showMessageDialog(null,
                                 displayCoordinate + ": Hit " + shipNames[check.getID()], "AI Turn", JOptionPane.INFORMATION_MESSAGE);
                         defenseGrid[aiGuess.getX()][aiGuess.getY()].setIcon(explosionImage);
+                        aiHit.setText("AI's latest hit: " + displayCoordinate); // update aiHit
                     } else {
                         JOptionPane.showMessageDialog(null,
                                 displayCoordinate + ": Destroyed " + shipNames[check.getID()], "AI Turn", JOptionPane.INFORMATION_MESSAGE);
                         defenseGrid[aiGuess.getX()][aiGuess.getY()].setIcon(explosionImage);
+                        aiHit.setText("AI's latest hit: " + displayCoordinate); // update aiHit
                         ++friendlyShipsDestroyed;
                     }
 
                     // check for winner
-                    checkWinner();
+                    checkWinner = checkWinner();
+                    if (checkWinner) return;
+
+                    updateLabels(); // update labels
                 }
             }
         }
