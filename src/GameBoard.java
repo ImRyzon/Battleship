@@ -10,6 +10,13 @@
  * why we decided to avoid this approach.
  */
 
+import java.io.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import javax.swing.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.awt.*;
@@ -17,7 +24,6 @@ import java.awt.event.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.text.*;
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -96,9 +102,9 @@ public class GameBoard extends JFrame implements ActionListener {
     private boolean firstTurn = true;
     private boolean aiTurn;
 
-    Clip backgroundClip = AudioSystem.getClip();
+    Clip backgroundClip;
     AudioInputStream audioInputStreamA;
-    Clip buttonClip = AudioSystem.getClip();
+    Clip buttonClip;
     AudioInputStream audioInputStreamB;
 
     /**

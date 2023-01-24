@@ -40,9 +40,9 @@ public class Menu extends JFrame implements ActionListener {
     ImageIcon menu = new ImageIcon("menu.png");
     ImageIcon menuBackground = new ImageIcon("MenuBackground.png");
 
-    Clip backgroundClip = AudioSystem.getClip();
+    Clip backgroundClip;
     AudioInputStream audioInputStreamA;
-    Clip buttonClip = AudioSystem.getClip();
+    Clip buttonClip;
     AudioInputStream audioInputStreamB;
 
     /**

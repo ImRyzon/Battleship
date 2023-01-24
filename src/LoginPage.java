@@ -39,7 +39,7 @@ public class LoginPage extends JFrame implements ActionListener {
     ImageIcon usernameIcon = new ImageIcon("UsernameIcon.png");//Create the username image
     ImageIcon passwordIcon = new ImageIcon("PasswordIcon.png");//Create the username image
 
-    Clip buttonClip = AudioSystem.getClip();
+    Clip buttonClip;
     AudioInputStream audioInputStream;
 
     /**
@@ -126,7 +126,7 @@ public class LoginPage extends JFrame implements ActionListener {
         audioInputStream = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
 
         // create clip reference
-        backgroundClip = AudioSystem.getClip();
+        buttonClip = AudioSystem.getClip();
 
         // open audioInputStream to the clip
         buttonClip.open(audioInputStream);
