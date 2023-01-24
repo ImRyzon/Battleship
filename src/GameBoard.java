@@ -11,7 +11,7 @@
  */
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
+import java.util.concurrent.ThreadLocalRandom;
 import java.awt.*;
 import java.awt.event.*;
 import java.nio.charset.Charset;
@@ -57,6 +57,8 @@ public class GameBoard extends JFrame implements ActionListener {
      * shipNames --> array to keep track of ship names based on ID
      * statistics --> statistics file
      * userID --> userID file
+     * firstTurn --> stores whether it is the first turn or not to do a coin flip who goes first
+     * aiFirst --> stores whether the AI went first or not
      */
     private int playerBoard[][] = new int[11][11];
     File userBoard = new File("UserBoard.txt");
@@ -91,6 +93,8 @@ public class GameBoard extends JFrame implements ActionListener {
     private String shipNames[] = new String[]{null, "Destroyer", "Submarine", "Cruiser", "Battleship", "Carrier"};
     private File statistics = new File("Statistics.txt");
     private File userID = new File("UserID.txt");
+    private boolean firstTurn = true;
+    private boolean aiTurn;
 
     /**
      * This constructor will allow for instantiation of this class while also implementing the necessary
@@ -246,6 +250,9 @@ public class GameBoard extends JFrame implements ActionListener {
         this.add(infoPanel);
         this.setIconImage(gameIcon.getImage()); //Set the game icon image
         this.setVisible(true);
+
+        coinFlip(); // do a coin flip to see who goes first
+        if (aiTurn) aiTurn();
     }
 
     /**
@@ -409,6 +416,122 @@ public class GameBoard extends JFrame implements ActionListener {
     }
 
     /**
+     * This method will do a random coin flip to see who goes first
+     */
+    public void coinFlip() {
+        int rand = ThreadLocalRandom.current().nextInt(0, 2);
+        if (rand == 0) aiTurn = false;
+        else aiTurn = true;
+        firstTurn = false;
+    }
+
+    /**
+     * This method will simular the player's turn
+     * @param i
+     * @param j
+     */
+    public void playerTurn(int i, int j) {
+
+        String displayCoordinate = (char)(j + 'A' - 1) + " - " + i;
+        /*
+                    User's turn
+                     */
+        HitOrMiss currentGuess;
+
+        // get info from AI
+        if (isHard) currentGuess = expertAI.hitOrMiss(new Coordinate(i, j));
+        else currentGuess = easyAI.hitOrMiss(new Coordinate(i, j));
+
+        // show appropriate message and update statistics
+        if (!currentGuess.getHit()) {
+            JOptionPane.showMessageDialog(null,
+                    displayCoordinate + ": Miss", "Your Turn", JOptionPane.INFORMATION_MESSAGE);
+            attackGrid[i][j].setIcon(oceanImage);
+            try {
+                updateStatistics(5);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else if (!currentGuess.getDestroyedShip()) {
+            JOptionPane.showMessageDialog(null,
+                    displayCoordinate + ": Hit " + shipNames[currentGuess.getID()], "Your Turn", JOptionPane.INFORMATION_MESSAGE);
+            attackGrid[i][j].setIcon(explosionImage);
+            yourHit.setText("Your latest hit: " + displayCoordinate); // update yourHit
+            try {
+                updateStatistics(4);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null,
+                    displayCoordinate + ": Destroyed " + shipNames[currentGuess.getID()], "Your Turn", JOptionPane.INFORMATION_MESSAGE);
+            attackGrid[i][j].setIcon(explosionImage);
+            yourHit.setText("Your latest hit: " + displayCoordinate); // update yourHit
+            ++enemyShipsDestroyed;
+            try {
+                updateStatistics(4);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            try {
+                updateStatistics(3);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        // check for winner
+        boolean checkWinner = checkWinner();
+        if (checkWinner) return;
+
+        updateLabels(); // update labels
+    }
+
+    /**
+     * This method will simulate AI's turn
+     */
+    public void aiTurn() {
+        Coordinate aiGuess;
+
+        // get info from AI
+        if (isHard) aiGuess = expertAI.guessCoordinate();
+        else aiGuess = easyAI.guessCoordinate();
+
+        // update coordinate
+        String displayCoordinate = (char)(aiGuess.getY() + 'A' - 1) + " - " + aiGuess.getX();
+
+        // give AI information
+        HitOrMiss check = hitOrMiss(aiGuess);
+        if (isHard) expertAI.getInformation(check);
+        else easyAI.getInformation(check);
+
+        // show appropriate information regarding the guess
+        if (!check.getHit()) {
+            JOptionPane.showMessageDialog(null,
+                    displayCoordinate + ": Miss", "AI Turn", JOptionPane.INFORMATION_MESSAGE);
+            defenseGrid[aiGuess.getX()][aiGuess.getY()].setIcon(oceanImage);
+        } else if (!check.getDestroyedShip()) {
+            JOptionPane.showMessageDialog(null,
+                    displayCoordinate + ": Hit " + shipNames[check.getID()], "AI Turn", JOptionPane.INFORMATION_MESSAGE);
+            defenseGrid[aiGuess.getX()][aiGuess.getY()].setIcon(explosionImage);
+            aiHit.setText("AI's latest hit: " + displayCoordinate); // update aiHit
+        } else {
+            JOptionPane.showMessageDialog(null,
+                    displayCoordinate + ": Destroyed " + shipNames[check.getID()], "AI Turn", JOptionPane.INFORMATION_MESSAGE);
+            defenseGrid[aiGuess.getX()][aiGuess.getY()].setIcon(explosionImage);
+            aiHit.setText("AI's latest hit: " + displayCoordinate); // update aiHit
+            ++friendlyShipsDestroyed;
+        }
+
+        // check for winner
+        boolean checkWinner = checkWinner();
+        if (checkWinner) return;
+
+        updateLabels(); // update labels
+    }
+
+
+    /**
      * This method will execute appropriate actions when a certain button or other structure is clicked
      * @param e
      */
@@ -426,101 +549,10 @@ public class GameBoard extends JFrame implements ActionListener {
 
                     // mark current spot as guessed and get display coordinate
                     alreadyGuessed[i][j] = true;
-                    String displayCoordinate = (char)(j + 'A' - 1) + " - " + i;
 
-                    /*
-                    User's turn
-                     */
-                    HitOrMiss currentGuess;
-
-                    // get info from AI
-                    if (isHard) currentGuess = expertAI.hitOrMiss(new Coordinate(i, j));
-                    else currentGuess = easyAI.hitOrMiss(new Coordinate(i, j));
-
-                    // show appropriate message and update statistics
-                    if (!currentGuess.getHit()) {
-                        JOptionPane.showMessageDialog(null,
-                                displayCoordinate + ": Miss", "Your Turn", JOptionPane.INFORMATION_MESSAGE);
-                        attackGrid[i][j].setIcon(oceanImage);
-                        try {
-                            updateStatistics(5);
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    } else if (!currentGuess.getDestroyedShip()) {
-                        JOptionPane.showMessageDialog(null,
-                                displayCoordinate + ": Hit " + shipNames[currentGuess.getID()], "Your Turn", JOptionPane.INFORMATION_MESSAGE);
-                        attackGrid[i][j].setIcon(explosionImage);
-                        yourHit.setText("Your latest hit: " + displayCoordinate); // update yourHit
-                        try {
-                            updateStatistics(4);
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null,
-                                displayCoordinate + ": Destroyed " + shipNames[currentGuess.getID()], "Your Turn", JOptionPane.INFORMATION_MESSAGE);
-                        attackGrid[i][j].setIcon(explosionImage);
-                        yourHit.setText("Your latest hit: " + displayCoordinate); // update yourHit
-                        ++enemyShipsDestroyed;
-                        try {
-                            updateStatistics(4);
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                        try {
-                            updateStatistics(3);
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-
-                    // check for winner
-                    boolean checkWinner = checkWinner();
-                    if (checkWinner) return;
-
-                    updateLabels(); // update labels
-
-                    /*
-                    AI's turn
-                     */
-                    Coordinate aiGuess;
-
-                    // get info from AI
-                    if (isHard) aiGuess = expertAI.guessCoordinate();
-                    else aiGuess = easyAI.guessCoordinate();
-
-                    // update coordinate
-                    displayCoordinate = (char)(aiGuess.getY() + 'A' - 1) + " - " + aiGuess.getX();
-
-                    // give AI information
-                    HitOrMiss check = hitOrMiss(aiGuess);
-                    if (isHard) expertAI.getInformation(check);
-                    else easyAI.getInformation(check);
-
-                    // show appropriate information regarding the guess
-                    if (!check.getHit()) {
-                        JOptionPane.showMessageDialog(null,
-                                displayCoordinate + ": Miss", "AI Turn", JOptionPane.INFORMATION_MESSAGE);
-                        defenseGrid[aiGuess.getX()][aiGuess.getY()].setIcon(oceanImage);
-                    } else if (!check.getDestroyedShip()) {
-                        JOptionPane.showMessageDialog(null,
-                                displayCoordinate + ": Hit " + shipNames[check.getID()], "AI Turn", JOptionPane.INFORMATION_MESSAGE);
-                        defenseGrid[aiGuess.getX()][aiGuess.getY()].setIcon(explosionImage);
-                        aiHit.setText("AI's latest hit: " + displayCoordinate); // update aiHit
-                    } else {
-                        JOptionPane.showMessageDialog(null,
-                                displayCoordinate + ": Destroyed " + shipNames[check.getID()], "AI Turn", JOptionPane.INFORMATION_MESSAGE);
-                        defenseGrid[aiGuess.getX()][aiGuess.getY()].setIcon(explosionImage);
-                        aiHit.setText("AI's latest hit: " + displayCoordinate); // update aiHit
-                        ++friendlyShipsDestroyed;
-                    }
-
-                    // check for winner
-                    checkWinner = checkWinner();
-                    if (checkWinner) return;
-
-                    updateLabels(); // update labels
+                    // take turns
+                    playerTurn(i, j);
+                    aiTurn();
                 }
             }
         }
