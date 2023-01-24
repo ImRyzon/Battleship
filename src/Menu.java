@@ -40,6 +40,8 @@ public class Menu extends JFrame implements ActionListener {
     ImageIcon menu = new ImageIcon("menu.png");
     ImageIcon menuBackground = new ImageIcon("MenuBackground.png");
 
+    PlaySound playSound = new PlaySound();
+
     /**
      * This constructor enables other classes to create an object of this class.
      *
@@ -135,7 +137,7 @@ public class Menu extends JFrame implements ActionListener {
         if (event.getSource() == playGame) { // Redirect user to game screen if they want to play
             
             try {
-                playSound();
+                playSound.buttonSound();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -152,7 +154,7 @@ public class Menu extends JFrame implements ActionListener {
         else if (event.getSource() == rules) { // Redirect user to rules screen if they want to see the rules
             
             try {
-                playSound();
+                ;
             } catch (Exception e) {
                 e.printStackTrace();
             }

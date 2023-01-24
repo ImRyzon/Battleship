@@ -43,6 +43,11 @@ public class GamePage extends JFrame implements ActionListener {
     ImageIcon backgroundImage = new ImageIcon("GamePageBackground.png");
     ImageIcon menuIcon = new ImageIcon("gamepageIcon.png");
 
+    Clip backgroundClip;
+    AudioInputStream audioInputStreamA;
+    Clip buttonClip;
+    AudioInputStream audioInputStreamB;
+
     /**
      * This constructor enables other classes to create an object of this class.
      *
@@ -50,6 +55,12 @@ public class GamePage extends JFrame implements ActionListener {
      * page work and function properly.
      */
     GamePage() {
+
+        try {
+            playBackground();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         //Customizing the title image and adding it to the panel
         titleLabel.setBounds(75, 20, 800, 100);
@@ -114,17 +125,32 @@ public class GamePage extends JFrame implements ActionListener {
         panel.setVisible(true);
     }
 
-    public void playSound() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public void playBackground() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
+        audioInputStreamA = AudioSystem.getAudioInputStream(new File("background_music1.wav"));
         
         // create clip reference
-        Clip clip = AudioSystem.getClip();
+        backgroundClip = AudioSystem.getClip();
           
         // open audioInputStream to the clip
-        clip.open(audioInputStream);
+        backgroundClip.open(audioInputStreamA);
 
-        clip.start();
+        backgroundClip.loop(Clip.LOOP_CONTINUOUSLY);
+
+        backgroundClip.start();
+    }
+
+    public void playButton() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+
+        audioInputStreamB = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
+        
+        // create clip reference
+        backgroundClip = AudioSystem.getClip();
+          
+        // open audioInputStream to the clip
+        buttonClip.open(audioInputStreamB);
+
+        buttonClip.start();
     }
 
     /**
@@ -138,7 +164,8 @@ public class GamePage extends JFrame implements ActionListener {
         if (event.getSource() == easyButton) { //Redirect user to a gameboard
             
             try {
-                playSound();
+                backgroundClip.stop();
+                playButton();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -156,7 +183,8 @@ public class GamePage extends JFrame implements ActionListener {
         else if (event.getSource() == hardButton) { //Redirect user to a gameboard
             
             try {
-                playSound();
+                backgroundClip.stop();
+                playButton();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -174,7 +202,8 @@ public class GamePage extends JFrame implements ActionListener {
         else if (event.getSource() == multiplayerButton) { //Redirect user to a gameboard
             
             try {
-                playSound();
+                backgroundClip.stop();
+                playButton();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -192,7 +221,8 @@ public class GamePage extends JFrame implements ActionListener {
         else if (event.getSource() == menuButton) { //Redirect the user to the menu page
             
             try {
-                playSound();
+                backgroundClip.stop();
+                playButton();
             } catch (Exception e) {
                 e.printStackTrace();
             }
