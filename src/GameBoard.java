@@ -173,6 +173,7 @@ public class GameBoard extends JFrame implements ActionListener {
                 defenseGrid[y][x].addActionListener(this);
                 defenseGrid[y][x].setBackground(Color.BLACK);
                 if (playerBoard[y][x] == 0) defenseGrid[y][x].setIcon(cloudImage);
+                else defenseGrid[y][x].setBackground(new Color(25, 255, 0));
                 defensePanel.add(defenseGrid[y][x]);
 
                 // set numbers and letters for the coordinates
