@@ -53,7 +53,11 @@ public class Menu extends JFrame implements ActionListener {
      */
     Menu() {
 
-        playBackground();
+        try {
+            playBackground();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // Set the frame size, close operation, visibility, title, background, and icon, and add the panel
         this.setSize(540, 700);

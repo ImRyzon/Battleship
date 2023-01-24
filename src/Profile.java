@@ -38,12 +38,24 @@ public class Profile extends JFrame implements ActionListener {
     ImageIcon profile = new ImageIcon("profile.png");
     ImageIcon profileTitle = new ImageIcon("profileTitle.png");
 
+    Clip backgroundClip = AudioSystem.getClip();
+    AudioInputStream audioInputStreamA;
+    Clip buttonClip = AudioSystem.getClip();
+    AudioInputStream audioInputStreamB;
+
     /**
      * This constructor will allow other classes to create an object of this class and will also
      * implement the  necessary logic to build the profile page
      * @throws Exception
      */
     Profile() throws Exception {
+
+        try {
+            playBackground();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // Set the frame size, close operation, visibility, title, background, and icon, and add the panel
         this.setSize(525, 550);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -94,6 +106,34 @@ public class Profile extends JFrame implements ActionListener {
         panel.setVisible(true);
     }
 
+    public void playBackground() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+
+        audioInputStreamA = AudioSystem.getAudioInputStream(new File("background_music1.wav"));
+
+        // create clip reference
+        backgroundClip = AudioSystem.getClip();
+
+        // open audioInputStream to the clip
+        backgroundClip.open(audioInputStreamA);
+
+        backgroundClip.loop(Clip.LOOP_CONTINUOUSLY);
+
+        backgroundClip.start();
+    }
+
+    public void playButton() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+
+        audioInputStreamB = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
+
+        // create clip reference
+        backgroundClip = AudioSystem.getClip();
+
+        // open audioInputStream to the clip
+        buttonClip.open(audioInputStreamB);
+
+        buttonClip.start();
+    }
+
     /**
      * This method will fill the statistics array so that it can output all the statistics of the user.
      * @throws Exception
@@ -138,6 +178,14 @@ public class Profile extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == backToMenu) {
+
+            try {
+                backgroundClip.stop();
+                playButton();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             this.dispose();
             Menu menu = new Menu();
         }
