@@ -35,7 +35,6 @@ public class PlaceShips extends JFrame implements ActionListener {
      * deleteButton --> button used to delete ships
      * rotateButton --> button to rotate ships
      * readyButton --> button to proceed with the game
-     * background --> panel and image to store the backround
      * actionPanel --> panel to add all action buttons (Play, Rotate, Ready, Direction, etc.)
      * buttonPanel --> panel consisting of the button grid
      * currentDirection --> displays current direction
@@ -46,6 +45,8 @@ public class PlaceShips extends JFrame implements ActionListener {
      * userBoard --> the file containing the board to be stored
      * writeBoard --> print writer to write the board to the user board
      * isHard --> whether the game is hard or not
+     * backgroundClip --> clip for the background
+     * buttonClip --> clip for button
      */
     private int vector[][];
     private int vectorIndex;
@@ -61,8 +62,6 @@ public class PlaceShips extends JFrame implements ActionListener {
     private JButton deleteButton = new JButton();
     private JButton rotateButton = new JButton();
     private JButton readyButton = new JButton();
-    private JPanel backgroundPanel = new JPanel();
-    private JLabel backgroundLabel = new JLabel();
     private JPanel actionPanel = new JPanel();
     private JPanel buttonPanel = new JPanel();
     private JLabel currentDirection = new JLabel();
@@ -71,10 +70,8 @@ public class PlaceShips extends JFrame implements ActionListener {
     private Coordinate currentCoordinate;
     private ShipLocation locations[];
     private File userBoard = new File("UserBoard.txt");
-    private ImageIcon backgroundImage = new ImageIcon("PlaceshipBackground.png");
     private PrintWriter writeBoard;
     private boolean isHard;
-
     Clip backgroundClip = AudioSystem.getClip();
     AudioInputStream audioInputStreamA;
     Clip buttonClip = AudioSystem.getClip();
@@ -86,38 +83,35 @@ public class PlaceShips extends JFrame implements ActionListener {
      * @param hard (whether the difficulty is hard or not, and will use the correct AI
      */
     public PlaceShips(boolean hard) throws LineUnavailableException {
-
+        // determines difficulty
         this.isHard = hard;
 
+        // try and catch to play background music
         try {
             playBackground();
         } catch (Exception exception) {
             exception.printStackTrace();
         }
 
+        // customize frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1200, 700);
-        this.setBackground(Color.GRAY);
+        this.setBackground(Color.WHITE);
         this.setLayout(null);
         this.setTitle("Place Your Ships");
         this.setResizable(false);
 
-        backgroundPanel.setBounds(0, 0, 1200, 700);
-        backgroundLabel.setBounds(0,0, 1200, 700);
-        backgroundLabel.setIcon(backgroundImage);
-        backgroundPanel.add(backgroundLabel);
-
+        // customize actionPanel and set it to visible
         actionPanel.setLayout(null);
         actionPanel.setVisible(true);
-
         actionPanel.setBounds(700, 10, 1200, 700);
-        actionPanel.setBackground(new Color(0, 0, 0, 0)); //Set the panel as opaque
 
+        // customize buttonPanel
         buttonPanel.setLayout(new GridLayout(10, 10, 1, 1));
         buttonPanel.setBounds(10, 10, 650, 650);
-        buttonPanel.setBackground(new Color(0, 0, 0, 0)); //Set the panel as opaque
+        buttonPanel.setBackground(new Color(25, 255, 0));
 
-
+        // set buttons for place grid and customize
         for(int y = 1; y <= 10; y++) {
             for(int x = 1; x <= 10; x++) {
                 placeGrid[y][x] = new JButton();
@@ -128,18 +122,19 @@ public class PlaceShips extends JFrame implements ActionListener {
             }
         }
 
+        // customize shipSelect
         shipSelect = new JComboBox(shipNames);
         shipSelect.setBounds(135, 0, 255, 75);
-        shipSelect.setBackground(new Color(0, 0, 0, 0)); //Set the combo box as opaque
         shipSelect.addActionListener(this);
         actionPanel.add(shipSelect);
 
+        // customize shipDelete
         shipDelete = new JComboBox(shipPlaced.toArray());
         shipDelete.setBounds(135, 100, 255, 75);
-        shipDelete.setBackground(new Color(0, 0, 0, 0)); //Set the combo box as opaque
         shipDelete.addActionListener(this);
         actionPanel.add(shipDelete);
 
+        // customize rotateButton
         rotateButton.setText("Rotate Ship");
         rotateButton.setBounds(135, 200, 255, 75);
         rotateButton.setFont(new Font("Monospaced", Font.BOLD, 30));
@@ -148,6 +143,7 @@ public class PlaceShips extends JFrame implements ActionListener {
         rotateButton.addActionListener(this);
         actionPanel.add(rotateButton);
 
+        // customize placeButton
         placeButton.setText("Place Ship");
         placeButton.setBounds(135, 300, 255, 75);
         placeButton.setFont(new Font("Monospaced", Font.BOLD, 30));
@@ -156,6 +152,7 @@ public class PlaceShips extends JFrame implements ActionListener {
         placeButton.addActionListener(this);
         actionPanel.add(placeButton);
 
+        // customize deleteButton
         deleteButton.setText("Delete Ship");
         deleteButton.setBounds(135, 400, 255, 75);
         deleteButton.setFont(new Font("Monospaced", Font.BOLD, 30));
@@ -164,6 +161,7 @@ public class PlaceShips extends JFrame implements ActionListener {
         deleteButton.addActionListener(this);
         actionPanel.add(deleteButton);
 
+        // customize readyButton
         readyButton.setText("Ready");
         readyButton.setBounds(135, 500, 255, 75);
         readyButton.setFont(new Font("Monospaced", Font.BOLD, 30));
@@ -172,24 +170,27 @@ public class PlaceShips extends JFrame implements ActionListener {
         readyButton.addActionListener(this);
         actionPanel.add(readyButton);
 
+        // customize placeLabel
         placeLabel.setBounds(5, 20, 75, 30);
         placeLabel.setText("Place:");
         placeLabel.setFont(new Font("Monospaced", Font.BOLD, 18));
         actionPanel.add(placeLabel);
 
+        // customize deleteLabel
         deleteLabel.setBounds(5, 120, 100, 30);
         deleteLabel.setText("Remove:");
         deleteLabel.setFont(new Font("Monospaced", Font.BOLD, 18));
         actionPanel.add(deleteLabel);
 
+        // customize currentDirection
         currentDirection.setBounds(125, 575, 300, 75);
         currentDirection.setText("Current Direction: Up");
         currentDirection.setFont(new Font("Monospaced", Font.BOLD, 20));
         actionPanel.add(currentDirection);
 
+        // set frame to visible and add frames
         this.add(buttonPanel);
         this.add(actionPanel);
-        this.add(backgroundPanel);
         this.setVisible(true);
 
         // set values for vector
@@ -220,6 +221,12 @@ public class PlaceShips extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * This method will play background music
+     * @throws UnsupportedAudioFileException
+     * @throws IOException
+     * @throws LineUnavailableException
+     */
     public void playBackground() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         audioInputStreamA = AudioSystem.getAudioInputStream(new File("background_music2.wav"));
@@ -235,6 +242,12 @@ public class PlaceShips extends JFrame implements ActionListener {
         backgroundClip.start();
     }
 
+    /**
+     * This method will play the button's audio
+     * @throws UnsupportedAudioFileException
+     * @throws IOException
+     * @throws LineUnavailableException
+     */
     public void playButton() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         audioInputStreamB = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
@@ -492,8 +505,8 @@ public class PlaceShips extends JFrame implements ActionListener {
             this.dispose();
 
             try {
-                GameBoard board = new GameBoard(isHard);
                 backgroundClip.stop();
+                GameBoard board = new GameBoard(isHard);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
