@@ -32,6 +32,8 @@ public class Menu extends JFrame implements ActionListener {
      * menuTitle --> the image icon used for title
      * backgroundClip --> clip for background music
      * buttonClip --> clip for button sound
+     * backgroundCLip --> clip for background
+     * buttonClip --> clip for button
      */
     JPanel panel = new JPanel();
     JLabel title = new JLabel("Menu");
@@ -55,8 +57,12 @@ public class Menu extends JFrame implements ActionListener {
      * page work and function properly.
      */
     Menu() {
-
-        backgroundClip.start();
+        try {
+            backgroundClip = AudioSystem.getClip();
+            backgroundClip.start();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
 
         // Set the frame size, close operation, visibility, title, background, and icon, and add the panel
         this.setSize(540, 700);
@@ -120,6 +126,12 @@ public class Menu extends JFrame implements ActionListener {
         panel.setVisible(true);
     }
 
+    /**
+     * this method will play background music
+     * @throws UnsupportedAudioFileException
+     * @throws IOException
+     * @throws LineUnavailableException
+     */
     public void playBackground() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         audioInputStreamA = AudioSystem.getAudioInputStream(new File("background_music1.wav"));
@@ -135,6 +147,12 @@ public class Menu extends JFrame implements ActionListener {
         backgroundClip.start();
     }
 
+    /**
+     * this method will play button sound
+     * @throws UnsupportedAudioFileException
+     * @throws IOException
+     * @throws LineUnavailableException
+     */
     public void playButton() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         audioInputStreamB = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
