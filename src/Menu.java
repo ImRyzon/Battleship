@@ -1,10 +1,3 @@
-/**
- * @author Mark Wang
- * 2023-1-18
- *
- * This class will act as the menu page for the Battleship Game
- */
-
 import java.io.*;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -28,7 +21,7 @@ public class Menu extends JFrame implements ActionListener {
      * profile --> the button in which the user presses if they wish to see their profile
      * exit --> the button in which the user presses if they want to exit the game
      * brokenPlate --> the actual image file of the broken plate
-     * menu --> the image icon used for this frame
+     * menu images --> the image icon used for this frame/background/title
      */
     JPanel panel = new JPanel();
     JLabel title = new JLabel("Menu");
@@ -39,11 +32,9 @@ public class Menu extends JFrame implements ActionListener {
     JButton exit = new JButton();
     ImageIcon menu = new ImageIcon("menu.png");
     ImageIcon menuBackground = new ImageIcon("MenuBackground.png");
+    ImageIcon menuTitle = new ImageIcon("MenuTitle.png");
 
-    Clip backgroundClip;
-    AudioInputStream audioInputStreamA;
-    Clip buttonClip;
-    AudioInputStream audioInputStreamB;
+    PlaySound playSound = new PlaySound();
 
     /**
      * This constructor enables other classes to create an object of this class.
@@ -52,13 +43,6 @@ public class Menu extends JFrame implements ActionListener {
      * page work and function properly.
      */
     Menu() {
-
-        try {
-            playBackground();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         // Set the frame size, close operation, visibility, title, background, and icon, and add the panel
         this.setSize(540, 700);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,10 +56,8 @@ public class Menu extends JFrame implements ActionListener {
         panel.setLayout(null);
 
         // Customize the title text field and add it to the panel
-        title.setBounds(210, 35, 420, 50);
-        title.setFont(new Font("Monospaced", Font.BOLD, 50));
-        title.setBorder(BorderFactory.createLineBorder(new Color(211, 211, 211), 0));
-        title.setBackground(new Color(211, 211, 211));
+        title.setBounds(145, 0, 250, 162);
+        title.setIcon(menuTitle);
         panel.add(title);
 
         // Customize the playGame button and add it to the panel
@@ -123,32 +105,17 @@ public class Menu extends JFrame implements ActionListener {
         panel.setVisible(true);
     }
 
-    public void playBackground() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public void playSound() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
-        audioInputStreamA = AudioSystem.getAudioInputStream(new File("background_music1.wav"));
-
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
+        
         // create clip reference
-        backgroundClip = AudioSystem.getClip();
-
+        Clip clip = AudioSystem.getClip();
+          
         // open audioInputStream to the clip
-        backgroundClip.open(audioInputStreamA);
+        clip.open(audioInputStream);
 
-        backgroundClip.loop(Clip.LOOP_CONTINUOUSLY);
-
-        backgroundClip.start();
-    }
-
-    public void playButton() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-
-        audioInputStreamB = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
-
-        // create clip reference
-        backgroundClip = AudioSystem.getClip();
-
-        // open audioInputStream to the clip
-        buttonClip.open(audioInputStreamB);
-
-        buttonClip.start();
+        clip.start();
     }
 
     /**
@@ -162,8 +129,7 @@ public class Menu extends JFrame implements ActionListener {
         if (event.getSource() == playGame) { // Redirect user to game screen if they want to play
             
             try {
-                playButton();
-                backgroundClip.stop();
+                playSound.buttonSound();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -180,8 +146,7 @@ public class Menu extends JFrame implements ActionListener {
         else if (event.getSource() == rules) { // Redirect user to rules screen if they want to see the rules
             
             try {
-                playButton();
-                backgroundClip.stop();
+                ;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -198,8 +163,7 @@ public class Menu extends JFrame implements ActionListener {
         else if (event.getSource() == profile) { // Redirect user to profile screen if they wish
             
             try {
-                playButton();
-                backgroundClip.stop();
+                playSound();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -216,8 +180,7 @@ public class Menu extends JFrame implements ActionListener {
         else if (event.getSource() == exit) { // If user wants to exit, then terminate the program
             
             try {
-                playButton();
-                backgroundClip.stop();
+                playSound();
             } catch (Exception e) {
                 e.printStackTrace();
             }
