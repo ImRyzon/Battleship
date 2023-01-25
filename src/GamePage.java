@@ -145,7 +145,7 @@ public class GamePage extends JFrame implements ActionListener {
         audioInputStreamB = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
 
         // create clip reference
-        backgroundClip = AudioSystem.getClip();
+        buttonClip = AudioSystem.getClip();
 
         // open audioInputStream to the clip
         buttonClip.open(audioInputStreamB);
