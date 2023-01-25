@@ -35,6 +35,7 @@ public class PlaceShips extends JFrame implements ActionListener {
      * deleteButton --> button used to delete ships
      * rotateButton --> button to rotate ships
      * readyButton --> button to proceed with the game
+     * background --> panel and image to store the backround
      * actionPanel --> panel to add all action buttons (Play, Rotate, Ready, Direction, etc.)
      * buttonPanel --> panel consisting of the button grid
      * currentDirection --> displays current direction
@@ -60,6 +61,8 @@ public class PlaceShips extends JFrame implements ActionListener {
     private JButton deleteButton = new JButton();
     private JButton rotateButton = new JButton();
     private JButton readyButton = new JButton();
+    private JPanel backgroundPanel = new JPanel();
+    private JLabel backgroundLabel = new JLabel();
     private JPanel actionPanel = new JPanel();
     private JPanel buttonPanel = new JPanel();
     private JLabel currentDirection = new JLabel();
@@ -68,6 +71,7 @@ public class PlaceShips extends JFrame implements ActionListener {
     private Coordinate currentCoordinate;
     private ShipLocation locations[];
     private File userBoard = new File("UserBoard.txt");
+    private ImageIcon backgroundImage = new ImageIcon("PlaceshipBackground.png");
     private PrintWriter writeBoard;
     private boolean isHard;
 
@@ -82,7 +86,7 @@ public class PlaceShips extends JFrame implements ActionListener {
      * @param hard (whether the difficulty is hard or not, and will use the correct AI
      */
     public PlaceShips(boolean hard) throws LineUnavailableException {
-        
+
         this.isHard = hard;
 
         try {
@@ -98,14 +102,21 @@ public class PlaceShips extends JFrame implements ActionListener {
         this.setTitle("Place Your Ships");
         this.setResizable(false);
 
+        backgroundPanel.setBounds(0, 0, 1200, 700);
+        backgroundLabel.setBounds(0,0, 1200, 700);
+        backgroundLabel.setIcon(backgroundImage);
+        backgroundPanel.add(backgroundLabel);
+
         actionPanel.setLayout(null);
         actionPanel.setVisible(true);
 
         actionPanel.setBounds(700, 10, 1200, 700);
+        actionPanel.setBackground(new Color(0, 0, 0, 0)); //Set the panel as opaque
 
         buttonPanel.setLayout(new GridLayout(10, 10, 1, 1));
         buttonPanel.setBounds(10, 10, 650, 650);
-        buttonPanel.setBackground(new Color(25, 255, 0));
+        buttonPanel.setBackground(new Color(0, 0, 0, 0)); //Set the panel as opaque
+
 
         for(int y = 1; y <= 10; y++) {
             for(int x = 1; x <= 10; x++) {
@@ -119,11 +130,13 @@ public class PlaceShips extends JFrame implements ActionListener {
 
         shipSelect = new JComboBox(shipNames);
         shipSelect.setBounds(135, 0, 255, 75);
+        shipSelect.setBackground(new Color(0, 0, 0, 0)); //Set the combo box as opaque
         shipSelect.addActionListener(this);
         actionPanel.add(shipSelect);
 
         shipDelete = new JComboBox(shipPlaced.toArray());
         shipDelete.setBounds(135, 100, 255, 75);
+        shipDelete.setBackground(new Color(0, 0, 0, 0)); //Set the combo box as opaque
         shipDelete.addActionListener(this);
         actionPanel.add(shipDelete);
 
@@ -176,6 +189,7 @@ public class PlaceShips extends JFrame implements ActionListener {
 
         this.add(buttonPanel);
         this.add(actionPanel);
+        this.add(backgroundPanel);
         this.setVisible(true);
 
         // set values for vector
