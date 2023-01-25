@@ -1,5 +1,5 @@
 /**
- * @author Nathanael You, Mark Wang
+ * @author Nathanael You, Mark Wang, Daniel Guo
  * 2023-1-18
  *
  * This class will act as the login page for the Battleship game
@@ -20,27 +20,27 @@ import java.io.*;
 
 public class LoginPage extends JFrame implements ActionListener {
 
-    JLayeredPane layeredPane = new JLayeredPane(); //Creates layered pane for Login page
-    JLabel backgroundLabel = new JLabel(); //Creates the label for the background image
-    JLabel titleLabel = new JLabel(); //Creates the label for the title of the game
-    JLabel loginLabel = new JLabel(); //Creates the label for the login text fields and buttons
-    JLabel usernameLabel = new JLabel(); //Creates label to display the word "username"
-    JLabel passwordLabel = new JLabel(); //Creates label to display the word "password"
-    JButton loginButton = new JButton("Login"); //Creates the login button
-    JButton registerButton = new JButton("Register"); //Creates the register button
-    JTextField usernameText = new JTextField();  //Create password field for user to enter their username
-    JPasswordField passwordText = new JPasswordField(); //Create password field for user to enter their password
+    private JLayeredPane layeredPane = new JLayeredPane(); //Creates layered pane for Login page
+    private JLabel backgroundLabel = new JLabel(); //Creates the label for the background image
+    private JLabel titleLabel = new JLabel(); //Creates the label for the title of the game
+    private JLabel loginLabel = new JLabel(); //Creates the label for the login text fields and buttons
+    private Label usernameLabel = new JLabel(); //Creates label to display the word "username"
+    private JLabel passwordLabel = new JLabel(); //Creates label to display the word "password"
+    private JButton loginButton = new JButton("Login"); //Creates the login button
+    private JButton registerButton = new JButton("Register"); //Creates the register button
+    private JTextField usernameText = new JTextField();  //Create password field for user to enter their username
+    private JPasswordField passwordText = new JPasswordField(); //Create password field for user to enter their password
     static File database = new File("Database.txt"); // file for database
     static File userID = new File("UserID.txt"); // file for current user ID
     static File statistics = new File("Statistics.txt"); // file for statistics
-    ImageIcon gameIcon = new ImageIcon("GameIcon.png");//Create the game icon image
-    ImageIcon backgroundIcon = new ImageIcon("LoginBackground.png");//Create the login background image
-    ImageIcon titleIcon = new ImageIcon("TitleIcon.png");//Create the game title image
-    ImageIcon usernameIcon = new ImageIcon("UsernameIcon.png");//Create the username image
-    ImageIcon passwordIcon = new ImageIcon("PasswordIcon.png");//Create the username image
+    private ImageIcon gameIcon = new ImageIcon("GameIcon.png");//Create the game icon image
+    private ImageIcon backgroundIcon = new ImageIcon("LoginBackground.png");//Create the login background image
+    private ImageIcon titleIcon = new ImageIcon("TitleIcon.png");//Create the game title image
+    private ImageIcon usernameIcon = new ImageIcon("UsernameIcon.png");//Create the username image
+    private ImageIcon passwordIcon = new ImageIcon("PasswordIcon.png");//Create the username image
 
-    Clip buttonClip;
-    AudioInputStream audioInputStream;
+    private Clip buttonClip; //create Clip object
+    private AudioInputStream audioInputStream; //create AudioInputStream object
 
     /**
      * This constructor of the class will allow for other classes to instantiate an object of this class. This
@@ -121,8 +121,10 @@ public class LoginPage extends JFrame implements ActionListener {
         this.setVisible(true); //Set the frame visible to user
     }
 
+    
     public void playButton() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
+        //set AudioInputStream to the audio file
         audioInputStream = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
 
         // create clip reference
@@ -131,7 +133,7 @@ public class LoginPage extends JFrame implements ActionListener {
         // open audioInputStream to the clip
         buttonClip.open(audioInputStream);
 
-        buttonClip.start();
+        buttonClip.start(); //start the audio clip
     }
 
     /**
@@ -190,12 +192,14 @@ public class LoginPage extends JFrame implements ActionListener {
         
         else if (event.getSource() == registerButton) {
             
+            //play the button sound
             try {
                 playButton();
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
+            //Check if the password or the username is empty
             if (username.equals("") || password.equals("")) {
                 JOptionPane.showMessageDialog(null, "Register Failed, Credentials Cannot Be Empty", "Failed", JOptionPane.INFORMATION_MESSAGE);
             } 
