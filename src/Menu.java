@@ -19,7 +19,7 @@ public class Menu extends JFrame implements ActionListener {
      * playGame --> the button in which the user presses if they wish to start the game
      * rules --> the button in which the user presses if they wish to see the rules
      * profile --> the button in which the user presses if they wish to see their profile
-     * exit --> the button in which the user presses if they want to exit the game
+     * logout --> the button in which the user presses if they want to logout the game
      * brokenPlate --> the actual image file of the broken plate
      * menu images --> the image icon used for this frame/background/title
      */
@@ -29,7 +29,7 @@ public class Menu extends JFrame implements ActionListener {
     JButton playGame = new JButton();
     JButton rules = new JButton();
     JButton profile = new JButton();
-    JButton exit = new JButton();
+    JButton logout = new JButton();
     ImageIcon menu = new ImageIcon("menu.png");
     ImageIcon menuBackground = new ImageIcon("MenuBackground.png");
     ImageIcon menuTitle = new ImageIcon("MenuTitle.png");
@@ -87,14 +87,14 @@ public class Menu extends JFrame implements ActionListener {
         profile.addActionListener(this);
         panel.add(profile);
 
-        // Customize the exit button and add it to the panel
-        exit.setText("Exit");
-        exit.setBounds(183, 450, 175, 75);
-        exit.setFont(new Font("Monospaced", Font.BOLD, 30));
-        exit.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
-        exit.setBackground(Color.WHITE);
-        exit.addActionListener(this);
-        panel.add(exit);
+        // Customize the logout button and add it to the panel
+        logout.setText("Logout");
+        logout.setBounds(183, 450, 175, 75);
+        logout.setFont(new Font("Monospaced", Font.BOLD, 30));
+        logout.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+        logout.setBackground(Color.WHITE);
+        logout.addActionListener(this);
+        panel.add(logout);
 
         // Customize the background
         backgroundLabel.setBounds(0, 0, 540, 700);
@@ -146,7 +146,7 @@ public class Menu extends JFrame implements ActionListener {
         else if (event.getSource() == rules) { // Redirect user to rules screen if they want to see the rules
             
             try {
-                ;
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -177,17 +177,18 @@ public class Menu extends JFrame implements ActionListener {
             }
         } 
         
-        else if (event.getSource() == exit) { // If user wants to exit, then terminate the program
+        else if (event.getSource() == logout) { // If user wants to logout, put on the login page
             
             try {
                 playSound();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            
+            JOptionPane.showMessageDialog(null,
+                    "You have been successfully logged out", "Logout Successful",
+                    JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
-
-            System.exit(0);
+            new LoginPage();
         }
     }
 }
