@@ -71,6 +71,7 @@ public class Profile extends JFrame implements ActionListener {
         this.setTitle("Profile");
         this.setBackground(Color.WHITE);
         this.setIconImage(profile.getImage());
+        this.setResizable(false);
 
         // Set the mode of the panel to absolutely positioning and set the appropriate colors
         panel.setLayout(null);
