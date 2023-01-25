@@ -1,3 +1,15 @@
+/**
+ * @author Nathanael You, Mark Wang, Daniel Guo
+ * 2023-1-23
+ *
+ * This class will act as the game board when playing the game
+ *
+ * Small note: There is another way to only use the appropriate AI depending on the difficulty instead of
+ * just creating an object of both AI at the same time. However, one has to know interfaces and class abstraction.
+ * Due to interfaces not being explicitly taught in the ICS4U curriculum and our semester, it is for this reason
+ * why we decided to avoid this approach.
+ */
+
 import javax.swing.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.awt.*;
@@ -439,8 +451,6 @@ public class GameBoard extends JFrame implements ActionListener {
 
         // show appropriate message and update statistics
         if (!currentGuess.getHit()) {
-            JOptionPane.showMessageDialog(null,
-                    displayCoordinate + ": Miss", "Your Turn", JOptionPane.INFORMATION_MESSAGE);
             attackGrid[i][j].setIcon(oceanImage);
             try {
                 updateStatistics(5);
@@ -448,8 +458,6 @@ public class GameBoard extends JFrame implements ActionListener {
                 ex.printStackTrace();
             }
         } else if (!currentGuess.getDestroyedShip()) {
-            JOptionPane.showMessageDialog(null,
-                    displayCoordinate + ": Hit " + shipNames[currentGuess.getID()], "Your Turn", JOptionPane.INFORMATION_MESSAGE);
             attackGrid[i][j].setIcon(explosionImage);
             yourHit.setText("Your latest hit: " + displayCoordinate); // update yourHit
             try {
@@ -502,12 +510,8 @@ public class GameBoard extends JFrame implements ActionListener {
 
         // show appropriate information regarding the guess
         if (!check.getHit()) {
-            JOptionPane.showMessageDialog(null,
-                    displayCoordinate + ": Miss", "AI Turn", JOptionPane.INFORMATION_MESSAGE);
             defenseGrid[aiGuess.getX()][aiGuess.getY()].setIcon(oceanImage);
         } else if (!check.getDestroyedShip()) {
-            JOptionPane.showMessageDialog(null,
-                    displayCoordinate + ": Hit " + shipNames[check.getID()], "AI Turn", JOptionPane.INFORMATION_MESSAGE);
             defenseGrid[aiGuess.getX()][aiGuess.getY()].setIcon(explosionImage);
             aiHit.setText("AI's latest hit: " + displayCoordinate); // update aiHit
         } else {
