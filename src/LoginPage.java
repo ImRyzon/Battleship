@@ -24,7 +24,7 @@ public class LoginPage extends JFrame implements ActionListener {
     private JLabel backgroundLabel = new JLabel(); //Creates the label for the background image
     private JLabel titleLabel = new JLabel(); //Creates the label for the title of the game
     private JLabel loginLabel = new JLabel(); //Creates the label for the login text fields and buttons
-    private Label usernameLabel = new JLabel(); //Creates label to display the word "username"
+    private JLabel usernameLabel = new JLabel(); //Creates label to display the word "username"
     private JLabel passwordLabel = new JLabel(); //Creates label to display the word "password"
     private JButton loginButton = new JButton("Login"); //Creates the login button
     private JButton registerButton = new JButton("Register"); //Creates the register button
@@ -121,7 +121,7 @@ public class LoginPage extends JFrame implements ActionListener {
         this.setVisible(true); //Set the frame visible to user
     }
 
-    
+
     public void playButton() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         //set AudioInputStream to the audio file
@@ -151,7 +151,7 @@ public class LoginPage extends JFrame implements ActionListener {
         String password = passwordText.getText();
 
         if (event.getSource() == loginButton) {
-            
+
             try {
                 playButton();
             } catch (Exception e) {
@@ -161,8 +161,8 @@ public class LoginPage extends JFrame implements ActionListener {
             // check if credentials are empty
             if (username.equals("") || password.equals("")) {
                 JOptionPane.showMessageDialog(null, "Login Failed, Credentials Cannot be Empty", "Failed", JOptionPane.INFORMATION_MESSAGE);
-            } 
-            
+            }
+
             else {
                 // use a try-catch method to handle IOExceptions when retrieving data from the database file
                 try {
@@ -177,8 +177,8 @@ public class LoginPage extends JFrame implements ActionListener {
                             this.dispose();
                             Menu menu = new Menu();
                         }
-                    } 
-                    
+                    }
+
                     else {
                         // Otherwise, inform the user they entered invalid credentials and let them try again
                         JOptionPane.showMessageDialog(null, "Login Failed, No Such Name Exists.", "Failed", JOptionPane.INFORMATION_MESSAGE);
@@ -188,10 +188,10 @@ public class LoginPage extends JFrame implements ActionListener {
                     exception.printStackTrace(); // If an error occurred, then print the error
                 }
             }
-        } 
-        
+        }
+
         else if (event.getSource() == registerButton) {
-            
+
             //play the button sound
             try {
                 playButton();
@@ -202,8 +202,8 @@ public class LoginPage extends JFrame implements ActionListener {
             //Check if the password or the username is empty
             if (username.equals("") || password.equals("")) {
                 JOptionPane.showMessageDialog(null, "Register Failed, Credentials Cannot Be Empty", "Failed", JOptionPane.INFORMATION_MESSAGE);
-            } 
-            
+            }
+
             else {
                 // use a try-catch method to handle IOExceptions when retrieving data from the database file
                 try {
