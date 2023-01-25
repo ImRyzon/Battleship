@@ -10,13 +10,6 @@
  * why we decided to avoid this approach.
  */
 
-import java.io.*;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
 import javax.swing.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.awt.*;
@@ -24,6 +17,7 @@ import java.awt.event.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.text.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -80,10 +74,12 @@ public class GameBoard extends JFrame implements ActionListener {
     private int countHits[];
     private int friendlyShipsDestroyed = 0;
     private int enemyShipsDestroyed = 0;
+    private JLabel gameBackground = new JLabel();
     private JLabel friendlyLabel = new JLabel();
     private JLabel enemyLabel = new JLabel();
     private JLabel yourHit = new JLabel();
     private JLabel aiHit = new JLabel();
+    private ImageIcon backgroundImage = new ImageIcon("GameboardBackground.png");
     private ImageIcon explosionImage = new ImageIcon("explosion.png");
     private ImageIcon cloudImage = new ImageIcon("clouds.png");
     private ImageIcon oceanImage = new ImageIcon("ocean.png");
@@ -102,23 +98,11 @@ public class GameBoard extends JFrame implements ActionListener {
     private boolean firstTurn = true;
     private boolean aiTurn;
 
-    Clip backgroundClip;
-    AudioInputStream audioInputStreamA;
-    Clip buttonClip;
-    AudioInputStream audioInputStreamB;
-
     /**
      * This constructor will allow for instantiation of this class while also implementing the necessary
      * logic to make the game board function whe playing the game
      */
     public GameBoard(boolean hard) throws Exception {
-        
-        try {
-            playBackground();
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-
         // set isHard
         this.isHard = hard;
 
@@ -132,12 +116,17 @@ public class GameBoard extends JFrame implements ActionListener {
         // initialize countHits
         countHits = new int[6];
 
+        //Customize Background
+        gameBackground.setBounds(0, 0, 1170, 750);
+        gameBackground.setIcon(backgroundImage);
+        this.add(gameBackground);
+
         // customize attackPanel
         attackPanel.setLayout(new GridLayout(11, 11, 0, 0));
         attackPanel.setBounds(10, 10, 650, 650);
         attackPanel.setBackground(Color.BLUE);
 
-        // customize infoPanel
+        // customise infoPanel
         infoPanel.setBounds(700, 470, 450, 225);
         infoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 
@@ -273,36 +262,8 @@ public class GameBoard extends JFrame implements ActionListener {
         if (aiTurn) aiTurn();
     }
 
-    public void playBackground() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-
-        audioInputStreamA = AudioSystem.getAudioInputStream(new File("background_music2.wav"));
-
-        // create clip reference
-        backgroundClip = AudioSystem.getClip();
-
-        // open audioInputStream to the clip
-        backgroundClip.open(audioInputStreamA);
-
-        backgroundClip.loop(Clip.LOOP_CONTINUOUSLY);
-
-        backgroundClip.start();
-    }
-
-    public void playButton() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-
-        audioInputStreamB = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
-
-        // create clip reference
-        backgroundClip = AudioSystem.getClip();
-
-        // open audioInputStream to the clip
-        buttonClip.open(audioInputStreamB);
-
-        buttonClip.start();
-    }
-
     /**
-     * This method will read the board from the file and store it inside the user's board
+     * This method will raed the board from the file and store it inside the user's board
      */
     public void getBoard() throws Exception {
         // declare scanner
@@ -391,9 +352,6 @@ public class GameBoard extends JFrame implements ActionListener {
             }
 
             if (result == JOptionPane.OK_OPTION) {
-
-                backgroundClip.stop();
-
                 // dispose frame and redirect to menu
                 this.dispose();
                 Menu menu = new Menu();
@@ -475,7 +433,7 @@ public class GameBoard extends JFrame implements ActionListener {
     }
 
     /**
-     * This method will simulate the player's turn
+     * This method will simular the player's turn
      * @param i
      * @param j
      */
