@@ -54,7 +54,7 @@ public class PlaceShips extends JFrame implements ActionListener {
     private int lengths[];
     private boolean isPlaced[];
     private JButton[][] placeGrid = new JButton[11][11];
-    private String[] shipNames = {"Destroyer", "Submarine", "Cruiser", "Battleship", "Carrier"};
+    private String[] shipNames = {"Destroyer (Length 2)", "Submarine (Length 3)", "Cruiser (Length 3)", "Battleship (Length 4)", "Carrier (Length 5)"};
     private ArrayList<String> shipPlaced = new ArrayList<String>();
     private JComboBox shipSelect;
     private JComboBox shipDelete;
@@ -62,6 +62,8 @@ public class PlaceShips extends JFrame implements ActionListener {
     private JButton deleteButton = new JButton();
     private JButton rotateButton = new JButton();
     private JButton readyButton = new JButton();
+    private JPanel backgroundPanel = new JPanel();
+    private JLabel backgroundLabel = new JLabel();
     private JPanel actionPanel = new JPanel();
     private JPanel buttonPanel = new JPanel();
     private JLabel currentDirection = new JLabel();
@@ -70,6 +72,7 @@ public class PlaceShips extends JFrame implements ActionListener {
     private Coordinate currentCoordinate;
     private ShipLocation locations[];
     private File userBoard = new File("UserBoard.txt");
+    private ImageIcon backgroundImage = new ImageIcon("PlaceshipBackground.png");
     private PrintWriter writeBoard;
     private boolean isHard;
     Clip backgroundClip = AudioSystem.getClip();
@@ -100,6 +103,11 @@ public class PlaceShips extends JFrame implements ActionListener {
         this.setLayout(null);
         this.setTitle("Place Your Ships");
         this.setResizable(false);
+
+        backgroundPanel.setBounds(0, 0, 1200, 700);
+        backgroundLabel.setBounds(0,0, 1200, 700);
+        backgroundLabel.setIcon(backgroundImage);
+        backgroundPanel.add(backgroundLabel);
 
         // customize actionPanel and set it to visible
         actionPanel.setLayout(null);
@@ -191,6 +199,7 @@ public class PlaceShips extends JFrame implements ActionListener {
         // set frame to visible and add frames
         this.add(buttonPanel);
         this.add(actionPanel);
+        this.add(backgroundPanel);
         this.setVisible(true);
 
         // set values for vector
