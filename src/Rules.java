@@ -1,10 +1,3 @@
-/**
- * @author Mark Wang
- * 2023-1-18
- *
- * This class will display the rules of Battleship
- */
-
 import java.io.*;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -16,7 +9,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
-import java.io.*;
 
 public class Rules extends JFrame implements ActionListener {
 
@@ -24,32 +16,29 @@ public class Rules extends JFrame implements ActionListener {
      * These are the necessary objects that help make the Rules page function properly
      * panel --> the container that stores all the needed components
      * frame --> the container that acts as the actual window of the rules page
+     * background --> The label to store the background image
      * title --> The title of this page, which is "Rules"
      * rules --> the array containing all the rules to be outputted
      * backToMenu --> the button that redirects the user back to the menu screen
      * rulesIcon --> icon for the current page
      * rulesFile --> file to store all the rules
+     * rules images --> Images for the rules background and title
      */
     JPanel panel = new JPanel();
+    JLabel background = new JLabel("Background");
     JLabel title = new JLabel("Rules");
     JLabel[] rules = new JLabel[13];
     JButton backToMenu = new JButton("Menu");
     ImageIcon rulesIcon = new ImageIcon("rules.png");
     File rulesFile = new File("Rules.txt");
-
-    Clip backgroundClip = AudioSystem.getClip();
-    AudioInputStream audioInputStreamA;
-    Clip buttonClip = AudioSystem.getClip();
-    AudioInputStream audioInputStreamB;
+    ImageIcon rulesBackground = new ImageIcon("RulesBackground.png");
+    ImageIcon rulesTitle = new ImageIcon("RulesTitle.png");
 
     /**
      * This constructor will allow other classes to instantiate an object of the menu class
      * as well as implement the necessary logic to make the menu function as intended
      */
     Rules() throws Exception {
-        
-        playBackground();
-        
         // Set the frame size, close operation, visibility, title, background, icon, and add the panel
         this.setSize(960, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,17 +49,20 @@ public class Rules extends JFrame implements ActionListener {
         this.setIconImage(rulesIcon.getImage());
         this.setResizable(false);
 
-        // Set the mode of the panel to absolute positioning and set the appropriate colors
+        // Set the mode of the panel to absolute positioning
         panel.setLayout(null);
-        panel.setBackground(new Color(173, 216, 230));
 
-        // Customize the title text field and add it to the panel
-        title.setBounds(400, 10, 420, 50);
-        title.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-        title.setBorder(BorderFactory.createLineBorder(new Color(255, 204, 203), 0));
-        title.setBackground(new Color(255, 204, 203));
+        // Customize the title label and add it to the panel
+        title.setBounds(355, -25, 250, 160);
+        title.setIcon(rulesTitle);
         title.setVisible(true);
         panel.add(title);
+
+        // Customize the background label and add it to the panel
+        background.setBounds(0, 0, 960, 800);
+        background.setIcon(rulesBackground);
+        background.setVisible(true);
+        panel.add(background);
 
         getRules(); // get all the rules
 
@@ -117,32 +109,17 @@ public class Rules extends JFrame implements ActionListener {
         readRules.close(); // close scanner
     }
 
-    public void playBackground() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public void playSound() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
-        audioInputStreamA = AudioSystem.getAudioInputStream(new File("background_music1.wav"));
-
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
+        
         // create clip reference
-        backgroundClip = AudioSystem.getClip();
-
+        Clip clip = AudioSystem.getClip();
+          
         // open audioInputStream to the clip
-        backgroundClip.open(audioInputStreamA);
+        clip.open(audioInputStream);
 
-        backgroundClip.loop(Clip.LOOP_CONTINUOUSLY);
-
-        backgroundClip.start();
-    }
-
-    public void playButton() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-
-        audioInputStreamB = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
-
-        // create clip reference
-        backgroundClip = AudioSystem.getClip();
-
-        // open audioInputStream to the clip
-        buttonClip.open(audioInputStreamB);
-
-        buttonClip.start();
+        clip.start();
     }
 
     /**
@@ -155,8 +132,7 @@ public class Rules extends JFrame implements ActionListener {
         if (event.getSource() == backToMenu) { // bring user back to menu if they wish
             
             try {
-                playButton();
-                backgroundClip.stop();
+                playSound();
             } catch (Exception e) {
                 e.printStackTrace();
             }
