@@ -30,7 +30,9 @@ public class GamePage extends JFrame implements ActionListener {
      * menuButton --> the button in which the user presses if they want to return to the menu
      * titleImage --> the actual image file of the title text
      * backgroundImage --> the actual image file of the background for game page
-     * menu --> the image icon used for this frame
+     * menuIcon --> the image icon used for this frame
+     * backgroundClip --> clip for background music
+     * buttonClip --> clip for button sound
      */
     JPanel panel = new JPanel();
     JLabel titleLabel = new JLabel();
@@ -42,7 +44,6 @@ public class GamePage extends JFrame implements ActionListener {
     ImageIcon titleImage = new ImageIcon("GamePageTitleImg.png");
     ImageIcon backgroundImage = new ImageIcon("GamePageBackground.png");
     ImageIcon menuIcon = new ImageIcon("gamepageIcon.png");
-
     Clip backgroundClip = AudioSystem.getClip();
     AudioInputStream audioInputStreamA;
     Clip buttonClip = AudioSystem.getClip();
