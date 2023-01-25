@@ -475,7 +475,7 @@ public class GameBoard extends JFrame implements ActionListener {
     }
 
     /**
-     * This method will simular the player's turn
+     * This method will simulate the player's turn
      * @param i
      * @param j
      */
