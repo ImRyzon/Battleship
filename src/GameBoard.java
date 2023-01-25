@@ -1,15 +1,3 @@
-/**
- * @author Nathanael You, Mark Wang, Daniel Guo
- * 2023-1-23
- *
- * This class will act as the game board when playing the game
- *
- * Small note: There is another way to only use the appropriate AI depending on the difficulty instead of
- * just creating an object of both AI at the same time. However, one has to know interfaces and class abstraction.
- * Due to interfaces not being explicitly taught in the ICS4U curriculum and our semester, it is for this reason
- * why we decided to avoid this approach.
- */
-
 import javax.swing.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.awt.*;
@@ -119,7 +107,6 @@ public class GameBoard extends JFrame implements ActionListener {
         //Customize Background
         gameBackground.setBounds(0, 0, 1170, 750);
         gameBackground.setIcon(backgroundImage);
-        this.add(gameBackground);
 
         // customize attackPanel
         attackPanel.setLayout(new GridLayout(11, 11, 0, 0));
@@ -255,6 +242,7 @@ public class GameBoard extends JFrame implements ActionListener {
         this.add(attackPanel);
         this.add(defensePanel);
         this.add(infoPanel);
+        this.add(gameBackground);
         this.setIconImage(gameIcon.getImage()); //Set the game icon image
         this.setVisible(true);
 
