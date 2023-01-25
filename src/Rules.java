@@ -1,3 +1,10 @@
+/**
+ * @author Mark Wang
+ * 2023-1-18
+ *
+ * This class will display the rules of Battleship
+ */
+
 import java.io.*;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -112,10 +119,10 @@ public class Rules extends JFrame implements ActionListener {
     public void playSound() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("buttonsound.wav"));
-        
+
         // create clip reference
         Clip clip = AudioSystem.getClip();
-          
+
         // open audioInputStream to the clip
         clip.open(audioInputStream);
 
@@ -130,7 +137,7 @@ public class Rules extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent event) {
 
         if (event.getSource() == backToMenu) { // bring user back to menu if they wish
-            
+
             try {
                 playSound();
             } catch (Exception e) {
