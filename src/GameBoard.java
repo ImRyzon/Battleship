@@ -59,6 +59,7 @@ public class GameBoard extends JFrame implements ActionListener {
      * userID --> userID file
      * firstTurn --> stores whether it is the first turn or not to do a coin flip who goes first
      * aiFirst --> stores whether the AI went first or not
+     * checkWinner --> variable that checks whether there is a winner or not
      */
     private int playerBoard[][] = new int[11][11];
     File userBoard = new File("UserBoard.txt");
@@ -97,6 +98,7 @@ public class GameBoard extends JFrame implements ActionListener {
     private File userID = new File("UserID.txt");
     private boolean firstTurn = true;
     private boolean aiTurn;
+    private boolean checkWinner = false;
 
     /**
      * This constructor will allow for instantiation of this class while also implementing the necessary
@@ -484,7 +486,7 @@ public class GameBoard extends JFrame implements ActionListener {
         }
 
         // check for winner
-        boolean checkWinner = checkWinner();
+        checkWinner = checkWinner();
         if (checkWinner) return;
 
         updateLabels(); // update labels
@@ -523,7 +525,7 @@ public class GameBoard extends JFrame implements ActionListener {
         }
 
         // check for winner
-        boolean checkWinner = checkWinner();
+        checkWinner = checkWinner();
         if (checkWinner) return;
 
         updateLabels(); // update labels
@@ -549,9 +551,9 @@ public class GameBoard extends JFrame implements ActionListener {
                     // mark current spot as guessed and get display coordinate
                     alreadyGuessed[i][j] = true;
 
-                    // take turns
-                    playerTurn(i, j);
-                    aiTurn();
+                    // take turns if there are no winners
+                    if (!checkWinner) playerTurn(i, j);
+                    if (!checkWinner) aiTurn();
                 }
             }
         }
