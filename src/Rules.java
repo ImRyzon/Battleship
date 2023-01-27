@@ -65,12 +65,6 @@ public class Rules extends JFrame implements ActionListener {
         title.setVisible(true);
         panel.add(title);
 
-        // Customize the background label and add it to the panel
-        background.setBounds(0, 0, 960, 800);
-        background.setIcon(rulesBackground);
-        background.setVisible(true);
-        panel.add(background);
-
         getRules(); // get all the rules
 
         // Loop though the positions of all the rules
@@ -93,6 +87,12 @@ public class Rules extends JFrame implements ActionListener {
         backToMenu.setBackground(Color.WHITE);
         backToMenu.addActionListener(this);
         panel.add(backToMenu);
+
+        // Customize the background label and add it to the panel
+        background.setBounds(0, 0, 960, 800);
+        background.setIcon(rulesBackground);
+        background.setVisible(true);
+        panel.add(background);
 
         // Make the panel visible to the user
         panel.setVisible(true);
