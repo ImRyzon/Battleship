@@ -26,7 +26,6 @@ public class GamePage extends JFrame implements ActionListener {
      * backgroundLabel --> the background of the game page
      * easyButton --> the button in which the user presses if they wish to play an easy game
      * hardButton --> the button in which the user presses if they wish to play a hard game
-     * multiplayerButton --> the button in which the user presses if they wish to play against another player using shared computer
      * menuButton --> the button in which the user presses if they want to return to the menu
      * titleImage --> the actual image file of the title text
      * backgroundImage --> the actual image file of the background for game page
@@ -39,7 +38,6 @@ public class GamePage extends JFrame implements ActionListener {
     JLabel backgroundLabel = new JLabel();
     JButton easyButton = new JButton();
     JButton hardButton = new JButton();
-    JButton multiplayerButton = new JButton();
     JButton menuButton = new JButton();
     ImageIcon titleImage = new ImageIcon("GamePageTitleImg.png");
     ImageIcon backgroundImage = new ImageIcon("GamePageBackground.png");
@@ -92,21 +90,12 @@ public class GamePage extends JFrame implements ActionListener {
 
         //Customize the hardButton button and add it to the panel
         hardButton.setText("Hard");
-        hardButton.setBounds(135, 250, 255, 75);
+        hardButton.setBounds(135, 300, 255, 75);
         hardButton.setFont(new Font("Monospaced", Font.BOLD, 30));
         hardButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
         hardButton.setBackground(Color.WHITE);
         hardButton.addActionListener(this);
         panel.add(hardButton);
-
-        //Customize the multiplayerButton button and add it to the panel
-        multiplayerButton.setText("Multiplayer");
-        multiplayerButton.setBounds(135, 350, 255, 75);
-        multiplayerButton.setFont(new Font("Monospaced", Font.BOLD, 30));
-        multiplayerButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
-        multiplayerButton.setBackground(Color.WHITE);
-        multiplayerButton.addActionListener(this);
-        panel.add(multiplayerButton);
 
         //Customize the menuButton and add it to the panel
         menuButton.setText("Menu");
@@ -195,25 +184,6 @@ public class GamePage extends JFrame implements ActionListener {
             //use try and catch to instantiate an object for GameBoard class
             try {
                 PlaceShips game = new PlaceShips(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        else if (event.getSource() == multiplayerButton) { //Redirect user to a gameboard
-
-            try {
-                backgroundClip.stop();
-                playButton();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            this.dispose(); //Deleting the current frame
-
-            //use try and catch to instantiate an object for GameBoard class
-            try {
-                //GameBoard game = new GameBoard();
             } catch (Exception e) {
                 e.printStackTrace();
             }
