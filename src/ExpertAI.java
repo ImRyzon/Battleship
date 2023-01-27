@@ -3,7 +3,8 @@
  * 2023-1-19
  *
  * This class will implement the expert AI and will implement the optimal strategy
- * to place ships as well as guessing coordinates
+ * to place ships as well as guessing coordinates. The algorithm is based off of strategies
+ * using mathematical analysis and creates one of the best winning chances
  */
 
 import java.io.File;
