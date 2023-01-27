@@ -1,5 +1,5 @@
 /**
- * @author Mark Wang
+ * @author Mark Wang, Henry Lee
  * 2023-1-18
  *
  * This class will act as the menu page for the Battleship Game
