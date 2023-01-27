@@ -11,7 +11,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -57,10 +56,10 @@ public class Menu extends JFrame implements ActionListener {
      * page work and function properly.
      */
     Menu() {
+        // play background music
         try {
-            backgroundClip = AudioSystem.getClip();
-            backgroundClip.start();
-        } catch (LineUnavailableException e) {
+            playBackground();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
