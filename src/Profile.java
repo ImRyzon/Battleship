@@ -1,5 +1,5 @@
 /**
- * @author Mark Wang, Nathanael You
+ * @author Mark Wang, Nathanael You, Henry Lee
  * 2023-1-18
  *
  * This class will display the Profile of the current logged-in user
